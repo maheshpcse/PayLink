@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Turn Markdown class notes into flashcards and quizzes.">
+    <title>NoteDeck | Markdown flashcards</title>
+    <link rel="stylesheet" href="/styles.css">
+    <script type="module" src="/app.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="/" aria-label="NoteDeck home">
+          <span class="brand-mark">N</span>
+          <span>NoteDeck</span>
+        </a>
+        <p class="tagline">Study from the notes you already have.</p>
+        <div class="header-actions">
+          <button class="button button-quiet" id="exportButton" type="button">Export deck</button>
+          <button class="button button-quiet" id="importButton" type="button">Import deck</button>
+          <input id="importFile" type="file" accept="application/json,.json" hidden>
+          <button class="button button-quiet" id="clearButton" type="button">Clear</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="page-shell">
+      <section class="hero" aria-labelledby="page-title">
+        <div>
+          <p class="eyebrow">Your personal study desk</p>
+          <h1 id="page-title">Make your notes<br><em>rememberable.</em></h1>
+          <p class="hero-copy">Paste a few Markdown notes, generate cards, and test yourself in minutes. Everything stays in this browser.</p>
+        </div>
+        <div class="hero-badge" aria-hidden="true">
+          <span class="badge-spark">✦</span>
+          <strong>Small steps.<br>Better recall.</strong>
+        </div>
+      </section>
+
+      <section class="notes-panel panel" aria-labelledby="notes-heading">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">Step 1</p>
+            <h2 id="notes-heading">Bring in your notes</h2>
+          </div>
+          <button class="text-button" id="exampleButton" type="button">Load an example ↗</button>
+        </div>
+
+        <div class="input-row">
+          <textarea id="notesInput" rows="13" spellcheck="true" placeholder="# Biology
+
+Q: What is osmosis?
+A: The movement of water across a selectively permeable membrane.
+
+- **Mitochondria**: Organelles that produce ATP for the cell."></textarea>
+          <div class="format-help">
+            <p class="format-title">A tiny bit of Markdown is enough</p>
+            <div class="format-example"><code>Q: What is mitosis?<br>A: Cell division.</code></div>
+            <div class="format-example"><code>- <strong>Term</strong>: Definition</code></div>
+            <p class="format-note">Use a heading such as <code># Biology</code> to label a topic.</p>
+          </div>
+        </div>
+
+        <div class="notes-actions">
+          <label class="file-button">
+            <span>Choose a .md file</span>
+            <input id="notesFile" type="file" accept=".md,.markdown,text/markdown,text/plain">
+          </label>
+          <button class="button button-primary" id="generateButton" type="button">Generate flashcards <span>→</span></button>
+        </div>
+        <p class="status-line" id="inputStatus" role="status">Your notes are private and stay on this device.</p>
+        <div class="warnings" id="warnings" aria-live="polite"></div>
+      </section>
+
+      <div class="study-toolbar">
+        <div>
+          <p class="eyebrow">Step 2</p>
+          <h2>Practice your deck</h2>
+        </div>
+        <nav class="view-tabs" aria-label="Study mode">
+          <button class="tab-button is-active" id="studyTab" type="button">Flashcards</button>
+          <button class="tab-button" id="quizTab" type="button">Quick quiz</button>
+        </nav>
+      </div>
+
+      <section class="study-view" id="studyView" aria-labelledby="study-heading">
+        <div class="section-label-row">
+          <p class="eyebrow" id="study-heading">Flip, think, remember</p>
+          <p class="progress-label" id="studyProgress">No cards yet</p>
+        </div>
+        <article class="flashcard" id="flashcard">
+          <div class="empty-card">
+            <span class="empty-icon">✦</span>
+            <h3>Your first deck is waiting.</h3>
+            <p>Paste your notes above and choose <strong>Generate flashcards</strong>.</p>
+          </div>
+        </article>
+        <div class="card-controls" id="cardControls" hidden>
+          <button class="button button-secondary" id="revealButton" type="button">Reveal answer</button>
+          <div class="rating-controls" id="ratingControls" hidden>
+            <button class="button button-again" id="againButton" type="button">↻ Again</button>
+            <button class="button button-correct" id="correctButton" type="button">✓ Got it</button>
+          </div>
+        </div>
+        <p class="study-hint" id="studyHint">Read the question out loud before revealing the answer.</p>
+      </section>
+
+      <section class="quiz-view is-hidden" id="quizView" aria-labelledby="quiz-heading">
+        <div class="section-label-row">
+          <p class="eyebrow" id="quiz-heading">One question at a time</p>
+          <p class="progress-label" id="quizProgress">No quiz yet</p>
+        </div>
+        <article class="quiz-card" id="quizCard">
+          <div class="empty-card">
+            <span class="empty-icon">☻</span>
+            <h3>Your quiz will appear here.</h3>
+            <p>Generate flashcards first, then choose an answer for each question.</p>
+          </div>
+        </article>
+        <div class="quiz-actions" id="quizActions" hidden>
+          <button class="button button-primary" id="submitAnswerButton" type="button">Check answer</button>
+          <button class="button button-secondary" id="retryButton" type="button" hidden>Try again</button>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>NoteDeck is a tiny, offline-first study tool. No account. No tracking. Just your notes.</p>
+    </footer>
+  </body>
+</html>
