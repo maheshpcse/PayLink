@@ -21,11 +21,24 @@ function uniqueAnswers(cards, currentId) {
   return answers;
 }
 
+function isQuizCard(card) {
+  return Boolean(
+    card
+      && typeof card.id === 'string'
+      && typeof card.question === 'string'
+      && typeof card.answer === 'string'
+      && card.id.trim()
+      && card.question.trim()
+      && card.answer.trim(),
+  );
+}
+
 export function buildQuiz(cards = [], { count = cards.length, random = Math.random } = {}) {
-  const selected = shuffle(cards, random).slice(0, Math.max(0, count));
+  const usableCards = cards.filter(isQuizCard);
+  const selected = shuffle(usableCards, random).slice(0, Math.max(0, count));
 
   return selected.map((card) => {
-    const distractors = uniqueAnswers(cards, card.id).slice(0, 3);
+    const distractors = uniqueAnswers(usableCards, card.id).slice(0, 3);
     const options = shuffle([card.answer, ...distractors], random);
     return {
       id: card.id,

@@ -52,12 +52,24 @@ let quizIndex = 0;
 let quizAnswers = {};
 let quizFinished = false;
 
+function isUsableCard(card) {
+  return Boolean(
+    card
+      && typeof card.id === 'string'
+      && typeof card.question === 'string'
+      && typeof card.answer === 'string'
+      && card.id.trim()
+      && card.question.trim()
+      && card.answer.trim(),
+  );
+}
+
 function loadState() {
   try {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
     if (!saved || !Array.isArray(saved.cards)) return;
     notes = typeof saved.notes === 'string' ? saved.notes : '';
-    cards = saved.cards.filter((card) => card && card.id && card.question && card.answer);
+    cards = saved.cards.filter(isUsableCard);
     elements.notesInput.value = notes;
   } catch {
     localStorage.removeItem(STORAGE_KEY);
@@ -233,7 +245,7 @@ function importDeck(file) {
   reader.addEventListener('load', () => {
     try {
       const imported = JSON.parse(reader.result);
-      if (!Array.isArray(imported.cards) || imported.cards.some((card) => !card.id || !card.question || !card.answer)) {
+      if (!Array.isArray(imported.cards) || imported.cards.some((card) => !isUsableCard(card))) {
         throw new Error('That file does not look like a NoteDeck export.');
       }
       cards = imported.cards;

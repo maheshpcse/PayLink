@@ -38,3 +38,13 @@ test('supports a one-card quiz without inventing distractors', () => {
   const questions = buildQuiz([cards[0]], { random: () => 0 });
   assert.deepEqual(questions[0].options, ['Paris']);
 });
+
+test('ignores malformed saved cards instead of crashing quiz startup', () => {
+  const questions = buildQuiz([
+    ...cards,
+    { id: 'broken', question: 'Not usable', answer: 42 },
+  ], { random: () => 0 });
+
+  assert.equal(questions.length, cards.length);
+  assert.ok(questions.every((question) => question.correctAnswer !== 42));
+});
