@@ -62,7 +62,12 @@ export class CheckoutComponent implements OnInit {
   isSelected(method: SavedMethod): boolean { return this.form.controls.methodId.value === method.id; }
 
   pay(): void {
-    if (!this.session || this.form.invalid || this.status$.value === 'processing' || (this.expired && !this.attempt)) return;
+    if (!this.session || this.status$.value === 'processing' || (this.expired && !this.attempt)) return;
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      this.actionError = 'Choose a saved payment method before continuing.';
+      return;
+    }
     if (!this.attempt) {
       this.attempt = { scope: this.scope, key: crypto.randomUUID(), methodId: this.form.controls.methodId.value, outcome: this.form.controls.outcome.value };
       this.attempts.save(this.attempt);
@@ -85,6 +90,11 @@ export class CheckoutComponent implements OnInit {
   reset(): void {
     if (this.result$.value?.status === 'pending') return;
     this.attempts.clear(); this.attempt = null; this.status$.next('ready'); this.result$.next(null);
+    this.cancelled = false;
+    this.actionError = '';
+    this.form.reset({ methodId: '', outcome: 'success' });
+    this.form.markAsPristine();
+    this.form.markAsUntouched();
   }
 
   private refreshResult(id: string): void {

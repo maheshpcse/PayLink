@@ -8,6 +8,7 @@ import { CheckoutComponent } from './checkout.component';
 import { SupportComponent } from './support.component';
 import { ProfileComponent } from './profile.component';
 import { NotificationsComponent } from './notifications.component';
+import { ActivityComponent } from './activity.component';
 
 describe('Angular customer components', () => {
   beforeEach(() => {
@@ -34,6 +35,15 @@ describe('Angular customer components', () => {
     expect(sessionStorage.getItem('paylink-test-checkout-attempt')).not.toContain('token');
   });
 
+  it('marks an empty checkout selection as touched instead of submitting', async () => {
+    const fixture = TestBed.createComponent(CheckoutComponent);
+    await fixture.whenStable();
+    fixture.componentInstance.form.controls.methodId.setValue('');
+    fixture.componentInstance.pay();
+    expect(fixture.componentInstance.form.controls.methodId.touched).toBe(true);
+    expect(fixture.componentInstance.actionError).toContain('saved payment method');
+  });
+
   it('validates the support form, then adds a ticket with a visible reference', async () => {
     const fixture = TestBed.createComponent(SupportComponent);
     fixture.componentInstance.submit();
@@ -45,6 +55,7 @@ describe('Angular customer components', () => {
     await fixture.whenStable();
     expect((fixture.nativeElement as HTMLElement).textContent).toContain('Local demo ticket created: PL-DEMO-');
     expect((await firstValueFrom(TestBed.inject(PayLinkStoreService).tickets$))[0].subject).toBe('Receipt question');
+    expect(fixture.componentInstance.form.pristine).toBe(true);
   });
 
   it('saves profile edits and restores saved values when editing is cancelled', async () => {
@@ -69,5 +80,15 @@ describe('Angular customer components', () => {
     const notification = (fixture.nativeElement as HTMLElement).querySelector('.notification-row');
     expect(notification?.classList.contains('is-unread')).toBe(false);
     expect(notification?.textContent).toContain('Your Northstar receipt is ready');
+  });
+
+  it('uses ten records as the default activity page size and resets after filtering', async () => {
+    const fixture = TestBed.createComponent(ActivityComponent);
+    await fixture.whenStable();
+    expect(fixture.componentInstance.pageSize).toBe(10);
+    fixture.componentInstance.page$.next(2);
+    fixture.componentInstance.status.setValue('success');
+    await new Promise((resolve) => setTimeout(resolve, 250));
+    expect(fixture.componentInstance.page$.value).toBe(1);
   });
 });

@@ -33,7 +33,18 @@ On a machine without the npm cache populated, omit `--offline` for the first ins
 npm start
 ```
 
-`npm start` builds `src` into `dist` before starting the Express entrypoint, so it works from a clean checkout without a pre-existing build directory. The API listens on `http://127.0.0.1:4000` by default. Use `PORT`, `PAYLINK_CORS_ORIGINS`, and the other values in `.env.example` to configure it. Development CORS includes Vite's `http://localhost:4173` and `http://127.0.0.1:4173`; production has no default allowed origins and requires an explicit allowlist. `GET /health` is the liveness endpoint.
+`npm start` builds `src` into `dist` before starting the Express entrypoint, loads a local `.env` file without requiring a global dotenv install, and works from a clean checkout without a pre-existing build directory. The API listens on `http://127.0.0.1:4000` by default. Use `PORT`, `PAYLINK_CORS_ORIGINS`, MySQL settings, notification transport settings, and the other values in `.env.example` to configure it. Development CORS includes Angular's `http://localhost:4173` and `http://127.0.0.1:4173`; development allows 1,000 requests per minute so Angular reloads and bounded payment polling do not produce a false local `Too many requests` fallback. Production defaults to 120 requests per minute, has no default allowed origins, and requires an explicit allowlist. `GET /health` is the liveness endpoint.
+
+### Local MySQL schema and seed
+
+The running MVP still uses the explicitly labeled in-memory repository. The local MySQL connection values are included in `.env.example` so a database can be provisioned without putting credentials in source control. To create disposable local sample data with MySQL:
+
+```text
+mysql -h 127.0.0.1 -P 3306 -u paylink -p paylink < migrations/001_init.sql
+mysql -h 127.0.0.1 -P 3306 -u paylink -p paylink < migrations/002_seed_demo.sql
+```
+
+The seed contains masked payment metadata, checkout data, activity, tickets/messages, and notifications only. Its password hashes are disabled placeholders; do not treat seed records as production accounts. Wiring a durable MySQL repository remains a separate production step.
 
 ## Test and typecheck
 

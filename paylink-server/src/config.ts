@@ -38,13 +38,15 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
     throw new Error('PAYLINK_WEBHOOK_SECRET must be set to a non-default value in production');
   }
 
+  const defaultRateLimitMax = nodeEnv === 'production' ? 120 : 1_000;
+
   return {
     nodeEnv,
     port: integer(env.PORT, 4000, 1),
     corsOrigins: origins,
     webhookSecret,
     demoUsers: boolean(env.PAYLINK_DEMO_USERS, nodeEnv !== 'production'),
-    rateLimitMax: integer(env.PAYLINK_RATE_LIMIT_MAX, 120, 1),
+    rateLimitMax: integer(env.PAYLINK_RATE_LIMIT_MAX, defaultRateLimitMax, 1),
     rateLimitWindowMs: integer(env.PAYLINK_RATE_LIMIT_WINDOW_MS, 60_000, 1_000),
     bodyLimitBytes: integer(env.PAYLINK_BODY_LIMIT_BYTES, 1_000_000, 1_024),
     sessionTtlMs: 24 * 60 * 60 * 1_000,

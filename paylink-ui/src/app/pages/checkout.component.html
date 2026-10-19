@@ -1,5 +1,5 @@
 @if (store.loading$ | async) {
-  <div class="loading-screen" role="status"><span class="loading-spinner"></span><p>Preparing your PayLink space…</p></div>
+  <div class="loading-screen" role="status"><div class="skeleton-stack" aria-hidden="true"><span class="skeleton skeleton--heading"></span><span class="skeleton skeleton--line"></span><span class="skeleton skeleton--panel"></span></div><p>Preparing your PayLink space…</p></div>
 } @else if (store.session$ | async; as session) {
   <div class="page-stack checkout-page">
     <div class="checkout-topline">
@@ -33,7 +33,8 @@
           <div class="payment-result" role="status"><pl-icon name="clock" [size]="28" /><h3>Checkout session expired</h3><p>Ask the participating merchant for a fresh checkout session. This amount cannot be edited here.</p><a routerLink="/account/support" class="outline-button">Contact support</a></div>
         } @else {
           <form [formGroup]="form" (ngSubmit)="pay()">
-            <pl-method-selector [methods]="(store.methods$ | async) ?? []" [control]="form.controls.methodId" [locked]="!!attempt" />
+             <pl-method-selector [methods]="(store.methods$ | async) ?? []" [control]="form.controls.methodId" [locked]="!!attempt" />
+             @if (form.controls.methodId.invalid && form.controls.methodId.touched) { <p class="field-error" role="alert">Choose a saved payment method before continuing.</p> }
             <p class="muted">Only masked test metadata is available. Adding or saving methods requires a gateway-hosted setup flow, which is not configured.</p>
             <fieldset class="test-controls native-fieldset" [disabled]="!!attempt">
               <legend>Test outcome</legend><pl-test-badge />
@@ -45,7 +46,7 @@
               </div>
             </fieldset>
             <div class="checkout-actions">
-              <button class="primary-button primary-button--wide" type="submit" [disabled]="form.invalid"><span>{{ attempt ? 'Retry same test request' : 'Simulate payment' }}</span><span>{{ formatMoney(session.amountCents, session.currency) }}</span><pl-icon name="arrow" /></button>
+              <button class="primary-button primary-button--wide" type="submit" [disabled]="(status$ | async) === 'processing'"><span>{{ attempt ? 'Retry same test request' : 'Simulate payment' }}</span><span>{{ formatMoney(session.amountCents, session.currency) }}</span><pl-icon name="arrow" /></button>
               @if (!attempt) { <button class="text-button" type="button" (click)="cancelled = true">Cancel checkout</button> }
               <p><pl-icon name="shield" /> No real charge will be made in this test environment.</p>
             </div>

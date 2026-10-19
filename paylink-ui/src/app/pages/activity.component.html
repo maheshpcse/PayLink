@@ -1,13 +1,13 @@
 <div class="page-stack account-page">
   <pl-page-heading eyebrow="Your account · history" title="Payment activity." body="A simple record of the payments you have made through PayLink." [source]="(store.source$ | async) ?? 'demo'" [serverConfigured]="(store.configured$ | async) ?? false" [warning]="(store.warning$ | async) ?? ''" />
   <section class="panel data-panel">
-    <div class="panel-heading"><h2>{{ (store.activity$ | async)?.length ?? 0 }} payments</h2><span class="secure-note">Test-mode records</span></div>
+    <div class="panel-heading"><h2>{{ (filtered$ | async)?.length ?? 0 }} payments</h2><span class="secure-note">10 per page · test-mode records</span></div>
     <div class="activity-filters"><label>Search payments<input type="search" [formControl]="search" placeholder="Merchant, description or reference" /></label><label>Payment status<select [formControl]="status"><option value="all">All statuses</option><option value="success">Completed</option><option value="pending">Pending</option><option value="failed">Declined</option><option value="refunded">Refunded</option></select></label></div>
     <div class="activity-table-wrap">
       <table class="activity-table">
         <thead><tr><th scope="col">Merchant</th><th scope="col">Amount</th><th scope="col">Status</th><th scope="col">Date</th><th scope="col">Reference</th></tr></thead>
         <tbody>
-          <tr *ngFor="let item of (filtered$ | async)">
+          <tr *ngFor="let item of (paged$ | async)">
             <td><div class="table-merchant"><span class="merchant-mark merchant-mark--small">{{ item.merchantName.slice(0, 1) }}</span><span><strong>{{ item.merchantName }}</strong><small>{{ item.description }}</small></span></div></td>
             <td class="amount-cell">{{ formatMoney(item.amountCents, item.currency) }}</td>
             <td><pl-status-badge [status]="item.status" /></td><td>{{ item.createdAt }}</td><td><a class="text-button" [routerLink]="['/account/activity', item.id]" [attr.aria-label]="'Payment details for ' + item.reference"><code>{{ item.reference }}</code></a></td>
@@ -16,6 +16,15 @@
       </table>
     </div>
     @if ((filtered$ | async)?.length === 0) { <p class="empty-state" role="status">No payments match these filters.</p> }
+    @if ((pageCount$ | async); as pageCount) {
+      @if (pageCount > 1) {
+        <nav class="pagination" aria-label="Payment activity pages">
+          <button class="outline-button" type="button" (click)="previousPage()" [disabled]="(page$ | async) === 1">Previous</button>
+          <span aria-live="polite">Page {{ page$ | async }} of {{ pageCount }}</span>
+          <button class="outline-button" type="button" (click)="nextPage()" [disabled]="(page$ | async) === pageCount">Next</button>
+        </nav>
+      }
+    }
   </section>
   <div class="info-callout"><pl-icon name="shield" [size]="17" /><p><strong>Receipts are yours.</strong> This server does not currently provide downloadable receipts. Your reference and payment state come from the payment server when connected.</p></div>
 </div>

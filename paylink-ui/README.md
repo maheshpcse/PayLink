@@ -48,7 +48,7 @@ These commands run Angular/Vitest component and service tests, a development com
 ## Manual smoke flow
 
 1. Start `paylink-server` in another terminal.
-2. Open the UI at <http://127.0.0.1:4173/checkout>.
+2. Open the UI at <http://127.0.0.1:4173/>.
 3. Confirm the checkout amount says **$189.00** and **Fixed by server**.
 4. Select Success, Pending, or Declined and submit the test payment.
 5. Confirm the result explicitly says test mode and no money moved.
@@ -57,7 +57,8 @@ These commands run Angular/Vitest component and service tests, a development com
 
 ## Main routes
 
-- `/checkout` — fixed-amount checkout with test outcomes and safe retry state.
+- `/` — fixed-amount checkout with test outcomes and safe retry state.
+- `/checkout` — compatibility redirect to `/`.
 - `/auth` — sign-in and local demo access.
 - `/account/overview` — compact account overview.
 - `/account/activity` and `/account/activity/:id` — filterable activity and payment detail.

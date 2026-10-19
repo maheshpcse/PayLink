@@ -30,7 +30,7 @@ export class SupportComponent {
       this.store.record(result);
       this.noticeIsError = !result.ok;
       this.notice = result.ok ? `${result.source === 'demo' ? 'Local demo ticket' : 'Support ticket'} created: ${result.data.id}.` : result.warning ?? 'The ticket could not be created.';
-      if (result.ok) { this.store.tickets$.pipe(take(1)).subscribe((tickets) => this.store.setTickets([result.data, ...tickets])); this.form.reset({ subject: '', category: 'Payment status', message: '', reference: '' }); }
+       if (result.ok) { this.store.tickets$.pipe(take(1)).subscribe((tickets) => this.store.setTickets([result.data, ...tickets])); this.form.reset({ subject: '', category: 'Payment status', message: '', reference: '' }); this.form.markAsPristine(); this.form.markAsUntouched(); }
     });
   }
 }

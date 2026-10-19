@@ -2,7 +2,8 @@ import { Routes } from '@angular/router';
 import { accountGuard } from './core/auth.guard';
 
 export const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'checkout' },
+  { path: '', pathMatch: 'full', loadComponent: () => import('./pages/checkout.component').then((page) => page.CheckoutComponent) },
+  { path: 'checkout', pathMatch: 'full', redirectTo: '' },
   { path: 'checkout', loadComponent: () => import('./pages/checkout.component').then((page) => page.CheckoutComponent) },
   { path: 'auth', loadComponent: () => import('./pages/auth.component').then((page) => page.AuthComponent) },
   {
@@ -24,5 +25,5 @@ export const routes: Routes = [
   { path: 'help', data: { page: 'help' }, loadComponent: () => import('./pages/legal.component').then((page) => page.LegalComponent) },
   { path: 'terms', data: { page: 'terms' }, loadComponent: () => import('./pages/legal.component').then((page) => page.LegalComponent) },
   { path: 'privacy', data: { page: 'privacy' }, loadComponent: () => import('./pages/legal.component').then((page) => page.LegalComponent) },
-  { path: '**', redirectTo: 'checkout' },
+  { path: '**', redirectTo: '' },
 ];

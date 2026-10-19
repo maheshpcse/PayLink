@@ -18,7 +18,6 @@
         <p>This test server uses expiring bearer sessions. The token stays in memory and is lost on reload. This preview may create a fresh seeded demo session on startup.</p>
         <p>MFA, passkeys, recovery, other-device revocation, and deletion requests are not implemented. The server's demo two-factor flag is metadata, not proof of enrollment.</p>
         <a class="outline-button" routerLink="/account/preferences">Communication preferences</a>
-        <button class="text-button signout-button" type="button" (click)="signOut()" [disabled]="busy">Sign out of this session</button>
       </section>
     </div>
   }

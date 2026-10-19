@@ -1,11 +1,11 @@
 # PayLink workspace
 
-This folder contains two isolated projects built from `PayLink_App_Master_Development_Prompt.md`:
+This folder contains two isolated projects built from the revised PayLink development prompt:
 
-- `paylink-ui/` — React + TypeScript + Vite customer checkout and account UI.
+- `paylink-ui/` — Angular + TypeScript customer checkout and account UI.
 - `paylink-server/` — TypeScript Node.js REST API with an explicitly labeled in-memory demo repository and deterministic test payment provider.
 
-The existing root NoteDeck app remains unchanged. PayLink is intentionally test-only: it does not contact a payment network or move real money.
+PayLink is intentionally test-only: it does not contact a payment network or move real money. The obsolete root NoteDeck quiz app has been removed; only these two PayLink projects remain.
 
 ## Run the backend
 
@@ -29,7 +29,7 @@ Copy-Item .env.example .env.local
 npm run dev
 ```
 
-Then open the Vite URL, normally `http://localhost:4173`.
+Then open the Angular URL, normally `http://127.0.0.1:4173`.
 
 With the server running, the UI uses the seeded demo customer and server-owned checkout data. Without a server or API URL, it still runs in clearly labeled local demo mode.
 
