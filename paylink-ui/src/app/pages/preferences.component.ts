@@ -21,5 +21,6 @@ import { RouterLink } from '@angular/router';
 export class PreferencesComponent {
   readonly form = new FormGroup({ reminders: new FormControl(false, { nonNullable: true }), updates: new FormControl(false, { nonNullable: true }) });
   saved = false;
+  constructor() { this.form.valueChanges.subscribe(() => { this.saved = false; }); }
   save(): void { this.saved = true; this.form.markAsPristine(); this.form.markAsUntouched(); }
 }

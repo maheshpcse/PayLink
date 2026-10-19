@@ -361,7 +361,7 @@ dialog::backdrop { background: rgba(18, 59, 45, .45); }
 .auth-page { min-height: 100vh; display: grid; place-items: center; padding: 30px 16px; }
 .auth-card { width: min(100%, 480px); padding: 34px; }
 .auth-brand { margin-bottom: 26px; }
-.auth-card > .test-mode-badge { margin-bottom: 30px; }
+.auth-card > .test-mode-badge { margin-bottom: 22px; }
 .auth-card h1 { font-size: clamp(2.2rem, 6vw, 3.5rem); }
 .auth-intro { margin: 18px 0 26px; color: var(--muted-dark); font-size: 1rem; }
 .auth-demo-button { width: 100%; }
@@ -393,7 +393,7 @@ dialog::backdrop { background: rgba(18, 59, 45, .45); }
   .topbar-context { display: none; }
   .topbar-actions { gap: 12px; }
   .app-frame { display: block; }
-  .sidebar { position: static; height: auto; min-height: 0; display: block; overflow: visible; padding: 14px 0 0; }
+  .sidebar { position: sticky; top: 66px; z-index: 9; height: auto; min-height: 0; display: block; overflow: visible; padding: 10px 0 0; background: var(--paper); }
   .sidebar-section--account { display: block; margin-top: 12px; }
   .sidebar-section--account .sidebar-label { display: none; }
   .side-nav { display: flex; overflow-x: auto; padding-bottom: 8px; }
@@ -502,3 +502,24 @@ label:hover > input:not([readonly]), label:hover > select, label:hover > textare
 
 /* A shared shimmer surface is available to every page-level loader/card. */
 .shimmer-surface { background: linear-gradient(90deg, var(--green-pale) 25%, var(--bmw-blue-soft) 50%, var(--green-pale) 75%); background-size: 200% 100%; animation: shimmer 1.5s ease-in-out infinite; }
+
+/* Primary navigation and interaction surfaces use blue; green is reserved for
+   success, secure/test status, and completed payment feedback. */
+.skip-link { border-color: var(--bmw-blue-900); background: var(--bmw-blue); }
+.footer-inner nav a:hover, .dialog-close:hover, .back-link:hover { color: var(--bmw-blue-900); }
+input:hover, select:hover, textarea:hover { border-color: var(--bmw-blue-bright); }
+input[type="checkbox"], input[type="radio"] { accent-color: var(--bmw-blue); }
+.illustration-ring { border-color: #b9d5e9; }
+.illustration-ring--two { border-color: #d5e7f4; }
+.illustration-card { background: var(--bmw-blue); color: #c4e3f7; box-shadow: 0 10px 20px rgba(0, 102, 179, .18); }
+.overview-banner { border-color: #c6ddec; background: linear-gradient(105deg, var(--bmw-blue-soft) 0%, #fbfdff 72%); }
+.banner-spark, .next-step-icon { background: var(--bmw-blue); color: #c4e3f7; }
+.next-step-card { border-color: #c6ddec; background: var(--bmw-blue-pale); }
+.metric-card--violet .metric-icon, .metric-card--orange .metric-icon { background: var(--bmw-blue-soft); color: var(--bmw-blue); }
+.empty-state-icon { background: var(--bmw-blue-soft); color: var(--bmw-blue); }
+.info-callout > pl-icon, .privacy-card > pl-icon { color: var(--bmw-blue); }
+.info-callout, .privacy-card { background: var(--bmw-blue-pale); }
+.notification-icon--violet { background: var(--bmw-blue-soft); color: var(--bmw-blue); }
+.notification-icon--orange { background: var(--warning-soft); color: var(--warning); }
+.security-card { border-color: #c6ddec; background: var(--bmw-blue-pale); }
+.security-card .eyebrow, .ticket-status, .ticket-count { color: var(--bmw-blue); }
