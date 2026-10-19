@@ -1,0 +1,25 @@
+{
+  "name": "paylink-server",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Dependency-light PayLink REST API demo backend",
+  "type": "module",
+  "engines": {
+    "node": ">=24.19.0"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "npm run build && node dist/express-server.js",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "npm run build && node --test test/*.test.mjs",
+    "check": "npm run typecheck && npm test"
+  },
+  "devDependencies": {
+    "@types/express": "5.0.6",
+    "@types/node": "22.20.4",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "express": "5.3.0"
+  }
+}

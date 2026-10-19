@@ -1,0 +1,25 @@
+<div class="page-stack account-page">
+  <pl-page-heading eyebrow="Your account · security" title="A profile that feels like yours." body="Keep your test account contact details up to date." [source]="(store.source$ | async) ?? 'demo'" [serverConfigured]="(store.configured$ | async) ?? false" [warning]="(store.warning$ | async) ?? ''" />
+  @if (store.profile$ | async; as profile) {
+    <div class="profile-grid">
+      <section class="panel profile-card">
+        <div class="profile-card-heading"><div class="avatar avatar--large">{{ profile.initials }}</div><div><p class="eyebrow">Customer profile</p><h2>{{ profile.name }}</h2><p>Member since {{ profile.memberSince }}</p></div></div>
+        <form [formGroup]="form" (ngSubmit)="save()">
+          <label>Full name<input formControlName="name" [readonly]="!editing" autocomplete="name" [attr.aria-invalid]="form.controls.name.invalid && form.controls.name.touched" />@if (form.controls.name.invalid && form.controls.name.touched) { <span class="field-error">Enter a name of 1–80 characters.</span> }</label>
+          <label>Email address<input formControlName="email" [readonly]="!editing" autocomplete="email" type="email" [attr.aria-invalid]="form.controls.email.invalid && form.controls.email.touched" />@if (form.controls.email.invalid && form.controls.email.touched) { <span class="field-error">Enter a valid email.</span> }</label>
+          <label>Phone number<input formControlName="phone" [readonly]="!editing" autocomplete="tel" type="tel" /></label>
+          <p class="muted">Email and phone verification are not implemented by this test server.</p>
+          <div class="form-actions">@if (editing) { <button class="primary-button" type="submit" [disabled]="busy">{{ busy ? 'Saving…' : 'Save changes' }}</button><button class="text-button" type="button" (click)="cancel()">Cancel</button> } @else { <button class="outline-button" type="button" (click)="toggleEditing()">Edit details <pl-icon name="arrow" /></button> }</div>
+          @if (notice) { <p class="inline-notice" [class.inline-notice--error]="noticeIsError" role="status">{{ notice }}</p> }
+        </form>
+      </section>
+      <section class="panel security-card">
+        <div class="section-icon section-icon--violet"><pl-icon name="shield" /></div><p class="eyebrow">Security &amp; preferences</p><h2>Know what is active.</h2>
+        <p>This test server uses expiring bearer sessions. The token stays in memory and is lost on reload. This preview may create a fresh seeded demo session on startup.</p>
+        <p>MFA, passkeys, recovery, other-device revocation, and deletion requests are not implemented. The server's demo two-factor flag is metadata, not proof of enrollment.</p>
+        <a class="outline-button" routerLink="/account/preferences">Communication preferences</a>
+        <button class="text-button signout-button" type="button" (click)="signOut()" [disabled]="busy">Sign out of this session</button>
+      </section>
+    </div>
+  }
+</div>

@@ -1,0 +1,22 @@
+<div class="page-stack account-page">
+  <pl-page-heading eyebrow="Your account · payment methods" title="Saved methods." body="Choose a masked test method at checkout, or keep your list tidy." [source]="(store.source$ | async) ?? 'demo'" [serverConfigured]="(store.configured$ | async) ?? false" [warning]="(store.warning$ | async) ?? ''" />
+  <section class="panel data-panel methods-panel">
+    <div class="panel-heading"><h2>{{ (store.methods$ | async)?.length ?? 0 }} saved methods</h2><span class="secure-note">Masked metadata only</span></div>
+    <div class="saved-method-list">
+      @for (method of (store.methods$ | async); track method.id) {
+        <div class="saved-method-row">
+          <span class="method-brand" [class.bank-brand]="method.kind === 'bank'"><pl-icon [name]="method.kind === 'card' ? 'card' : 'wallet'" [size]="20" /></span>
+          <span class="method-copy"><strong>{{ method.label }}</strong><small>{{ method.detail }}{{ method.expiry ? ' · ' + method.expiry : '' }}</small></span>
+          @if (method.isDefault) { <span class="default-tag">Default</span> }
+          <button class="row-action" type="button" (click)="selectedId = method.id; selectedLabel = method.label; removeDialog.showModal()" [attr.aria-label]="'Remove ' + method.label">Remove</button>
+        </div>
+      } @empty { <pl-empty-state icon="wallet" title="No saved methods" body="A gateway setup flow is required to add new methods." /> }
+    </div>
+    @if (notice) { <p class="inline-notice" [class.inline-notice--error]="noticeIsError" role="status">{{ notice }}</p> }
+  </section>
+  <div class="privacy-card"><pl-icon name="lock" /><div><strong>Test methods only</strong><p>The server supports listing and removing seeded methods. Adding methods, changing defaults, consent-to-save, and step-up authentication require backend/gateway capabilities not provided by this slice.</p></div></div>
+  <dialog #removeDialog aria-labelledby="remove-title" aria-describedby="remove-description">
+    <h2 id="remove-title">Remove this test method?</h2><p id="remove-description">{{ selectedLabel }} will be removed from this test account. No real card or bank account is affected.</p>
+    <div class="form-actions"><button type="button" class="outline-button" autofocus (click)="removeDialog.close()">Keep method</button><button type="button" class="danger-button" [disabled]="busy" (click)="remove(selectedId, removeDialog)">{{ busy ? 'Removing…' : 'Confirm removal' }}</button></div>
+  </dialog>
+</div>

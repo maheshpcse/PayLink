@@ -1,0 +1,63 @@
+<div class="app-shell">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" routerLink="/checkout" aria-label="PayLink checkout"><pl-logo /><span class="brand-word">paylink</span></a>
+      <div class="topbar-context"><span class="context-rule"></span><span>the payment companion</span></div>
+      <div class="topbar-actions">
+        <pl-test-badge [compact]="true" />
+        <a class="header-help" routerLink="/help"><pl-icon name="help" [size]="16" /><span>Help</span></a>
+        <a class="profile-trigger" routerLink="/account/profile" aria-label="Open profile">
+          <ng-container *ngIf="store.profile$ | async as profile; else anonymousProfile"><span class="avatar avatar--small">{{ profile.initials }}</span><span class="profile-trigger-name">{{ profile.name }}</span></ng-container>
+          <ng-template #anonymousProfile><span class="avatar avatar--small">JL</span><span class="profile-trigger-name">Jamie Lee</span></ng-template>
+          <pl-icon name="chevron" [size]="15" />
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div class="app-frame" [class.focused-frame]="focused$ | async">
+    <aside class="sidebar" aria-label="Account navigation">
+      <div class="sidebar-section">
+        <p class="sidebar-label">PayLink</p>
+        <a class="checkout-link" routerLink="/checkout" routerLinkActive="is-active">
+          <span class="checkout-link-icon"><pl-icon name="arrow" [size]="16" /></span>
+          <span><strong>Pay now</strong><small>Public checkout</small></span>
+        </a>
+      </div>
+      <div class="sidebar-section sidebar-section--account">
+        <p class="sidebar-label">Your account</p>
+        <nav class="side-nav">
+          <a class="side-nav-item" routerLink="/account/overview" routerLinkActive="is-active"><pl-icon name="home" [size]="17" /><span>Overview</span></a>
+          <a class="side-nav-item" routerLink="/account/activity" routerLinkActive="is-active"><pl-icon name="activity" [size]="17" /><span>Payment activity</span></a>
+          <a class="side-nav-item" routerLink="/account/methods" routerLinkActive="is-active"><pl-icon name="wallet" [size]="17" /><span>Saved methods</span></a>
+          <a class="side-nav-item" routerLink="/account/notifications" routerLinkActive="is-active"><pl-icon name="bell" [size]="17" /><span>Notifications</span><span class="unread-count" *ngIf="unreadCount$ | async as unread" [hidden]="unread === 0">{{ unread }}</span></a>
+          <a class="side-nav-item" routerLink="/account/profile" routerLinkActive="is-active"><pl-icon name="user" [size]="17" /><span>Profile &amp; security</span></a>
+          <a class="side-nav-item" routerLink="/account/preferences" routerLinkActive="is-active"><pl-icon name="check" [size]="17" /><span>Preferences</span></a>
+          <a class="side-nav-item" routerLink="/account/support" routerLinkActive="is-active"><pl-icon name="support" [size]="17" /><span>Support</span></a>
+        </nav>
+      </div>
+      <div class="sidebar-note">
+        <div class="sidebar-note-icon"><pl-icon name="shield" [size]="17" /></div>
+        <strong>Your details stay yours.</strong>
+        <p>PayLink is a companion layer. Every payment is clearly labeled while in test mode.</p>
+        <a routerLink="/help">How it works <pl-icon name="arrow" [size]="13" /></a>
+      </div>
+      <p class="sidebar-version">PayLink preview · v1.0</p>
+    </aside>
+
+    <main class="main-content" id="main-content" tabindex="-1">
+      <div class="connection-notice" role="status" *ngIf="store.warning$ | async as warning"><pl-icon name="x" [size]="15" /><span>{{ (store.configured$ | async) ? 'Connected server issue: ' : '' }}{{ warning }}</span></div>
+      <router-outlet />
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <a class="footer-brand" routerLink="/checkout"><pl-logo /><span>paylink</span></a>
+      <p>Payment companion for clear, calm checkouts.</p>
+      <nav aria-label="Footer navigation"><a routerLink="/help">Help</a><a routerLink="/terms">Terms</a><a routerLink="/privacy">Privacy</a></nav>
+      <span class="footer-test"><span class="test-dot"></span> test environment</span>
+    </div>
+  </footer>
+</div>

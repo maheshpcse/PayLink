@@ -1,0 +1,15 @@
+<div class="page-stack account-page">
+  <pl-page-heading eyebrow="Your account · updates" title="Stay in the loop." body="Your test-payment events and account alerts. This inbox does not claim email, SMS, or push delivery." [source]="(store.source$ | async) ?? 'demo'" [serverConfigured]="(store.configured$ | async) ?? false" [warning]="(store.warning$ | async) ?? ''" />
+  <section class="panel data-panel notifications-panel">
+    <div class="panel-heading"><h2>Notifications</h2><button class="text-button" type="button" (click)="markAll()">Mark all as read</button></div>
+    <div class="notification-list">
+      @for (item of (store.notifications$ | async); track item.id) {
+        <button class="notification-row" [class.is-unread]="item.unread" type="button" (click)="markRead(item.id)" [attr.aria-label]="item.title + (item.unread ? ', unread, mark as read' : ', read')">
+          <span class="notification-icon" [class.notification-icon--green]="item.tone === 'green'" [class.notification-icon--violet]="item.tone === 'violet'" [class.notification-icon--orange]="item.tone === 'orange'"><pl-icon [name]="item.tone === 'green' ? 'check' : item.tone === 'violet' ? 'shield' : 'clock'" /></span>
+          <span class="notification-copy"><strong>{{ item.title }}</strong><span>{{ item.body }}</span><small>{{ item.time }}</small></span>
+          @if (item.unread) { <span class="unread-dot" aria-hidden="true"></span> }
+        </button>
+      } @empty { <p class="empty-state">No notifications yet. New test-payment events will appear here.</p> }
+    </div>
+  </section>
+</div>
