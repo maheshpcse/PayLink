@@ -17,7 +17,7 @@ export class IconComponent {
   get path(): string { return iconPaths[this.name]; }
 }
 
-@Component({ selector: 'pl-logo', standalone: true, template: '<span class="logo-mark" aria-hidden="true"><span class="logo-mark-letter">P</span><span class="logo-mark-link"></span></span>' })
+@Component({ selector: 'pl-logo', standalone: true, template: '<span class="logo-mark" aria-hidden="true"><span class="logo-mark-letter">P</span><span class="logo-mark-link"></span><span class="logo-mark-arrow"></span></span>' })
 export class LogoComponent {}
 
 @Component({ selector: 'pl-test-badge', standalone: true, template: '<span class="test-mode-badge" [class.test-mode-badge--compact]="compact"><span class="test-dot"></span>{{ compact ? "TEST" : "TEST MODE · NO REAL CHARGES" }}</span>' })
@@ -44,11 +44,11 @@ export class EmptyStateComponent {
   @Input({ required: true }) body!: string;
 }
 
-@Component({ selector: 'pl-page-heading', standalone: true, imports: [NgIf, DataSourceComponent], template: '<div class="page-heading"><div><p class="eyebrow">{{ eyebrow }}</p><h1>{{ title }}</h1><p class="page-heading-body">{{ body }}</p></div><pl-data-source *ngIf="source" [source]="source" [serverConfigured]="serverConfigured" [warning]="warning" /></div>' })
+@Component({ selector: 'pl-page-heading', standalone: true, imports: [NgIf, DataSourceComponent], template: '<div class="page-heading"><div><p class="eyebrow">{{ eyebrow }}</p><h1>{{ title }}</h1><p class="page-heading-body" *ngIf="body">{{ body }}</p></div><pl-data-source *ngIf="source" [source]="source" [serverConfigured]="serverConfigured" [warning]="warning" /></div>' })
 export class PageHeadingComponent {
   @Input({ required: true }) eyebrow!: string;
   @Input({ required: true }) title!: string;
-  @Input({ required: true }) body!: string;
+  @Input() body = '';
   @Input() source?: 'server' | 'demo';
   @Input() serverConfigured = false;
   @Input() warning = '';

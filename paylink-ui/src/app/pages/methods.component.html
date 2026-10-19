@@ -1,5 +1,5 @@
 <div class="page-stack account-page">
-  <pl-page-heading eyebrow="Your account · payment methods" title="Saved methods." body="Choose a masked test method at checkout, or keep your list tidy." [source]="(store.source$ | async) ?? 'demo'" [serverConfigured]="(store.configured$ | async) ?? false" [warning]="(store.warning$ | async) ?? ''" />
+  <pl-page-heading eyebrow="Payment methods" title="Saved methods." [source]="(store.source$ | async) ?? 'demo'" [serverConfigured]="(store.configured$ | async) ?? false" [warning]="(store.warning$ | async) ?? ''" />
   <section class="panel data-panel methods-panel">
     <div class="panel-heading"><h2>{{ (store.methods$ | async)?.length ?? 0 }} saved methods</h2><span class="secure-note">Masked metadata only</span></div>
     <div class="saved-method-list">

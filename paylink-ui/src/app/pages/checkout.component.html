@@ -6,7 +6,6 @@
       <div>
         <p class="eyebrow">Test checkout · {{ session.id }}</p>
         <h1>Pay with a little more <em>clarity.</em></h1>
-        <p class="hero-lede">Review the details, choose a masked test method, and confirm with confidence.</p>
       </div>
       <div class="checkout-illustration" aria-hidden="true"><span class="illustration-ring illustration-ring--one"></span><span class="illustration-ring illustration-ring--two"></span><span class="illustration-card"><pl-icon name="spark" [size]="20" /></span><span class="illustration-label">simple by design</span></div>
     </div>
@@ -35,10 +34,8 @@
           <form [formGroup]="form" (ngSubmit)="pay()">
              <pl-method-selector [methods]="(store.methods$ | async) ?? []" [control]="form.controls.methodId" [locked]="!!attempt" />
              @if (form.controls.methodId.invalid && form.controls.methodId.touched) { <p class="field-error" role="alert">Choose a saved payment method before continuing.</p> }
-            <p class="muted">Only masked test metadata is available. Adding or saving methods requires a gateway-hosted setup flow, which is not configured.</p>
             <fieldset class="test-controls native-fieldset" [disabled]="!!attempt">
               <legend>Test outcome</legend><pl-test-badge />
-              <p>Choose a deterministic test response. No real charge is made.</p>
               <div class="outcome-options">
                 <label class="outcome-option" [class.is-selected]="form.controls.outcome.value === 'success'"><input type="radio" formControlName="outcome" value="success" />Success</label>
                 <label class="outcome-option" [class.is-selected]="form.controls.outcome.value === 'pending'"><input type="radio" formControlName="outcome" value="pending" />Pending</label>

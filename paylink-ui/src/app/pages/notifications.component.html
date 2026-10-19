@@ -1,5 +1,5 @@
 <div class="page-stack account-page">
-  <pl-page-heading eyebrow="Your account · updates" title="Stay in the loop." body="Your test-payment events and account alerts. This inbox does not claim email, SMS, or push delivery." [source]="(store.source$ | async) ?? 'demo'" [serverConfigured]="(store.configured$ | async) ?? false" [warning]="(store.warning$ | async) ?? ''" />
+  <pl-page-heading eyebrow="Notifications" title="Stay in the loop." [source]="(store.source$ | async) ?? 'demo'" [serverConfigured]="(store.configured$ | async) ?? false" [warning]="(store.warning$ | async) ?? ''" />
   <section class="panel data-panel notifications-panel">
     <div class="panel-heading"><h2>Notifications</h2><button class="text-button" type="button" (click)="markAll()">Mark all as read</button></div>
     <div class="notification-list">

@@ -1,5 +1,5 @@
 <div class="page-stack account-page">
-  <pl-page-heading eyebrow="Your account · history" title="Payment activity." body="A simple record of the payments you have made through PayLink." [source]="(store.source$ | async) ?? 'demo'" [serverConfigured]="(store.configured$ | async) ?? false" [warning]="(store.warning$ | async) ?? ''" />
+  <pl-page-heading eyebrow="Activity" title="Payment activity." [source]="(store.source$ | async) ?? 'demo'" [serverConfigured]="(store.configured$ | async) ?? false" [warning]="(store.warning$ | async) ?? ''" />
   <section class="panel data-panel">
     <div class="panel-heading"><h2>{{ (filtered$ | async)?.length ?? 0 }} payments</h2><span class="secure-note">10 per page · test-mode records</span></div>
     <div class="activity-filters"><label>Search payments<input type="search" [formControl]="search" placeholder="Merchant, description or reference" /></label><label>Payment status<select [formControl]="status"><option value="all">All statuses</option><option value="success">Completed</option><option value="pending">Pending</option><option value="failed">Declined</option><option value="refunded">Refunded</option></select></label></div>

@@ -6,7 +6,7 @@ import { RouterLink } from '@angular/router';
   selector: 'pl-preferences', standalone: true, imports: [ReactiveFormsModule, RouterLink],
   template: `
     <div class="page-stack">
-      <div><p class="eyebrow">Local preview settings</p><h1>Your preferences.</h1><p class="page-heading-body">These switches preview consent only for this page session. The server has no preferences or delivery-provider endpoint.</p></div>
+      <div><p class="eyebrow">Preferences</p><h1>Your preferences.</h1></div>
         <form class="panel data-panel" [formGroup]="form" (ngSubmit)="save()">
         <label class="checkbox-row"><input type="checkbox" formControlName="reminders" />Optional checkout reminders (preview only)</label>
         <label class="checkbox-row"><input type="checkbox" formControlName="updates" />Product updates (preview only)</label>

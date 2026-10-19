@@ -1,5 +1,5 @@
 <div class="page-stack account-page">
-  <pl-page-heading eyebrow="Your account · support" title="We are here to help." body="Ask a question and keep a clear record of the conversation." [source]="(store.source$ | async) ?? 'demo'" [serverConfigured]="(store.configured$ | async) ?? false" [warning]="(store.warning$ | async) ?? ''" />
+  <pl-page-heading eyebrow="Support" title="Support tickets." [source]="(store.source$ | async) ?? 'demo'" [serverConfigured]="(store.configured$ | async) ?? false" [warning]="(store.warning$ | async) ?? ''" />
   <div class="support-grid">
     <section class="panel ticket-list-panel">
       <div class="panel-heading"><h2>Your tickets</h2><span class="ticket-count">{{ (store.tickets$ | async)?.length ?? 0 }} total</span></div>

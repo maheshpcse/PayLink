@@ -40,5 +40,21 @@ describe('PayLink application shell', () => {
     expect(fixture.nativeElement.querySelector('header')).toBeNull();
     expect(fixture.nativeElement.querySelector('footer')).toBeNull();
     expect(fixture.nativeElement.querySelector('.auth-page')).not.toBeNull();
+    expect(fixture.nativeElement.textContent).toContain('Sign in');
+    expect(fixture.nativeElement.textContent).not.toContain('Welcome back to calm payments');
+    expect(fixture.nativeElement.textContent).not.toContain('Sign in to review your masked methods');
+  });
+
+  it('uses the PayLink mark and keeps the shell controls aligned for keyboard users', async () => {
+    await TestBed.configureTestingModule({
+      imports: [AppComponent],
+      providers: [provideHttpClient(), provideRouter(routes), { provide: PAYLINK_CONFIG, useValue: { apiBaseUrl: '', enableApi: false } }],
+    }).compileComponents();
+    const fixture = TestBed.createComponent(AppComponent);
+    await fixture.whenStable();
+    const element = fixture.nativeElement as HTMLElement;
+    expect(element.querySelector('.logo-mark-arrow')).not.toBeNull();
+    expect(element.querySelector('.signout-nav')).not.toBeNull();
+    expect(element.querySelector('a[href="/"]')?.textContent).toContain('PayLink');
   });
 });

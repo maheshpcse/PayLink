@@ -1,5 +1,5 @@
 <div class="page-stack account-page">
-  <pl-page-heading eyebrow="Your account · security" title="A profile that feels like yours." body="Keep your test account contact details up to date." [source]="(store.source$ | async) ?? 'demo'" [serverConfigured]="(store.configured$ | async) ?? false" [warning]="(store.warning$ | async) ?? ''" />
+  <pl-page-heading eyebrow="Profile &amp; security" title="Your profile." [source]="(store.source$ | async) ?? 'demo'" [serverConfigured]="(store.configured$ | async) ?? false" [warning]="(store.warning$ | async) ?? ''" />
   @if (store.profile$ | async; as profile) {
     <div class="profile-grid">
       <section class="panel profile-card">

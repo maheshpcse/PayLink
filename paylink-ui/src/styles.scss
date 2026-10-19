@@ -1,13 +1,13 @@
 :root {
   --font-body: "Nunito Sans", "Varela Round", "Pally", "Rajdhani", "Amulya", "Bevellier", "Expose", "Asap", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --ink: #173329;
-  --ink-soft: #38564a;
-  --muted: #698077;
-  --muted-dark: #506b5e;
-  --paper: #f5f9f5;
+  --ink: #102a43;
+  --ink-soft: #36546a;
+  --muted: #668092;
+  --muted-dark: #506b7e;
+  --paper: #f5f9fd;
   --white: #ffffff;
-  --line: #dce9df;
-  --line-strong: #c3d6c8;
+  --line: #dce8f2;
+  --line-strong: #c3d5e4;
   --green-950: #123b2d;
   --green-900: #174936;
   --green: #1f6b4d;
@@ -15,8 +15,8 @@
   --green-soft: #e5f4e9;
   --green-pale: #f1f9f2;
   --mint-deep: #c9e8d2;
-  --focus: #2f9568;
-  --focus-ring: rgba(47, 149, 104, .22);
+  --focus: #0066b3;
+  --focus-ring: rgba(0, 102, 179, .22);
   --warning: #8b681f;
   --warning-soft: #fff8e8;
   --danger: #a33f4d;
@@ -27,8 +27,8 @@
   --orange-soft: var(--warning-soft);
   --red: var(--danger);
   --red-soft: var(--danger-soft);
-  --shadow: 0 18px 60px rgba(24, 67, 45, .08);
-  --shadow-soft: 0 8px 25px rgba(24, 67, 45, .06);
+  --shadow: 0 18px 60px rgba(7, 29, 52, .09);
+  --shadow-soft: 0 8px 25px rgba(7, 29, 52, .07);
   font-family: var(--font-body);
   color: var(--ink);
   background: var(--paper);
@@ -441,3 +441,64 @@ dialog::backdrop { background: rgba(18, 59, 45, .45); }
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
+
+/* PayLink blue/green visual balance: BMW-inspired blue is the action color,
+   while green remains the positive/status color. Keep movement out of hover
+   states; only borders and surfaces change. */
+:root {
+  --bmw-blue-950: #071d34;
+  --bmw-blue-900: #0b3154;
+  --bmw-blue: #0066b3;
+  --bmw-blue-bright: #167bc4;
+  --bmw-blue-soft: #e8f2fa;
+  --bmw-blue-pale: #f5f9fd;
+  --focus: var(--bmw-blue);
+  --focus-ring: rgba(0, 102, 179, .22);
+}
+
+/* Keep familiar green for positive states, but use blue across navigation,
+   primary actions, headings, and form focus so neither theme dominates alone. */
+.eyebrow, h1 em, .text-button, .header-help, .side-nav-item.is-active,
+.checkout-link:hover, .checkout-link.is-active, .data-source-pill,
+.secure-note, .back-link, .checkout-trust-row > a { color: var(--bmw-blue); }
+.primary-button, .checkout-link-icon, .logo-mark, .unread-count { border-color: var(--bmw-blue-900); background: var(--bmw-blue); }
+.primary-button:hover:not(:disabled) { border-color: var(--bmw-blue-950); background: var(--bmw-blue-900); }
+.outline-button:hover, .text-button:hover, .header-help:hover,
+.side-nav-item:hover, .checkout-link:hover { border-color: var(--bmw-blue-bright); background: var(--bmw-blue-soft); color: var(--bmw-blue-900); }
+.side-nav-item.is-active { border-color: var(--bmw-blue-bright); background: var(--bmw-blue-soft); }
+.sidebar-brand { position: sticky; top: 0; z-index: 2; padding: 7px 0 10px; background: var(--paper); }
+.checkout-link-icon { color: var(--white); }
+.data-source-pill { background: var(--bmw-blue-pale); }
+.data-source-pill--server { border-color: var(--bmw-blue-bright); background: var(--bmw-blue-soft); }
+.test-mode-badge { border-color: #cde5d2; background: var(--green-pale); color: var(--green); }
+.payment-method-option:hover, .payment-method-option.is-selected,
+.outcome-option:hover, .outcome-option.is-selected { border-color: var(--bmw-blue-bright); background: var(--bmw-blue-pale); color: var(--bmw-blue-900); }
+.method-brand { background: var(--bmw-blue-900); }
+.fixed-amount-note { background: var(--bmw-blue-pale); color: var(--bmw-blue-900); }
+.fixed-amount-note small { color: var(--muted-dark); }
+.logo-mark { color: var(--white); }
+.logo-mark-letter { margin-right: 5px; color: var(--white); }
+.logo-mark-link { border-color: #c4e3f7; }
+.logo-mark-arrow { position: absolute; right: 4px; bottom: 6px; width: 8px; height: 2px; transform: rotate(-35deg); background: #c4e3f7; }
+.logo-mark-arrow::after { content: ''; position: absolute; right: -1px; top: -3px; width: 6px; height: 6px; border-top: 2px solid #c4e3f7; border-right: 2px solid #c4e3f7; }
+select { cursor: pointer; }
+html { scrollbar-color: var(--bmw-blue-bright) var(--bmw-blue-pale); }
+*::-webkit-scrollbar-track { background: var(--bmw-blue-pale); }
+*::-webkit-scrollbar-thumb { border-color: var(--bmw-blue-pale); background: linear-gradient(180deg, var(--bmw-blue-bright), var(--green-bright)); }
+select option:checked { background: var(--bmw-blue); color: var(--white); }
+input[type='search']::-webkit-search-cancel-button { cursor: pointer; }
+input[type='search']::-webkit-search-decoration { cursor: pointer; }
+.dialog-close, .dialog-close .icon, button[aria-label*='Close'], button[aria-label*='clear'] { cursor: pointer; }
+input[type='checkbox'], input[type='radio'], label:has(> input[type='checkbox']), label:has(> input[type='radio']) { cursor: pointer; }
+input[type='checkbox']:hover, input[type='radio']:hover { outline: 2px solid var(--bmw-blue-bright); outline-offset: 2px; }
+label:hover > input:not([readonly]), label:hover > select, label:hover > textarea { border-color: var(--bmw-blue-bright); }
+.checkbox-row:hover, .outcome-option:hover, .payment-method-option:hover { border-color: var(--bmw-blue-bright); }
+.skeleton, .shimmer-surface { background: linear-gradient(90deg, var(--green-pale) 25%, var(--bmw-blue-soft) 50%, var(--green-pale) 75%); background-size: 200% 100%; }
+
+/* Keep control labels and their controls on one predictable baseline. */
+.outcome-option, .checkbox-row, .payment-method-option, .notification-row,
+.security-row, .form-actions, .checkout-actions > p { align-items: center; }
+.outcome-option input, .checkbox-row input { margin: 0; }
+
+/* A shared shimmer surface is available to every page-level loader/card. */
+.shimmer-surface { background: linear-gradient(90deg, var(--green-pale) 25%, var(--bmw-blue-soft) 50%, var(--green-pale) 75%); background-size: 200% 100%; animation: shimmer 1.5s ease-in-out infinite; }
