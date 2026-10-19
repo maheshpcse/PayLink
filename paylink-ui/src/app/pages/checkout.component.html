@@ -4,28 +4,28 @@
   <div class="page-stack checkout-page">
     <div class="checkout-topline">
       <div>
-        <p class="eyebrow">Test checkout · {{ session.id }}</p>
+        <p class="eyebrow">Checkout · {{ session.id }}</p>
         <h1>Pay with a little more <em>clarity.</em></h1>
       </div>
       <div class="checkout-illustration" aria-hidden="true"><span class="illustration-ring illustration-ring--one"></span><span class="illustration-ring illustration-ring--two"></span><span class="illustration-card"><pl-icon name="spark" [size]="20" /></span><span class="illustration-label">simple by design</span></div>
     </div>
     <div class="checkout-grid">
       <section class="panel checkout-panel" aria-labelledby="payment-heading">
-        <div class="panel-topline"><div><p class="eyebrow">Your payment</p><h2 id="payment-heading">Choose how to pay</h2></div><span class="secure-note"><pl-icon name="lock" /> Test-mode data</span></div>
+        <div class="panel-topline"><div><p class="eyebrow">Your payment</p><h2 id="payment-heading">Choose how to pay</h2></div><span class="secure-note"><pl-icon name="lock" /> Secure checkout</span></div>
         @if (result$ | async; as result) {
           <div class="payment-result" [class.payment-result--success]="result.status === 'success'" [class.payment-result--pending]="result.status === 'pending'" [class.payment-result--failed]="result.status === 'failed'" role="status" aria-live="polite">
             <span class="result-icon"><pl-icon [name]="copyFor(result).icon" [size]="28" /></span>
-            <p class="eyebrow">{{ copyFor(result).eyebrow }} · test mode</p>
+            <p class="eyebrow">{{ copyFor(result).eyebrow }}</p>
             <h3>{{ copyFor(result).title }}</h3><p class="result-message">{{ result.message }}</p>
             <div class="result-reference"><span>Reference</span><strong>{{ result.reference }}</strong><span>{{ result.processedAt }}</span></div>
             @if (result.status === 'pending') { <p class="muted">Status refresh is bounded. Do not pay again while processing.</p> }
             <div class="result-actions">
-              @if (result.status !== 'pending') { <button class="primary-button" type="button" (click)="reset()">Start another test</button> }
+              @if (result.status !== 'pending') { <button class="primary-button" type="button" (click)="reset()">Start another payment</button> }
               <a class="text-button" routerLink="/account/activity">View activity <pl-icon name="arrow" /></a>
             </div>
           </div>
         } @else if ((status$ | async) === 'processing') {
-          <div class="processing-panel" role="status" aria-live="polite"><span class="processing-orbit"><span></span></span><p class="eyebrow">Test mode</p><h3>Processing your test payment…</h3><p>Waiting for an authoritative test-provider response. No bank or card network is being contacted.</p></div>
+          <div class="processing-panel" role="status" aria-live="polite"><span class="processing-orbit"><span></span></span><p class="eyebrow">Processing</p><h3>Processing your payment…</h3><p>Waiting for the payment result.</p></div>
         } @else if (cancelled) {
           <div class="payment-result" role="status"><pl-icon name="x" [size]="28" /><h3>Checkout cancelled</h3><p>No payment request was sent.</p><button type="button" class="outline-button" (click)="cancelled = false">Return to checkout</button></div>
         } @else if (expired && !attempt) {
@@ -34,8 +34,8 @@
           <form [formGroup]="form" (ngSubmit)="pay()">
              <pl-method-selector [methods]="(store.methods$ | async) ?? []" [control]="form.controls.methodId" [locked]="!!attempt" />
              @if (form.controls.methodId.invalid && form.controls.methodId.touched) { <p class="field-error" role="alert">Choose a saved payment method before continuing.</p> }
-            <fieldset class="test-controls native-fieldset" [disabled]="!!attempt">
-              <legend>Test outcome</legend><pl-test-badge />
+             <fieldset class="test-controls native-fieldset" [disabled]="!!attempt">
+               <legend>Payment outcome</legend>
               <div class="outcome-options">
                 <label class="outcome-option" [class.is-selected]="form.controls.outcome.value === 'success'"><input type="radio" formControlName="outcome" value="success" />Success</label>
                 <label class="outcome-option" [class.is-selected]="form.controls.outcome.value === 'pending'"><input type="radio" formControlName="outcome" value="pending" />Pending</label>
@@ -43,15 +43,15 @@
               </div>
             </fieldset>
             <div class="checkout-actions">
-              <button class="primary-button primary-button--wide" type="submit" [disabled]="(status$ | async) === 'processing'"><span>{{ attempt ? 'Retry same test request' : 'Simulate payment' }}</span><span>{{ formatMoney(session.amountCents, session.currency) }}</span><pl-icon name="arrow" /></button>
+              <button class="primary-button primary-button--wide" type="submit" [disabled]="(status$ | async) === 'processing'"><span>{{ attempt ? 'Retry payment' : 'Simulate payment' }}</span><span>{{ formatMoney(session.amountCents, session.currency) }}</span><pl-icon name="arrow" /></button>
               @if (!attempt) { <button class="text-button" type="button" (click)="cancelled = true">Cancel checkout</button> }
-              <p><pl-icon name="shield" /> No real charge will be made in this test environment.</p>
+              <p><pl-icon name="shield" /> No charge will be made.</p>
             </div>
           </form>
         }
         @if (actionError) { <p class="inline-notice inline-notice--error" role="alert">{{ actionError }}</p> }
       </section>
-      <pl-checkout-summary [session]="session" [source]="(store.source$ | async) ?? 'demo'" [serverConfigured]="(store.configured$ | async) ?? false" [warning]="(store.warning$ | async) ?? ''" />
+       <pl-checkout-summary [session]="session" />
     </div>
     <div class="checkout-trust-row"><span><pl-icon name="shield" /> Clear before you confirm</span><span><pl-icon name="lock" /> No raw card data</span><a routerLink="/account/activity">View payment activity <pl-icon name="arrow" /></a></div>
   </div>

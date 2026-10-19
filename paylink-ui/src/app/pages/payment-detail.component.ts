@@ -14,7 +14,7 @@ import { StatusBadgeComponent } from '../shared/ui.components';
       @if (detail$ | async; as view) {
         @if (view.result; as result) {
           <section class="panel data-panel">
-            <p class="eyebrow">{{ result.source === 'server' ? 'Server-reported test payment' : 'Local demo payment' }}</p>
+            <p class="eyebrow">{{ result.source === 'server' ? 'Server-reported payment' : 'Local demo payment' }}</p>
             <h1>Payment details.</h1><h2 class="detail-amount">{{ money(result.data.amountCents, result.data.currency) }}</h2>
             <pl-status-badge [status]="result.data.status" />
             <dl class="detail-list"><dt>Merchant</dt><dd>{{ result.data.merchantName }}{{ result.source === 'server' ? ' (name not supplied by this API)' : '' }}</dd><dt>Description</dt><dd>{{ result.data.description }}</dd><dt>Date and time</dt><dd>{{ result.data.createdAt }}</dd><dt>Reference</dt><dd><code>{{ result.data.reference }}</code></dd><dt>Masked method</dt><dd>{{ result.data.paymentMethod ? result.data.paymentMethod.brand + ' •••• ' + result.data.paymentMethod.last4 : 'Not included in this demo record' }}</dd></dl>

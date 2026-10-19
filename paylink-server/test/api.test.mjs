@@ -62,6 +62,35 @@ async function register(suffix) {
   return (await json(response)).data;
 }
 
+test('password changes verify the current password before updating the account', async () => {
+  const account = await register(`password-${Date.now()}`);
+  const wrongCurrent = await request('/api/v1/auth/change-password', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${account.token}` },
+    body: JSON.stringify({ currentPassword: 'Wrong123!', newPassword: 'NewPassword123!' }),
+  });
+  assert.equal(wrongCurrent.status, 401);
+
+  const changed = await request('/api/v1/auth/change-password', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${account.token}` },
+    body: JSON.stringify({ currentPassword: 'Password123!', newPassword: 'NewPassword123!' }),
+  });
+  assert.equal(changed.status, 200);
+  assert.deepEqual((await json(changed)).data, { changed: true });
+
+  const oldLogin = await request('/api/v1/auth/login', {
+    method: 'POST',
+    body: JSON.stringify({ email: account.user.email, password: 'Password123!' }),
+  });
+  assert.equal(oldLogin.status, 401);
+  const newLogin = await request('/api/v1/auth/login', {
+    method: 'POST',
+    body: JSON.stringify({ email: account.user.email, password: 'NewPassword123!' }),
+  });
+  assert.equal(newLogin.status, 200);
+});
+
 test('health, correlation IDs, secure headers, CORS, and validation are observable', async () => {
   const health = await request('/health', {
     headers: { Origin: 'https://app.example.test', 'X-Correlation-ID': 'smoke-test-1' },

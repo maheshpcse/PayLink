@@ -1,5 +1,4 @@
 <div class="page-stack account-page">
-  <pl-page-heading eyebrow="Support" title="Support tickets." [source]="(store.source$ | async) ?? 'demo'" [serverConfigured]="(store.configured$ | async) ?? false" [warning]="(store.warning$ | async) ?? ''" />
   <div class="support-grid">
     <section class="panel ticket-list-panel">
       <div class="panel-heading"><h2>Your tickets</h2><span class="ticket-count">{{ (store.tickets$ | async)?.length ?? 0 }} total</span></div>
@@ -13,7 +12,7 @@
       <p class="eyebrow">New conversation</p><h2>Tell us what is going on.</h2>
       <form [formGroup]="form" (ngSubmit)="submit()">
         <label>Topic<input formControlName="subject" placeholder="e.g. My receipt is missing" maxlength="120" [attr.aria-invalid]="form.controls.subject.invalid && form.controls.subject.touched" />@if (form.controls.subject.invalid && form.controls.subject.touched) { <span class="field-error">Enter a topic of 3–120 characters.</span> }</label>
-        <label>Category<select formControlName="category"><option>Payment status</option><option>Receipts</option><option>Account security</option><option>Something else</option></select></label>
+        <label>Category<pl-select [control]="form.controls.category" [options]="categoryOptions" /></label>
         <label>Payment reference (optional)<input formControlName="reference" maxlength="150" /></label>
         <label>Message<textarea formControlName="message" placeholder="Share context, never card numbers or passwords." rows="4" maxlength="2000" [attr.aria-invalid]="form.controls.message.invalid && form.controls.message.touched"></textarea>@if (form.controls.message.invalid && form.controls.message.touched) { <span class="field-error">Enter a message of 10–2,000 characters.</span> }</label>
         <button class="primary-button" type="submit" [disabled]="busy">{{ busy ? 'Sending…' : 'Send to support' }} <pl-icon name="arrow" /></button>

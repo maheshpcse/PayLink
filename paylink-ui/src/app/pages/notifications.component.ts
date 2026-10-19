@@ -3,9 +3,9 @@ import { Component, DestroyRef, inject } from '@angular/core';
 import { take } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { PayLinkStoreService } from '../core/paylink-store.service';
-import { IconComponent, PageHeadingComponent } from '../shared/ui.components';
+import { IconComponent } from '../shared/ui.components';
 
-@Component({ selector: 'pl-notifications', standalone: true, imports: [AsyncPipe, IconComponent, PageHeadingComponent], templateUrl: './notifications.component.html' })
+@Component({ selector: 'pl-notifications', standalone: true, imports: [AsyncPipe, IconComponent], templateUrl: './notifications.component.html' })
 export class NotificationsComponent {
   readonly store = inject(PayLinkStoreService);
   private readonly destroyRef = inject(DestroyRef);

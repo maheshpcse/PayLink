@@ -1,5 +1,4 @@
 <div class="page-stack account-page">
-  <pl-page-heading eyebrow="Notifications" title="Stay in the loop." [source]="(store.source$ | async) ?? 'demo'" [serverConfigured]="(store.configured$ | async) ?? false" [warning]="(store.warning$ | async) ?? ''" />
   <section class="panel data-panel notifications-panel">
     <div class="panel-heading"><h2>Notifications</h2><button class="text-button" type="button" (click)="markAll()">Mark all as read</button></div>
     <div class="notification-list">
@@ -9,7 +8,7 @@
           <span class="notification-copy"><strong>{{ item.title }}</strong><span>{{ item.body }}</span><small>{{ item.time }}</small></span>
           @if (item.unread) { <span class="unread-dot" aria-hidden="true"></span> }
         </button>
-      } @empty { <p class="empty-state">No notifications yet. New test-payment events will appear here.</p> }
+      } @empty { <p class="empty-state">No notifications yet. New payment events will appear here.</p> }
     </div>
   </section>
 </div>

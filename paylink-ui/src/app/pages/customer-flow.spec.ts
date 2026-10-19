@@ -21,7 +21,7 @@ describe('Angular customer components', () => {
     const fixture = TestBed.createComponent(CheckoutComponent);
     await fixture.whenStable();
     const element = fixture.nativeElement as HTMLElement;
-    expect(element.textContent).toContain('Fixed demo amount');
+    expect(element.textContent).toContain('Amount fixed for checkout');
     expect(element.textContent).toContain('$189.00');
     fixture.componentInstance.form.controls.methodId.setValue('method_bank_9012');
     fixture.componentInstance.form.controls.outcome.setValue(outcome);

@@ -99,6 +99,12 @@ export class MemoryRepository {
     return user;
   }
 
+  updatePassword(id: string, passwordHash: string): void {
+    const user = this.users.get(id);
+    if (!user) throw new Error(`User ${id} does not exist`);
+    user.passwordHash = passwordHash;
+  }
+
   createPaymentMethod(input: NewPaymentMethod): PaymentMethodRecord {
     const method: PaymentMethodRecord = { ...input, id: input.id ?? newId() };
     this.paymentMethods.set(method.id, method);

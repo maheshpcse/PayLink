@@ -10,7 +10,7 @@ import { RouterLink } from '@angular/router';
         <form class="panel data-panel" [formGroup]="form" (ngSubmit)="save()">
         <label class="checkbox-row"><input type="checkbox" formControlName="reminders" />Optional checkout reminders (preview only)</label>
         <label class="checkbox-row"><input type="checkbox" formControlName="updates" />Product updates (preview only)</label>
-        <p>Essential test events appear in your in-app inbox. No email, SMS, browser push, marketing, or non-essential cookies are enabled by this UI.</p>
+        <p>Essential payment events appear in your in-app inbox. No email, SMS, browser push, marketing, or non-essential cookies are enabled by this UI.</p>
         <button type="submit" class="primary-button">Apply preview choices</button>
         @if (saved) { <p role="status">Preview choices applied locally. No subscription or delivery was requested.</p> }
       </form>

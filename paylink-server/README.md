@@ -71,6 +71,7 @@ POST /api/v1/auth/register       { email, password, name? }
 POST /api/v1/auth/login          { email, password }
 POST /api/v1/auth/demo           local-only seeded customer session
 POST /api/v1/auth/logout         Authorization: Bearer <token>
+POST /api/v1/auth/change-password { currentPassword, newPassword } · Authorization: Bearer <token>
 GET  /api/v1/auth/me             Authorization: Bearer <token>
 GET  /api/v1/me                  Authorization: Bearer <token>
 PATCH /api/v1/me                 Authorization: Bearer <token>

@@ -1,5 +1,4 @@
 <div class="page-stack account-page">
-  <pl-page-heading eyebrow="Payment methods" title="Saved methods." [source]="(store.source$ | async) ?? 'demo'" [serverConfigured]="(store.configured$ | async) ?? false" [warning]="(store.warning$ | async) ?? ''" />
   <section class="panel data-panel methods-panel">
     <div class="panel-heading"><h2>{{ (store.methods$ | async)?.length ?? 0 }} saved methods</h2><span class="secure-note">Masked metadata only</span></div>
     <div class="saved-method-list">
@@ -14,9 +13,8 @@
     </div>
     @if (notice) { <p class="inline-notice" [class.inline-notice--error]="noticeIsError" role="status">{{ notice }}</p> }
   </section>
-  <div class="privacy-card"><pl-icon name="lock" /><div><strong>Test methods only</strong><p>The server supports listing and removing seeded methods. Adding methods, changing defaults, consent-to-save, and step-up authentication require backend/gateway capabilities not provided by this slice.</p></div></div>
   <dialog #removeDialog aria-labelledby="remove-title" aria-describedby="remove-description">
-    <div class="dialog-heading"><h2 id="remove-title">Remove this test method?</h2><button class="dialog-close" type="button" (click)="removeDialog.close()" aria-label="Close dialog"><pl-icon name="x" [size]="18" /></button></div><p id="remove-description">{{ selectedLabel }} will be removed from this test account. No real card or bank account is affected.</p>
+    <div class="dialog-heading"><h2 id="remove-title">Remove this payment method?</h2><button class="dialog-close" type="button" (click)="removeDialog.close()" aria-label="Close dialog"><pl-icon name="x" [size]="18" /></button></div><p id="remove-description">{{ selectedLabel }} will be removed from this account. No real card or bank account is affected.</p>
     <div class="form-actions"><button type="button" class="outline-button" autofocus (click)="removeDialog.close()">Keep method</button><button type="button" class="danger-button" [disabled]="busy" (click)="remove(selectedId, removeDialog)">{{ busy ? 'Removing…' : 'Confirm removal' }}</button></div>
   </dialog>
 </div>

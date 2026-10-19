@@ -8,7 +8,7 @@ import { PayLinkStoreService } from '../core/paylink-store.service';
 import { CheckoutAttempt, CheckoutAttemptService } from '../core/checkout-attempt.service';
 import { AuthService } from '../core/auth.service';
 import { CheckoutSession, formatDate, formatMoney, PaymentResult, PaymentStatus, SavedMethod, TestOutcome } from '../core/models';
-import { IconComponent, TestModeBadgeComponent } from '../shared/ui.components';
+import { IconComponent } from '../shared/ui.components';
 import { CheckoutSummaryComponent } from '../shared/checkout-summary.component';
 import { MethodSelectorComponent } from '../shared/method-selector.component';
 
@@ -17,7 +17,7 @@ type CheckoutViewStatus = 'ready' | 'processing' | PaymentStatus;
 @Component({
   selector: 'pl-checkout',
   standalone: true,
-  imports: [AsyncPipe, ReactiveFormsModule, RouterLink, IconComponent, TestModeBadgeComponent, CheckoutSummaryComponent, MethodSelectorComponent],
+  imports: [AsyncPipe, ReactiveFormsModule, RouterLink, IconComponent, CheckoutSummaryComponent, MethodSelectorComponent],
   templateUrl: './checkout.component.html',
 })
 export class CheckoutComponent implements OnInit {
@@ -123,6 +123,6 @@ export class CheckoutComponent implements OnInit {
       ? { eyebrow: 'Payment complete', title: 'That went through beautifully.', icon: 'check' }
       : result.status === 'pending'
         ? { eyebrow: 'Payment pending', title: 'We are waiting on a response.', icon: 'clock' }
-        : { eyebrow: 'Payment not completed', title: 'That test payment was declined.', icon: 'x' };
+        : { eyebrow: 'Payment not completed', title: 'That payment was declined.', icon: 'x' };
   }
 }

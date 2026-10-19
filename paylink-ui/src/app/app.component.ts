@@ -4,12 +4,12 @@ import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } fro
 import { distinctUntilChanged, filter, map, shareReplay, startWith, take } from 'rxjs';
 import { PayLinkApiService } from './core/paylink-api.service';
 import { PayLinkStoreService } from './core/paylink-store.service';
-import { IconComponent, LogoComponent, TestModeBadgeComponent } from './shared/ui.components';
+import { IconComponent, LogoComponent } from './shared/ui.components';
 
 @Component({
   selector: 'pl-root',
   standalone: true,
-  imports: [AsyncPipe, NgIf, RouterLink, RouterLinkActive, RouterOutlet, IconComponent, LogoComponent, TestModeBadgeComponent],
+  imports: [AsyncPipe, NgIf, RouterLink, RouterLinkActive, RouterOutlet, IconComponent, LogoComponent],
   styleUrl: './app.component.scss',
   templateUrl: './app.component.html',
 })

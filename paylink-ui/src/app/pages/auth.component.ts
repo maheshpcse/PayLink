@@ -6,9 +6,9 @@ import { take } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { PayLinkApiService } from '../core/paylink-api.service';
 import { PayLinkStoreService } from '../core/paylink-store.service';
-import { IconComponent, LogoComponent, TestModeBadgeComponent } from '../shared/ui.components';
+import { IconComponent, LogoComponent } from '../shared/ui.components';
 
-@Component({ selector: 'pl-auth', standalone: true, imports: [NgIf, ReactiveFormsModule, RouterLink, IconComponent, LogoComponent, TestModeBadgeComponent], templateUrl: './auth.component.html' })
+@Component({ selector: 'pl-auth', standalone: true, imports: [NgIf, ReactiveFormsModule, RouterLink, IconComponent, LogoComponent], templateUrl: './auth.component.html' })
 export class AuthComponent {
   private readonly api = inject(PayLinkApiService);
   private readonly store = inject(PayLinkStoreService);

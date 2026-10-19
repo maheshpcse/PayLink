@@ -3,9 +3,9 @@ import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { PayLinkStoreService } from '../core/paylink-store.service';
 import { formatMoney } from '../core/models';
-import { IconComponent, PageHeadingComponent, StatusBadgeComponent } from '../shared/ui.components';
+import { IconComponent, StatusBadgeComponent } from '../shared/ui.components';
 
-@Component({ selector: 'pl-overview', standalone: true, imports: [AsyncPipe, NgFor, NgIf, SlicePipe, RouterLink, IconComponent, PageHeadingComponent, StatusBadgeComponent], templateUrl: './overview.component.html' })
+@Component({ selector: 'pl-overview', standalone: true, imports: [AsyncPipe, NgFor, NgIf, SlicePipe, RouterLink, IconComponent, StatusBadgeComponent], templateUrl: './overview.component.html' })
 export class OverviewComponent {
   readonly store = inject(PayLinkStoreService);
   readonly formatMoney = formatMoney;

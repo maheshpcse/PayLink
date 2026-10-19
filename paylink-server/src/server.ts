@@ -24,6 +24,7 @@ import type {
 import {
   checkoutInput,
   loginInput,
+  passwordChangeInput,
   paymentCreationInput,
   paymentActionInput,
   profilePatchInput,
@@ -489,6 +490,13 @@ export class PayLinkApplication {
       return;
     }
     const user = await this.authenticate(request);
+    if (method === 'POST' && segments[0] === 'change-password' && segments.length === 1) {
+      const input = passwordChangeInput(await jsonBody(request, this.config.bodyLimitBytes));
+      if (!(await verifyPassword(input.currentPassword, user.passwordHash))) throw unauthorized('Current password is incorrect');
+      await this.repository.updatePassword(user.id, await hashPassword(input.newPassword));
+      jsonResponse(response, 200, { data: { changed: true }, correlationId });
+      return;
+    }
     if (method === 'POST' && segments[0] === 'logout' && segments.length === 1) {
       const token = this.bearerToken(request);
       if (token) this.repository.deleteSession(token);

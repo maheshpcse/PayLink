@@ -47,6 +47,19 @@ export function loginInput(input: unknown): LoginInput {
   };
 }
 
+export interface PasswordChangeInput {
+  currentPassword: string;
+  newPassword: string;
+}
+
+export function passwordChangeInput(input: unknown): PasswordChangeInput {
+  const body = objectInput(input);
+  return {
+    currentPassword: stringValue(body.currentPassword, 'currentPassword', 1, 128),
+    newPassword: stringValue(body.newPassword, 'newPassword', 8, 128),
+  };
+}
+
 function paymentMethodInput(value: unknown): PaymentMethodMetadata {
   const method = objectInput(value);
   const sensitiveFields = ['number', 'cardNumber', 'pan', 'cvc', 'cvv', 'securityCode'];

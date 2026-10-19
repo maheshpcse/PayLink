@@ -6,7 +6,7 @@ import { routes } from './app.routes';
 import { PAYLINK_CONFIG } from './core/config';
 
 describe('PayLink application shell', () => {
-  it('exposes help/legal links, a skip link and the test-environment label', async () => {
+  it('exposes the sidebar, footer links, and a skip link without a top navbar', async () => {
     await TestBed.configureTestingModule({
       imports: [AppComponent],
       providers: [provideHttpClient(), provideRouter(routes), { provide: PAYLINK_CONFIG, useValue: { apiBaseUrl: '', enableApi: false } }],
@@ -17,7 +17,8 @@ describe('PayLink application shell', () => {
     expect(element.querySelector('a[href="#main-content"]')?.textContent).toContain('Skip');
     expect(element.querySelector('footer a[href="/terms"]')).not.toBeNull();
     expect(element.querySelector('footer a[href="/privacy"]')).not.toBeNull();
-    expect(element.textContent).toContain('test environment');
+    expect(element.querySelector('header.topbar')).toBeNull();
+    expect(element.querySelector('.sidebar-brand')?.textContent).toContain('PayLink');
     expect(element.textContent).toContain('PayLink');
     expect(element.querySelector('.sidebar-note')).toBeNull();
   });
@@ -25,6 +26,10 @@ describe('PayLink application shell', () => {
   it('uses the root route for checkout and keeps the old checkout URL as a redirect', () => {
     expect(routes.find((route) => route.path === '')?.loadComponent).toBeTypeOf('function');
     expect(routes.find((route) => route.path === 'checkout')?.redirectTo).toBe('');
+    expect(routes.find((route) => route.path === 'auth/sign-up')?.loadComponent).toBeTypeOf('function');
+    expect(routes.find((route) => route.path === 'auth/forgot-password')?.loadComponent).toBeTypeOf('function');
+    const account = routes.find((route) => route.path === 'account');
+    expect(account?.children?.find((route) => route.path === 'change-password')?.loadComponent).toBeTypeOf('function');
   });
 
   it('removes the app navigation and footer on the auth route', async () => {

@@ -1,8 +1,7 @@
 <div class="page-stack account-page">
-  <pl-page-heading eyebrow="Activity" title="Payment activity." [source]="(store.source$ | async) ?? 'demo'" [serverConfigured]="(store.configured$ | async) ?? false" [warning]="(store.warning$ | async) ?? ''" />
   <section class="panel data-panel">
-    <div class="panel-heading"><h2>{{ (filtered$ | async)?.length ?? 0 }} payments</h2><span class="secure-note">10 per page · test-mode records</span></div>
-    <div class="activity-filters"><label>Search payments<input type="search" [formControl]="search" placeholder="Merchant, description or reference" /></label><label>Payment status<select [formControl]="status"><option value="all">All statuses</option><option value="success">Completed</option><option value="pending">Pending</option><option value="failed">Declined</option><option value="refunded">Refunded</option></select></label></div>
+    <div class="panel-heading"><h2>{{ (filtered$ | async)?.length ?? 0 }} payments</h2><span class="secure-note">10 per page</span></div>
+    <div class="activity-filters"><label>Search payments<input type="search" [formControl]="search" placeholder="Merchant, description or reference" /></label><label>Payment status<pl-select [control]="status" [options]="statusOptions" /></label></div>
     <div class="activity-table-wrap">
       <table class="activity-table">
         <thead><tr><th scope="col">Merchant</th><th scope="col">Amount</th><th scope="col">Status</th><th scope="col">Date</th><th scope="col">Reference</th></tr></thead>
@@ -26,5 +25,4 @@
       }
     }
   </section>
-  <div class="info-callout"><pl-icon name="shield" [size]="17" /><p><strong>Receipts are yours.</strong> This server does not currently provide downloadable receipts. Your reference and payment state come from the payment server when connected.</p></div>
 </div>

@@ -6,11 +6,12 @@ import { BehaviorSubject, combineLatest, debounceTime, distinctUntilChanged, map
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { PayLinkStoreService } from '../core/paylink-store.service';
 import { formatMoney } from '../core/models';
-import { IconComponent, PageHeadingComponent, StatusBadgeComponent } from '../shared/ui.components';
+import { StatusBadgeComponent } from '../shared/ui.components';
+import { SelectComponent, SelectOption } from '../shared/select.component';
 
 @Component({
   selector: 'pl-activity', standalone: true,
-  imports: [AsyncPipe, NgFor, ReactiveFormsModule, RouterLink, IconComponent, PageHeadingComponent, StatusBadgeComponent],
+  imports: [AsyncPipe, NgFor, ReactiveFormsModule, RouterLink, StatusBadgeComponent, SelectComponent],
   templateUrl: './activity.component.html',
 })
 export class ActivityComponent {
@@ -18,6 +19,13 @@ export class ActivityComponent {
   readonly formatMoney = formatMoney;
   readonly search = new FormControl('', { nonNullable: true });
   readonly status = new FormControl('all', { nonNullable: true });
+  readonly statusOptions: SelectOption[] = [
+    { value: 'all', label: 'All statuses' },
+    { value: 'success', label: 'Completed' },
+    { value: 'pending', label: 'Pending' },
+    { value: 'failed', label: 'Declined' },
+    { value: 'refunded', label: 'Refunded' },
+  ];
   readonly pageSize = 10;
   readonly page$ = new BehaviorSubject(1);
   readonly filtered$ = combineLatest([

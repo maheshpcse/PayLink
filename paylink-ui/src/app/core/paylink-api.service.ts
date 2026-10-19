@@ -184,6 +184,22 @@ export class PayLinkApiService {
     );
   }
 
+  register(name: string, email: string, password: string): Observable<ApiResult<AuthSession>> {
+    if (!this.isConfigured) {
+      const session = this.demoSessionResult();
+      session.user = { ...session.user, id: `demo_customer_${email.toLowerCase()}`, email: email.toLowerCase(), name };
+      this.localDemo = true;
+      this.profile = { ...this.profile, name, email: email.toLowerCase(), initials: initialsForName(name) };
+      this.auth.setSession(session);
+      return of(this.result(session, 'demo', true));
+    }
+    return this.request<AuthSession>('/auth/register', { method: 'POST', body: { name, email, password } }, false).pipe(
+      tap((session) => { this.localDemo = false; this.fallbackWarning = ''; this.auth.setSession(session); }),
+      map((session) => this.result(session, 'server', true)),
+      catchError((error: Error) => of(this.result(this.demoSessionResult(), 'server', false, error.message))),
+    );
+  }
+
   loginDemoCustomer(): Observable<ApiResult<AuthSession>> {
     if (!this.isConfigured) return this.login();
     return this.request<AuthSession>('/auth/demo', { method: 'POST' }, false).pipe(
@@ -209,6 +225,13 @@ export class PayLinkApiService {
         this.auth.clear();
         return of(this.result(true, 'demo', false, error.message));
       }),
+    );
+  }
+
+  changePassword(currentPassword: string, newPassword: string): Observable<ApiResult<boolean>> {
+    if (!this.isConfigured || this.localDemo) return of(this.result(true, 'demo', true));
+    return this.authenticatedRequest<{ changed: boolean }>('/auth/change-password', { method: 'POST', body: { currentPassword, newPassword } }).pipe(
+      map((result) => this.result(result.changed, 'server', true)),
     );
   }
 
@@ -273,10 +296,10 @@ export class PayLinkApiService {
 
   createPayment(checkoutId: string, methodId: string, outcome: TestOutcome, key: string): Observable<ApiResult<PaymentResult>> {
     const fallback: PaymentResult = outcome === 'success'
-      ? { status: 'success', reference: 'PL-DEMO-2048', processedAt: nowLabel(), message: 'The test payment completed successfully. No money moved.' }
+      ? { status: 'success', reference: 'PL-DEMO-2048', processedAt: nowLabel(), message: 'The payment completed successfully. No money moved.' }
       : outcome === 'pending'
-        ? { status: 'pending', reference: 'PL-DEMO-2049', processedAt: nowLabel(), message: 'The test payment is waiting for a bank response. No money moved.' }
-        : { status: 'failed', reference: 'PL-DEMO-2050', processedAt: nowLabel(), message: 'The test payment was declined. No money moved.' };
+        ? { status: 'pending', reference: 'PL-DEMO-2049', processedAt: nowLabel(), message: 'The payment is waiting for a bank response. No money moved.' }
+        : { status: 'failed', reference: 'PL-DEMO-2050', processedAt: nowLabel(), message: 'The payment was declined. No money moved.' };
     if (!this.isConfigured || this.localDemo) {
       const paymentId = `local-${key}`;
       this.activity = [{ id: paymentId, merchantName: demoSession.merchantName, description: demoSession.description, amountCents: demoSession.amountCents, currency: demoSession.currency, status: fallback.status, createdAt: nowLabel(), reference: fallback.reference, paymentMethod: this.methods.find((method) => method.id === methodId)?.paymentMethod }, ...this.activity.filter((payment) => payment.id !== paymentId)];
@@ -297,7 +320,7 @@ export class PayLinkApiService {
     const status = mapPaymentStatus(payment.status);
     return {
       paymentId: payment.id, status, reference: payment.providerReference || payment.id, processedAt: payment.updatedAt,
-      message: status === 'success' ? 'The server confirmed this test payment. No money moved.' : status === 'pending' ? 'The server still reports processing. This is not a successful payment. No money moved.' : status === 'refunded' ? 'The server reports this test payment was refunded. No money moved.' : 'The server declined this test payment. No money moved.',
+      message: status === 'success' ? 'The server confirmed this payment. No money moved.' : status === 'pending' ? 'The server still reports processing. This is not a successful payment. No money moved.' : status === 'refunded' ? 'The server reports this payment was refunded. No money moved.' : 'The server declined this payment. No money moved.',
     };
   }
 

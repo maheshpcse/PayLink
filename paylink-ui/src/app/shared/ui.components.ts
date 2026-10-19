@@ -1,4 +1,3 @@
-import { NgIf } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { PaymentStatus } from '../core/models';
 
@@ -20,21 +19,10 @@ export class IconComponent {
 @Component({ selector: 'pl-logo', standalone: true, template: '<span class="logo-mark" aria-hidden="true"><span class="logo-mark-letter">P</span><span class="logo-mark-link"></span><span class="logo-mark-arrow"></span></span>' })
 export class LogoComponent {}
 
-@Component({ selector: 'pl-test-badge', standalone: true, template: '<span class="test-mode-badge" [class.test-mode-badge--compact]="compact"><span class="test-dot"></span>{{ compact ? "TEST" : "TEST MODE · NO REAL CHARGES" }}</span>' })
-export class TestModeBadgeComponent { @Input() compact = false; }
-
 @Component({ selector: 'pl-status-badge', standalone: true, template: '<span class="status-badge" [class.status-badge--success]="status === \'success\'" [class.status-badge--pending]="status === \'pending\'" [class.status-badge--failed]="status === \'failed\'" [class.status-badge--refunded]="status === \'refunded\'">{{ label }}</span>' })
 export class StatusBadgeComponent {
   @Input({ required: true }) status!: PaymentStatus;
   get label(): string { return { success: 'Completed', pending: 'Pending', failed: 'Declined', refunded: 'Refunded' }[this.status]; }
-}
-
-@Component({ selector: 'pl-data-source', standalone: true, template: '<span class="data-source-pill" [class.data-source-pill--server]="source === \'server\'" [class.data-source-pill--warning]="serverConfigured && source === \'demo\'" [title]="warning"><span class="test-dot"></span>{{ label }}</span>' })
-export class DataSourceComponent {
-  @Input() source: 'server' | 'demo' = 'demo';
-  @Input() serverConfigured = false;
-  @Input() warning = '';
-  get label(): string { return this.source === 'server' ? 'PayLink API connected' : this.serverConfigured ? 'Server issue · local demo' : 'Local demo data'; }
 }
 
 @Component({ selector: 'pl-empty-state', standalone: true, imports: [IconComponent], template: '<div class="empty-state"><span class="empty-state-icon"><pl-icon [name]="icon" [size]="20" /></span><h3>{{ title }}</h3><p>{{ body }}</p><ng-content /></div>' })
@@ -42,14 +30,4 @@ export class EmptyStateComponent {
   @Input({ required: true }) icon!: IconName;
   @Input({ required: true }) title!: string;
   @Input({ required: true }) body!: string;
-}
-
-@Component({ selector: 'pl-page-heading', standalone: true, imports: [NgIf, DataSourceComponent], template: '<div class="page-heading"><div><p class="eyebrow">{{ eyebrow }}</p><h1>{{ title }}</h1><p class="page-heading-body" *ngIf="body">{{ body }}</p></div><pl-data-source *ngIf="source" [source]="source" [serverConfigured]="serverConfigured" [warning]="warning" /></div>' })
-export class PageHeadingComponent {
-  @Input({ required: true }) eyebrow!: string;
-  @Input({ required: true }) title!: string;
-  @Input() body = '';
-  @Input() source?: 'server' | 'demo';
-  @Input() serverConfigured = false;
-  @Input() warning = '';
 }

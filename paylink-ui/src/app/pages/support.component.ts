@@ -5,9 +5,10 @@ import { take } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
 import { PayLinkStoreService } from '../core/paylink-store.service';
-import { IconComponent, PageHeadingComponent, EmptyStateComponent } from '../shared/ui.components';
+import { IconComponent, EmptyStateComponent } from '../shared/ui.components';
+import { SelectComponent, SelectOption } from '../shared/select.component';
 
-@Component({ selector: 'pl-support', standalone: true, imports: [AsyncPipe, ReactiveFormsModule, RouterLink, IconComponent, PageHeadingComponent, EmptyStateComponent], templateUrl: './support.component.html' })
+@Component({ selector: 'pl-support', standalone: true, imports: [AsyncPipe, ReactiveFormsModule, RouterLink, IconComponent, EmptyStateComponent, SelectComponent], templateUrl: './support.component.html' })
 export class SupportComponent {
   readonly store = inject(PayLinkStoreService);
   private readonly destroyRef = inject(DestroyRef);
@@ -17,6 +18,12 @@ export class SupportComponent {
     message: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.minLength(10), Validators.maxLength(2_000), Validators.pattern(/\S/)] }),
     reference: new FormControl('', { nonNullable: true, validators: [Validators.maxLength(150)] }),
   });
+  readonly categoryOptions: SelectOption[] = [
+    { value: 'Payment status', label: 'Payment status' },
+    { value: 'Receipts', label: 'Receipts' },
+    { value: 'Account security', label: 'Account security' },
+    { value: 'Something else', label: 'Something else' },
+  ];
   notice = '';
   noticeIsError = false;
   busy = false;

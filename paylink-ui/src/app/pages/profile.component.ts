@@ -5,9 +5,9 @@ import { take } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
 import { PayLinkStoreService } from '../core/paylink-store.service';
-import { IconComponent, PageHeadingComponent } from '../shared/ui.components';
+import { IconComponent } from '../shared/ui.components';
 
-@Component({ selector: 'pl-profile', standalone: true, imports: [AsyncPipe, ReactiveFormsModule, RouterLink, IconComponent, PageHeadingComponent], templateUrl: './profile.component.html' })
+@Component({ selector: 'pl-profile', standalone: true, imports: [AsyncPipe, ReactiveFormsModule, RouterLink, IconComponent], templateUrl: './profile.component.html' })
 export class ProfileComponent {
   readonly store = inject(PayLinkStoreService);
   private readonly destroyRef = inject(DestroyRef);

@@ -3,9 +3,9 @@ import { Component, DestroyRef, inject } from '@angular/core';
 import { take } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { PayLinkStoreService } from '../core/paylink-store.service';
-import { IconComponent, PageHeadingComponent, EmptyStateComponent } from '../shared/ui.components';
+import { IconComponent, EmptyStateComponent } from '../shared/ui.components';
 
-@Component({ selector: 'pl-methods', standalone: true, imports: [AsyncPipe, IconComponent, PageHeadingComponent, EmptyStateComponent], templateUrl: './methods.component.html' })
+@Component({ selector: 'pl-methods', standalone: true, imports: [AsyncPipe, IconComponent, EmptyStateComponent], templateUrl: './methods.component.html' })
 export class MethodsComponent {
   readonly store = inject(PayLinkStoreService);
   private readonly destroyRef = inject(DestroyRef);
@@ -25,7 +25,7 @@ export class MethodsComponent {
       this.noticeIsError = !result.ok;
       if (result.ok) {
         this.store.methods$.pipe(take(1)).subscribe((methods) => this.store.setMethods(methods.filter((method) => method.id !== id)));
-        this.notice = result.source === 'server' ? 'Test method removed from the server account.' : 'Method removed from this local demo session.';
+         this.notice = result.source === 'server' ? 'Payment method removed from the account.' : 'Payment method removed from this demo session.';
       } else this.notice = result.warning ?? 'The payment method could not be removed.';
     });
   }

@@ -1,15 +1,5 @@
 <div class="app-shell" [class.auth-shell]="authPage$ | async">
   <a class="skip-link" href="#main-content" *ngIf="!(authPage$ | async)">Skip to content</a>
-  <header class="topbar" *ngIf="!(authPage$ | async)">
-    <div class="topbar-inner">
-      <a class="brand" routerLink="/" aria-label="PayLink home"><pl-logo /><span class="brand-word">PayLink</span></a>
-      <div class="topbar-context"><span class="context-rule"></span><span>the payment companion</span></div>
-      <div class="topbar-actions">
-        <pl-test-badge [compact]="true" />
-        <a class="header-help" routerLink="/help"><pl-icon name="help" [size]="16" /><span>Help</span></a>
-      </div>
-    </div>
-  </header>
 
   <div class="app-frame" [class.focused-frame]="focused$ | async" [class.auth-frame]="authPage$ | async">
     <aside class="sidebar" aria-label="Account navigation" *ngIf="!(authPage$ | async)">
@@ -17,24 +7,23 @@
         <a class="sidebar-brand" routerLink="/" aria-label="PayLink home"><pl-logo /><span>PayLink</span></a>
         <a class="checkout-link" routerLink="/" routerLinkActive="is-active" [routerLinkActiveOptions]="{ exact: true }">
           <span class="checkout-link-icon"><pl-icon name="arrow" [size]="16" /></span>
-          <span><strong>Pay now</strong><small>Public checkout</small></span>
+          <span>Pay now</span>
         </a>
       </div>
       <div class="sidebar-section sidebar-section--account">
-        <p class="sidebar-label">Your account</p>
         <nav class="side-nav">
           <a class="side-nav-item" routerLink="/account/overview" routerLinkActive="is-active"><pl-icon name="home" [size]="17" /><span>Overview</span></a>
           <a class="side-nav-item" routerLink="/account/activity" routerLinkActive="is-active"><pl-icon name="activity" [size]="17" /><span>Payment activity</span></a>
           <a class="side-nav-item" routerLink="/account/methods" routerLinkActive="is-active"><pl-icon name="wallet" [size]="17" /><span>Saved methods</span></a>
           <a class="side-nav-item" routerLink="/account/notifications" routerLinkActive="is-active"><pl-icon name="bell" [size]="17" /><span>Notifications</span><span class="unread-count" *ngIf="unreadCount$ | async as unread" [hidden]="unread === 0">{{ unread }}</span></a>
-          <a class="side-nav-item" routerLink="/account/profile" routerLinkActive="is-active"><pl-icon name="user" [size]="17" /><span>Profile &amp; security</span></a>
+           <a class="side-nav-item" routerLink="/account/profile" routerLinkActive="is-active"><pl-icon name="user" [size]="17" /><span>Profile &amp; security</span></a>
+           <a class="side-nav-item" routerLink="/account/change-password" routerLinkActive="is-active"><pl-icon name="lock" [size]="17" /><span>Change password</span></a>
            <a class="side-nav-item" routerLink="/account/preferences" routerLinkActive="is-active"><pl-icon name="check" [size]="17" /><span>Preferences</span></a>
            <a class="side-nav-item" routerLink="/account/support" routerLinkActive="is-active"><pl-icon name="support" [size]="17" /><span>Support</span></a>
            <button class="side-nav-item signout-nav" type="button" (click)="signOut()" [disabled]="signingOut"><pl-icon name="logout" [size]="17" /><span>{{ signingOut ? 'Signing out…' : 'Sign out' }}</span></button>
          </nav>
        </div>
-      <p class="sidebar-version">PayLink preview · v1.0</p>
-    </aside>
+     </aside>
 
     <main class="main-content" id="main-content" tabindex="-1">
       <ng-container *ngIf="!(authPage$ | async)"><div class="connection-notice" role="status" *ngIf="store.warning$ | async as warning"><pl-icon name="x" [size]="15" /><span>{{ (store.configured$ | async) ? 'Connected server issue: ' : '' }}{{ warning }}</span></div></ng-container>
@@ -44,10 +33,8 @@
 
   <footer class="site-footer" *ngIf="!(authPage$ | async)">
     <div class="footer-inner">
-      <a class="footer-brand" routerLink="/"><pl-logo /><span>PayLink</span></a>
-      <p>Payment companion for clear, calm checkouts.</p>
+      <p>PayLink · payment companion</p>
       <nav aria-label="Footer navigation"><a routerLink="/help">Help</a><a routerLink="/terms">Terms</a><a routerLink="/privacy">Privacy</a></nav>
-      <span class="footer-test"><span class="test-dot"></span> test environment</span>
     </div>
   </footer>
 </div>
