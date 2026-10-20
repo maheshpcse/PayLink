@@ -6,7 +6,7 @@ import { RouterLink } from '@angular/router';
   standalone: true,
   imports: [RouterLink],
   template: `
-    <div class="page-stack info-page">
+    <div class="page-stack info-page info-page--wide">
       <div class="info-intro"><p class="eyebrow">PayLink · FAQ</p><h1>Frequently asked questions.</h1><p>Quick answers about checkout, account access, and payment records.</p></div>
       <div class="faq-list">
         <details class="panel faq-item" open><summary>Can I use my real card?</summary><p>No. This workspace uses masked payment methods and simulated outcomes. No real money moves.</p></details>

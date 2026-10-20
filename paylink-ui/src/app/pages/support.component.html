@@ -1,7 +1,7 @@
 <div class="page-stack account-page">
   <div class="support-grid">
     <section class="panel ticket-list-panel">
-      <div class="panel-heading"><h2>Your tickets</h2><div class="panel-heading-actions"><a class="text-button" routerLink="/account/support">View data</a><span class="ticket-count">{{ (store.tickets$ | async)?.length ?? 0 }} total</span></div></div>
+      <div class="panel-heading"><h2>Your tickets</h2><span class="ticket-count">{{ (store.tickets$ | async)?.length ?? 0 }} total</span></div>
       <div class="ticket-list">
         @for (ticket of (store.tickets$ | async); track ticket.id) {
           <article class="ticket-row"><span class="ticket-icon ticket-icon--open"><pl-icon name="mail" /></span><span><strong>{{ ticket.subject }}</strong><small>{{ ticket.category }} · {{ ticket.updatedAt }}</small><code>{{ ticket.id }}</code></span><span class="ticket-status">{{ ticket.status }}</span></article>

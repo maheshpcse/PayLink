@@ -11,3 +11,9 @@ export const accountGuard: CanActivateFn = (_, state) => {
   store.initialize();
   return store.loading$.pipe(filter((loading) => !loading), take(1), map(() => auth.isAuthenticated ? true : router.createUrlTree(['/auth'], { queryParams: { returnUrl: state.url } })));
 };
+
+export const guestGuard: CanActivateFn = () => {
+  const auth = inject(AuthService);
+  const router = inject(Router);
+  return auth.isAuthenticated ? router.createUrlTree(['/account/overview']) : true;
+};

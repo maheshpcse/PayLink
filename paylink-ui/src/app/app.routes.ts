@@ -1,13 +1,13 @@
 import { Routes } from '@angular/router';
-import { accountGuard } from './core/auth.guard';
+import { accountGuard, guestGuard } from './core/auth.guard';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', loadComponent: () => import('./pages/landing.component').then((page) => page.LandingComponent) },
   { path: 'checkout', loadComponent: () => import('./pages/checkout.component').then((page) => page.CheckoutComponent) },
-  { path: 'auth/sign-up', loadComponent: () => import('./pages/sign-up.component').then((page) => page.SignUpComponent) },
-  { path: 'auth/forgot-password', loadComponent: () => import('./pages/forgot-password.component').then((page) => page.ForgotPasswordComponent) },
-  { path: 'auth/email-otp', data: { channel: 'email' }, loadComponent: () => import('./pages/otp-login.component').then((page) => page.OtpLoginComponent) },
-  { path: 'auth/phone-otp', data: { channel: 'phone' }, loadComponent: () => import('./pages/otp-login.component').then((page) => page.OtpLoginComponent) },
+  { path: 'auth/sign-up', canActivate: [guestGuard], loadComponent: () => import('./pages/sign-up.component').then((page) => page.SignUpComponent) },
+  { path: 'auth/forgot-password', canActivate: [guestGuard], loadComponent: () => import('./pages/forgot-password.component').then((page) => page.ForgotPasswordComponent) },
+  { path: 'auth/email-otp', canActivate: [guestGuard], data: { channel: 'email' }, loadComponent: () => import('./pages/otp-login.component').then((page) => page.OtpLoginComponent) },
+  { path: 'auth/phone-otp', canActivate: [guestGuard], data: { channel: 'phone' }, loadComponent: () => import('./pages/otp-login.component').then((page) => page.OtpLoginComponent) },
   { path: 'auth', pathMatch: 'full', loadComponent: () => import('./pages/auth.component').then((page) => page.AuthComponent) },
   {
     path: 'account',

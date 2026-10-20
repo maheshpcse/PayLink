@@ -66,6 +66,7 @@ button, input, select, textarea { outline: none; }
 button, a, input, select, textarea { transition: border-color 160ms ease, background-color 160ms ease, color 160ms ease, box-shadow 160ms ease; }
 button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { border-color: var(--focus); outline: 2px solid var(--focus-ring); outline-offset: 2px; }
 a { color: inherit; text-decoration: none; }
+a, a:hover, a:focus, a:focus-visible { text-decoration: none !important; }
 h1, h2, h3, p { margin-top: 0; }
 h1, h2, h3, strong, button { letter-spacing: -.02em; }
 h1, h2, h3 { font-weight: 600; }
@@ -107,8 +108,10 @@ pl-icon { display: inline-flex; flex: 0 0 auto; align-items: center; justify-con
 .sidebar-section + .sidebar-section { margin-top: 36px; }
 .sidebar-brand { gap: 9px; margin: 0 12px 24px; font-size: 1rem; }
 .sidebar-brand-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.sidebar-brand-row { position: relative; }
 .sidebar-toggle { width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; padding: 0; border: 1px solid transparent; border-radius: 8px; background: transparent; color: var(--muted-dark); }
 .sidebar-toggle:hover { border-color: var(--bmw-blue-bright); background: var(--bmw-blue-soft); color: var(--bmw-blue-900); }
+.sidebar-toggle.is-collapsed { transform: rotate(180deg); }
 .sidebar-brand .logo-mark { width: 27px; height: 27px; border-radius: 8px; }
 .sidebar-brand .logo-mark-letter { font-size: .92rem; }
 .sidebar-brand .logo-mark-link { right: 3px; top: 4px; width: 8px; height: 8px; }
@@ -147,6 +150,7 @@ pl-icon { display: inline-flex; flex: 0 0 auto; align-items: center; justify-con
 .page-stack { display: grid; gap: 29px; }
 .page-heading { display: flex; align-items: end; justify-content: space-between; gap: 35px; margin-bottom: 6px; }
 .public-brand { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 24px; }
+.focused-frame .public-brand { position: sticky; top: 0; z-index: 8; margin-top: -24px; padding: 12px 0 13px; border-bottom: 1px solid var(--line-strong); background: color-mix(in srgb, var(--paper) 94%, transparent); box-shadow: 0 8px 20px rgba(7, 29, 52, .08); backdrop-filter: blur(12px); }
 .public-signin { color: var(--bmw-blue); font-weight: 600; }
 .public-signin:hover { color: var(--bmw-blue-900); }
 .eyebrow { margin-bottom: 11px; color: var(--green-bright); font-size: .74rem; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
@@ -297,8 +301,6 @@ dialog::backdrop { background: rgba(18, 59, 45, .45); }
 .metric-label { color: var(--muted-dark); font-size: .875rem; }
 .metric-card > strong { margin-top: 3px; font-size: 1.45rem; letter-spacing: -.055em; }
 .metric-card > small { margin-top: 5px; color: var(--muted); font-size: .8125rem; }
-.data-view-link { margin-top: auto; padding-top: 14px; color: var(--bmw-blue); font-size: .8rem; font-weight: 600; }
-.data-view-link:hover { color: var(--bmw-blue-900); }
 .overview-columns, .profile-grid, .support-grid { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(245px, .7fr); gap: 14px; }
 .activity-preview, .next-step-card { min-height: 287px; padding: 23px; }
 .activity-preview .panel-heading { margin-bottom: 18px; }
@@ -325,6 +327,8 @@ dialog::backdrop { background: rgba(18, 59, 45, .45); }
 .table-merchant span:last-child { min-width: 0; display: grid; gap: 3px; }
 .table-merchant strong, .table-merchant small { display: block; }
 .table-merchant strong { overflow-wrap: anywhere; }
+.table-value-link { display: block; padding: 0; border: 0; background: transparent; color: var(--ink); font: inherit; font-weight: 600; text-align: left; }
+.table-value-link:hover, .table-value-link:focus-visible { color: var(--bmw-blue); }
 .table-merchant small { color: var(--muted); }
 .amount-cell { font-variant-numeric: tabular-nums; white-space: nowrap; }
 .status-badge { padding: 5px 9px; background: var(--green-soft); color: var(--green); }
@@ -360,7 +364,7 @@ dialog::backdrop { background: rgba(18, 59, 45, .45); }
 .profile-card-heading p:last-child { margin: 0; color: var(--muted); font-size: .875rem; }
 .profile-card form { padding-top: 22px; }
 .avatar { display: inline-grid; place-items: center; border-radius: 50%; background: var(--mint-deep); color: var(--green); font-weight: 800; }
-.avatar--large { width: 64px; height: 64px; font-size: 1.25rem; }
+.avatar--large { width: 96px; height: 96px; font-size: 1.5rem; }
 .security-card { border-color: #cfe5d4; background: var(--green-pale); }
 .section-icon { width: 35px; height: 35px; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 23px; border-radius: 9px; background: var(--green-soft); color: var(--green); }
 .security-card .eyebrow { color: var(--green); }
@@ -384,6 +388,11 @@ dialog::backdrop { background: rgba(18, 59, 45, .45); }
 .auth-divider::before, .auth-divider::after { content: ''; height: 1px; flex: 1; background: var(--line); }
 .auth-footnote { display: flex; align-items: center; justify-content: center; gap: 7px; margin: 22px 0 0; color: var(--muted); font-size: .8125rem; text-align: center; }
 .info-page { max-width: 850px; }
+.info-page--wide { max-width: none; width: 100%; }
+.help-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(340px, .72fr); align-items: start; gap: 20px; }
+.help-layout .info-sections { grid-column: 2; grid-row: 1; }
+.help-layout .contact-panel { grid-column: 1; grid-row: 1; }
+.help-layout .contact-panel { position: sticky; top: 24px; }
 .back-link { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; color: var(--green); font-weight: 750; }
 .back-link:hover { color: var(--green-bright); }
 .info-intro > p:last-child { max-width: 620px; margin-top: 18px; color: var(--muted-dark); font-size: 1rem; }
@@ -432,7 +441,7 @@ dialog::backdrop { background: rgba(18, 59, 45, .45); }
 .sidebar-collapsed .sidebar-brand-row { justify-content: center; }
 .sidebar-collapsed .sidebar-brand > span, .sidebar-collapsed .checkout-copy, .sidebar-collapsed .nav-label { display: none; }
 .sidebar-collapsed .sidebar-brand { margin-inline: 0; }
-.sidebar-collapsed .sidebar-toggle { position: absolute; top: 0; right: -4px; }
+.sidebar-collapsed .sidebar-toggle { position: absolute; top: 0; right: -4px; z-index: 3; border-color: var(--bmw-blue-bright); background: var(--white); color: var(--bmw-blue-900); box-shadow: 0 4px 12px rgba(7, 29, 52, .12); }
 .sidebar-collapsed .checkout-link { justify-content: center; padding-inline: 0; }
 .sidebar-collapsed .side-nav-item { justify-content: center; padding-inline: 0; }
 .sidebar-collapsed .unread-count { position: absolute; top: 3px; right: 3px; min-width: 16px; height: 16px; font-size: .58rem; }
@@ -457,6 +466,9 @@ dialog::backdrop { background: rgba(18, 59, 45, .45); }
   .checkout-topline h1 { white-space: normal; }
   .landing-features { grid-template-columns: 1fr; }
   .landing-hero h1, .landing-copy { white-space: normal; }
+  .help-layout { grid-template-columns: 1fr; }
+  .help-layout .info-sections, .help-layout .contact-panel { grid-column: auto; grid-row: auto; }
+  .help-layout .contact-panel { position: static; }
   .app-shell:has(.landing-page) { height: auto; min-height: 100vh; overflow: visible; }
   .checkout-summary { position: static; }
   .checkout-topline { margin-bottom: 27px; }
@@ -540,6 +552,7 @@ select { cursor: pointer; }
 html { scrollbar-color: var(--bmw-blue-bright) var(--bmw-blue-pale); }
 *::-webkit-scrollbar-track { background: var(--bmw-blue-pale); }
 *::-webkit-scrollbar-thumb { border-color: var(--bmw-blue-pale); background: linear-gradient(180deg, var(--bmw-blue-bright), var(--green-bright)); }
+html { overflow-y: scroll; }
 select option:checked { background: var(--bmw-blue); color: var(--white); }
 input[type='search']::-webkit-search-cancel-button { cursor: pointer; }
 input[type='search']::-webkit-search-decoration { cursor: pointer; }
@@ -595,15 +608,27 @@ input[type="checkbox"], input[type="radio"] { accent-color: var(--bmw-blue); }
 .auth-links { margin-top: 18px; }
 .auth-links a, .auth-switch a { color: var(--bmw-blue); font-weight: 600; }
 .auth-links a:hover, .auth-switch a:hover { color: var(--bmw-blue-900); }
-.auth-otp-links { display: flex; justify-content: center; gap: 18px; margin-top: 14px; }
-.auth-otp-links a { color: var(--bmw-blue); font-size: .875rem; font-weight: 600; }
-.auth-otp-links a:hover { color: var(--bmw-blue-900); text-decoration: underline; text-underline-offset: 3px; }
+.auth-tabs { display: flex; gap: 8px; margin-bottom: 18px; border-bottom: 1px solid var(--line); }
+.auth-tab { min-width: 100px; padding: 10px 12px; border-bottom: 2px solid transparent; color: var(--muted-dark); text-align: center; font-size: .875rem; font-weight: 600; }
+.auth-tab.is-active { border-bottom-color: var(--bmw-blue); color: var(--bmw-blue-900); }
 .auth-switch { justify-content: center; margin: 20px 0 0; }
 .auth-result { display: grid; justify-items: center; gap: 10px; padding: 18px 0; color: var(--muted-dark); text-align: center; }
 .auth-result pl-icon { color: var(--bmw-blue); }
 .auth-result p, .auth-result small { margin: 0; }
 .password-panel { max-width: 560px; }
 .security-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.avatar--large { position: relative; margin-bottom: 36px; border-radius: 10px; }
+.avatar--large img { width: 100%; height: 100%; border-radius: 8px; object-fit: cover; }
+.avatar-actions { position: absolute; right: auto; left: 0; bottom: -32px; display: flex; gap: 5px; }
+.avatar-action { min-height: 28px; padding: 0 7px; border: 1px solid var(--bmw-blue-bright); border-radius: 6px; background: var(--white); color: var(--bmw-blue-900); font-size: .68rem; }
+.avatar-action--remove { border-color: var(--danger); color: var(--danger); }
+.security-card { align-self: start; min-height: 0; padding-bottom: 22px; }
+.security-card .section-icon { margin-bottom: 12px; }
+.security-card h2 { margin-bottom: 16px; }
+.preferences-panel { max-width: 760px; }
+.preferences-info { margin: 0; }
+dialog:has(form) { width: min(680px, calc(100% - 32px)); max-height: min(760px, calc(100vh - 32px)); overflow-y: auto; }
+.data-detail-dialog { width: min(760px, calc(100% - 32px)); max-height: min(760px, calc(100vh - 32px)); overflow-y: auto; }
 
 /* Keep emphasis readable without making every label, title, and detail heavy. */
 .brand, .sidebar-brand, .footer-brand { font-weight: 650; }

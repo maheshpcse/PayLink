@@ -1,6 +1,6 @@
 <div class="page-stack account-page">
   <section class="panel data-panel methods-panel">
-    <div class="panel-heading"><h2>{{ (store.methods$ | async)?.length ?? 0 }} saved methods</h2><div class="panel-heading-actions"><a class="text-button" routerLink="/account/methods">View data</a><button class="outline-button" type="button" (click)="addMethod(addDialog)">Add method</button></div></div>
+    <div class="panel-heading"><h2>{{ (store.methods$ | async)?.length ?? 0 }} saved methods</h2><div class="panel-heading-actions"><button class="outline-button" type="button" (click)="addMethod(addDialog)">Add method</button></div></div>
     <div class="saved-method-list">
       @for (method of (store.methods$ | async); track method.id) {
         <div class="saved-method-row">

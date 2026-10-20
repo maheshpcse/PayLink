@@ -1,12 +1,12 @@
 import { NgFor } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { IconComponent } from '../shared/ui.components';
 
 interface LegalContent { eyebrow: string; title: string; intro: string; sections: Array<{ title: string; body: string }>; }
 
-@Component({ selector: 'pl-legal', standalone: true, imports: [NgFor, RouterLink, ReactiveFormsModule, IconComponent], templateUrl: './legal.component.html' })
+@Component({ selector: 'pl-legal', standalone: true, imports: [NgFor, ReactiveFormsModule, IconComponent], templateUrl: './legal.component.html' })
 export class LegalComponent {
   private readonly route = inject(ActivatedRoute);
   readonly page = this.route.snapshot.data['page'] as string;

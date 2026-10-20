@@ -1,13 +1,13 @@
 <div class="page-stack account-page">
   <section class="panel data-panel">
-    <div class="panel-heading"><h2>{{ (filtered$ | async)?.length ?? 0 }} payments</h2><div class="panel-heading-actions"><a class="text-button" routerLink="/account/activity">View data</a><span class="secure-note">10 per page</span></div></div>
+    <div class="panel-heading"><h2>{{ (filtered$ | async)?.length ?? 0 }} payments</h2><span class="secure-note">10 per page</span></div>
     <div class="activity-filters"><label>Search payments<input type="search" [formControl]="search" placeholder="Merchant, description or reference" /></label><label>Payment status<pl-select [control]="status" [options]="statusOptions" /></label></div>
     <div class="activity-table-wrap">
       <table class="activity-table">
         <thead><tr><th scope="col">Merchant</th><th scope="col">Amount</th><th scope="col">Status</th><th scope="col">Date</th><th scope="col">Reference</th></tr></thead>
         <tbody>
           <tr *ngFor="let item of (paged$ | async)">
-            <td><div class="table-merchant"><span class="merchant-mark merchant-mark--small">{{ item.merchantName.slice(0, 1) }}</span><span><strong>{{ item.merchantName }}</strong><small>{{ item.description }}</small></span></div></td>
+            <td><div class="table-merchant"><span class="merchant-mark merchant-mark--small">{{ item.merchantName.slice(0, 1) }}</span><span><button class="table-value-link" type="button" (click)="openDetails(item, detailDialog)">{{ item.merchantName }}</button><small>{{ item.description }}</small></span></div></td>
             <td class="amount-cell">{{ formatMoney(item.amountCents, item.currency) }}</td>
             <td><pl-status-badge [status]="item.status" /></td><td>{{ item.createdAt }}</td><td><a class="text-button" [routerLink]="['/account/activity', item.id]" [attr.aria-label]="'Payment details for ' + item.reference"><code>{{ item.reference }}</code></a></td>
           </tr>
@@ -25,4 +25,10 @@
       }
     }
   </section>
+  <dialog #detailDialog class="data-detail-dialog" aria-labelledby="payment-detail-title">
+    @if (selectedPayment; as payment) {
+      <div class="dialog-heading"><h2 id="payment-detail-title">Payment details</h2><button class="dialog-close" type="button" (click)="detailDialog.close()" aria-label="Close details"><pl-icon name="x" [size]="18" /></button></div>
+      <dl class="detail-list"><dt>Merchant</dt><dd>{{ payment.merchantName }}</dd><dt>Description</dt><dd>{{ payment.description }}</dd><dt>Amount</dt><dd>{{ formatMoney(payment.amountCents, payment.currency) }}</dd><dt>Status</dt><dd><pl-status-badge [status]="payment.status" /></dd><dt>Date</dt><dd>{{ payment.createdAt }}</dd><dt>Reference</dt><dd><code>{{ payment.reference }}</code></dd></dl>
+    }
+  </dialog>
 </div>

@@ -18,6 +18,11 @@ export class ProfileComponent {
   busy = false;
 
   constructor() { this.store.profile$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((profile) => { if (profile && !this.editing) { this.form.patchValue(profile); this.form.markAsPristine(); this.form.markAsUntouched(); } }); }
+  selectAvatar(event: Event): void {
+    const file = (event.target as HTMLInputElement).files?.[0];
+    if (!file) return;
+    this.form.controls.avatarUrl.setValue(URL.createObjectURL(file));
+  }
   toggleEditing(): void { this.notice = ''; this.editing = true; this.form.markAsPristine(); this.form.markAsUntouched(); }
   cancel(): void { this.editing = false; this.notice = ''; this.store.profile$.pipe(take(1)).subscribe((profile) => { if (profile) { this.form.patchValue(profile); this.form.markAsPristine(); this.form.markAsUntouched(); } }); }
   save(): void {

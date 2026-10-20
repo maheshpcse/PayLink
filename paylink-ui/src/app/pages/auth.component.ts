@@ -1,16 +1,18 @@
-import { NgIf } from '@angular/common';
+import { AsyncPipe, NgIf } from '@angular/common';
 import { Component, DestroyRef, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { take } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { PayLinkApiService } from '../core/paylink-api.service';
+import { AuthService } from '../core/auth.service';
 import { PayLinkStoreService } from '../core/paylink-store.service';
 import { IconComponent, LogoComponent } from '../shared/ui.components';
 
-@Component({ selector: 'pl-auth', standalone: true, imports: [NgIf, ReactiveFormsModule, RouterLink, IconComponent, LogoComponent], templateUrl: './auth.component.html' })
+@Component({ selector: 'pl-auth', standalone: true, imports: [AsyncPipe, NgIf, ReactiveFormsModule, RouterLink, RouterLinkActive, IconComponent, LogoComponent], templateUrl: './auth.component.html' })
 export class AuthComponent {
   private readonly api = inject(PayLinkApiService);
+  private readonly auth = inject(AuthService);
   private readonly store = inject(PayLinkStoreService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
@@ -19,6 +21,7 @@ export class AuthComponent {
   busy = false;
   message = '';
   messageIsError = false;
+  readonly authSession$ = this.auth.session$;
 
   submit(): void {
     if (this.form.invalid) { this.form.markAllAsTouched(); return; }

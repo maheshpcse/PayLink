@@ -5,13 +5,13 @@ import { RouterLink } from '@angular/router';
 import { BehaviorSubject, combineLatest, debounceTime, distinctUntilChanged, map, shareReplay, startWith } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { PayLinkStoreService } from '../core/paylink-store.service';
-import { formatMoney } from '../core/models';
-import { StatusBadgeComponent } from '../shared/ui.components';
+import { formatMoney, PaymentActivity } from '../core/models';
+import { IconComponent, StatusBadgeComponent } from '../shared/ui.components';
 import { SelectComponent, SelectOption } from '../shared/select.component';
 
 @Component({
   selector: 'pl-activity', standalone: true,
-  imports: [AsyncPipe, NgFor, ReactiveFormsModule, RouterLink, StatusBadgeComponent, SelectComponent],
+  imports: [AsyncPipe, NgFor, ReactiveFormsModule, RouterLink, IconComponent, StatusBadgeComponent, SelectComponent],
   templateUrl: './activity.component.html',
 })
 export class ActivityComponent {
@@ -28,6 +28,7 @@ export class ActivityComponent {
   ];
   readonly pageSize = 10;
   readonly page$ = new BehaviorSubject(1);
+  selectedPayment: PaymentActivity | null = null;
   readonly filtered$ = combineLatest([
     this.store.activity$,
     this.search.valueChanges.pipe(startWith(''), debounceTime(200), distinctUntilChanged()),
@@ -48,4 +49,5 @@ export class ActivityComponent {
 
   previousPage(): void { this.page$.next(Math.max(1, this.page$.value - 1)); }
   nextPage(): void { this.page$.next(this.page$.value + 1); }
+  openDetails(payment: PaymentActivity, dialog: HTMLDialogElement): void { this.selectedPayment = payment; dialog.showModal(); }
 }

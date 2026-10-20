@@ -5,6 +5,8 @@
     </a>
     <h1 class="sr-only">Sign in</h1>
 
+    @if (!(authSession$ | async)) {
+    <div class="auth-tabs" role="tablist" aria-label="Sign-in method"><a class="auth-tab" routerLink="/auth" routerLinkActive="is-active" [routerLinkActiveOptions]="{ exact: true }" role="tab">Password</a><a class="auth-tab" routerLink="/auth/email-otp" routerLinkActive="is-active" role="tab">OTP</a></div>
     <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
       <label>
         Email, username, or phone
@@ -26,9 +28,11 @@
     </form>
 
     <div class="auth-links"><a routerLink="/auth/forgot-password">Forgot password?</a><a routerLink="/auth/sign-up">Create an account</a></div>
-    <div class="auth-otp-links"><a routerLink="/auth/email-otp">Email OTP</a><a routerLink="/auth/phone-otp">Phone OTP</a></div>
     <div class="auth-divider"><span>or</span></div>
     <button class="outline-button auth-demo-button" type="button" (click)="useDemo()" [disabled]="busy"><pl-icon name="spark" [size]="15" /> Continue with demo</button>
     <p class="inline-notice" [class.inline-notice--error]="messageIsError" role="status" *ngIf="message"><pl-icon [name]="messageIsError ? 'x' : 'check'" [size]="15" /> {{ message }}</p>
+    } @else {
+      <div class="auth-result" role="status"><p>You are already signed in.</p><a class="primary-button" routerLink="/account/overview">Open account</a></div>
+    }
   </div>
 </div>

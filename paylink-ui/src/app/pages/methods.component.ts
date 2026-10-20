@@ -1,13 +1,12 @@
 import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { Component, DestroyRef, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
 import { take } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { PayLinkStoreService } from '../core/paylink-store.service';
 import { IconComponent, EmptyStateComponent } from '../shared/ui.components';
 
-@Component({ selector: 'pl-methods', standalone: true, imports: [AsyncPipe, ReactiveFormsModule, RouterLink, IconComponent, EmptyStateComponent], templateUrl: './methods.component.html' })
+@Component({ selector: 'pl-methods', standalone: true, imports: [AsyncPipe, ReactiveFormsModule, IconComponent, EmptyStateComponent], templateUrl: './methods.component.html' })
 export class MethodsComponent {
   readonly store = inject(PayLinkStoreService);
   private readonly destroyRef = inject(DestroyRef);
