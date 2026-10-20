@@ -204,7 +204,7 @@ dialog::backdrop { background: rgba(18, 59, 45, .45); }
 
 /* Checkout */
 .checkout-topline { display: flex; align-items: end; justify-content: space-between; gap: 35px; margin-bottom: 38px; }
-.checkout-topline h1 { max-width: 670px; }
+.checkout-topline h1 { max-width: none; white-space: nowrap; }
 .hero-lede { max-width: 500px; margin: 19px 0 0; color: var(--muted-dark); font-size: 1rem; }
 .checkout-illustration { position: relative; width: 154px; height: 120px; flex: 0 0 auto; margin-right: 29px; }
 .illustration-ring { position: absolute; border: 1px solid #b9dec4; border-radius: 50%; }
@@ -453,6 +453,7 @@ dialog::backdrop { background: rgba(18, 59, 45, .45); }
   .focused-frame { width: calc(100% - 32px); }
   .main-content { padding: 43px 0 65px; }
   .checkout-grid, .overview-columns, .profile-grid, .support-grid { grid-template-columns: 1fr; }
+  .checkout-topline h1 { white-space: normal; }
   .landing-features { grid-template-columns: 1fr; }
   .landing-hero h1, .landing-copy { white-space: normal; }
   .app-shell:has(.landing-page) { height: auto; min-height: 100vh; overflow: visible; }
@@ -471,6 +472,7 @@ dialog::backdrop { background: rgba(18, 59, 45, .45); }
   .topbar-actions { margin-left: auto; }
   .main-content { padding-top: 34px; }
   h1 { font-size: 2.5rem; }
+  .checkout-topline h1 { white-space: normal; }
   .checkout-panel, .checkout-summary, .data-panel, .profile-card, .security-card, .ticket-list-panel, .new-ticket-panel, .auth-card { padding: 20px 17px; }
   .panel-topline { align-items: flex-start; }
   .outcome-options { grid-template-columns: 1fr; }
