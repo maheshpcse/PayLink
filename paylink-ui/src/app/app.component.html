@@ -5,7 +5,7 @@
   <div class="app-frame" [class.focused-frame]="focused$ | async" [class.auth-frame]="authPage$ | async">
     <aside class="sidebar" aria-label="Account navigation" *ngIf="!(authPage$ | async)">
       <div class="sidebar-section">
-        <div class="sidebar-brand-row"><a class="sidebar-brand" routerLink="/" aria-label="PayLink home"><pl-logo /><span>PayLink</span></a><button class="sidebar-toggle" [class.is-collapsed]="sidebarCollapsed" type="button" (click)="toggleSidebar()" [attr.aria-expanded]="!sidebarCollapsed" [attr.aria-label]="sidebarCollapsed ? 'Expand navigation' : 'Collapse navigation'" [attr.data-tooltip]="sidebarCollapsed ? 'Expand navigation' : 'Collapse navigation'"><pl-icon name="chevron" [size]="15" /></button></div>
+        <div class="sidebar-brand-row"><a class="sidebar-brand" [routerLink]="(authenticated$ | async) ? '/account/overview' : '/'" aria-label="PayLink home"><pl-logo /><span>PayLink</span></a><button class="sidebar-toggle" [class.is-collapsed]="sidebarCollapsed" type="button" (click)="toggleSidebar()" [attr.aria-expanded]="!sidebarCollapsed" [attr.aria-label]="sidebarCollapsed ? 'Expand navigation' : 'Collapse navigation'" [attr.data-tooltip]="sidebarCollapsed ? 'Expand navigation' : 'Collapse navigation'"><pl-icon name="chevron" [size]="15" /></button></div>
         <a class="checkout-link" routerLink="/checkout" routerLinkActive="is-active">
           <span class="checkout-link-icon"><pl-icon name="arrow" [size]="16" /></span>
           <span class="checkout-copy">Pay now</span>
