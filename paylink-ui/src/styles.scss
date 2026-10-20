@@ -113,9 +113,8 @@ pl-icon { display: inline-flex; flex: 0 0 auto; align-items: center; justify-con
 .sidebar { position: static; align-self: start; height: auto; min-height: 0; display: flex; flex-direction: column; overflow: visible; padding: 28px 0 24px; }
 .sidebar-section + .sidebar-section { margin-top: 36px; }
 .sidebar-brand { gap: 9px; margin: 0; font-size: 1rem; }
-.sidebar-brand-row { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 5px; margin: 0 12px 24px; min-height: 32px; }
-.sidebar-brand-row { position: relative; }
-.sidebar-toggle { width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; padding: 0; border: 1px solid transparent; border-radius: 8px; background: transparent; color: var(--muted-dark); }
+.sidebar-brand-row { position: relative; display: flex; align-items: center; justify-content: flex-start; gap: 5px; margin: 0 12px 24px; min-height: 32px; }
+.sidebar-toggle { width: 32px; height: 32px; display: inline-flex; flex: 0 0 32px; align-items: center; justify-content: center; margin-left: auto; padding: 0; border: 1px solid transparent; border-radius: 8px; background: transparent; color: var(--muted-dark); }
 .sidebar-toggle:hover { border-color: var(--bmw-blue-bright); background: var(--bmw-blue-soft); color: var(--bmw-blue-900); }
 .sidebar-toggle.is-collapsed { transform: rotate(180deg); }
 .sidebar-brand .logo-mark { width: 27px; height: 27px; border-radius: 8px; }
@@ -312,10 +311,13 @@ dialog::backdrop { background: rgba(18, 59, 45, .45); }
 .activity-list { display: grid; }
 .activity-list-item { display: flex; align-items: center; gap: 10px; padding: 14px 0; border-top: 1px solid var(--line); }
 .activity-list-copy { min-width: 0; flex: 1; }
+.activity-list-value { display: block; color: var(--ink); }
+.activity-list-value:hover, .activity-list-value:focus-visible { color: var(--bmw-blue); }
 .activity-list-copy strong, .activity-list-copy small { display: block; }
 .activity-list-copy strong { overflow-wrap: anywhere; }
 .activity-list-copy small { color: var(--muted); font-size: .8125rem; }
 .activity-list-amount { display: grid; justify-items: end; gap: 5px; white-space: nowrap; }
+.activity-list-action { flex: 0 0 auto; white-space: nowrap; }
 .next-step-card { background: var(--green-pale); border-color: #cfe5d4; }
 .next-step-icon { width: 39px; height: 39px; margin-bottom: 22px; }
 .next-step-card h2 { max-width: 270px; }

@@ -10,6 +10,7 @@ import { SupportComponent } from './support.component';
 import { ProfileComponent } from './profile.component';
 import { NotificationsComponent } from './notifications.component';
 import { ActivityComponent } from './activity.component';
+import { OverviewComponent } from './overview.component';
 
 describe('Angular customer components', () => {
   beforeEach(async () => {
@@ -104,5 +105,17 @@ describe('Angular customer components', () => {
     fixture.componentInstance.status.setValue('success');
     await new Promise((resolve) => setTimeout(resolve, 250));
     expect(fixture.componentInstance.page$.value).toBe(1);
+  });
+
+  it('links overview activity values and actions to payment details', async () => {
+    const fixture = TestBed.createComponent(OverviewComponent);
+    await fixture.whenStable();
+    fixture.detectChanges();
+    const firstValue = fixture.nativeElement.querySelector('.activity-list-value') as HTMLAnchorElement;
+    const firstAction = fixture.nativeElement.querySelector('.activity-list-action') as HTMLAnchorElement;
+    expect(firstValue?.textContent).toContain('Northstar Learning Co.');
+    expect(firstValue?.getAttribute('href')).toContain('/account/activity/');
+    expect(firstAction?.textContent).toContain('View details');
+    expect(firstAction?.getAttribute('href')).toBe(firstValue?.getAttribute('href'));
   });
 });
