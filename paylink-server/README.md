@@ -6,9 +6,9 @@ The implementation is a dependency-light Node.js + TypeScript + Express.js HTTP 
 
 ## Important demo boundaries
 
-- The default persistence layer is an explicitly labeled **in-memory demo repository**. Restarting the process deletes accounts, sessions, payments, saved methods, tickets, and notifications. It is not suitable for production or multi-process use.
+- The default persistence layer is an explicitly labeled **in-memory demo repository** for offline tests. Set `PAYLINK_PERSISTENCE=mysql` to use the local MySQL schema and seed data created by the database commands below.
 - The default payment adapter is the **`dev-test-provider`**. It never contacts a payment network and must not be described or deployed as live payments. `testOutcome` is a deterministic test-only control.
-- The MySQL reference schema is in `migrations/001_init.sql`; a MySQL repository/connection pool is intentionally not included in this demo.
+- The MySQL schema is in `migrations/001_init.sql` with additive profile migration `003_profile_fields.sql`; `src/database.ts` provides the reproducible migration/seed runner.
 - Demo accounts are enabled in development by default: `admin@example.test` / `Admin123!`, `support@example.test` / `Support123!`, and customer `jamie.lee@example.com` / `Demo123!`. `POST /api/v1/auth/demo` also creates a session for that customer in demo mode. Set `PAYLINK_DEMO_USERS=false` outside local development; the demo login and unversioned UI compatibility routes are then disabled.
 - The server seeds the fixed checkout session `checkout_demo_7H2Q` for Northstar Learning Co. at USD 189.00. Its amount, currency, and description are stored and selected by the server, not accepted from browser payment requests.
 - Checkout accepts only masked payment metadata (`type`, `brand`, `last4`). It rejects raw card numbers, PANs, CVVs, and security codes.
@@ -33,18 +33,17 @@ On a machine without the npm cache populated, omit `--offline` for the first ins
 npm start
 ```
 
-`npm start` builds `src` into `dist` before starting the Express entrypoint, loads a local `.env` file without requiring a global dotenv install, and works from a clean checkout without a pre-existing build directory. The API listens on `http://127.0.0.1:4000` by default. Use `PORT`, `PAYLINK_CORS_ORIGINS`, MySQL settings, notification transport settings, and the other values in `.env.example` to configure it. Development CORS includes Angular's `http://localhost:4173` and `http://127.0.0.1:4173`; development allows 1,000 requests per minute so Angular reloads and bounded payment polling do not produce a false local `Too many requests` fallback. Production defaults to 120 requests per minute, has no default allowed origins, and requires an explicit allowlist. `GET /health` is the liveness endpoint.
+`npm start` builds `src` into `dist` before starting the Express entrypoint, loads a local `.env` file without requiring a global dotenv install, and works from a clean checkout without a pre-existing build directory. The API listens on `http://127.0.0.1:4000` by default. Use `PORT`, `PAYLINK_CORS_ORIGINS`, MySQL settings, notification transport settings, and the other values in `.env.example` to configure it. Development CORS includes Angular's `http://localhost:8200` and `http://127.0.0.1:8200`; development allows 1,000 requests per minute so Angular reloads and bounded payment polling do not produce a false local `Too many requests` fallback. Production defaults to 120 requests per minute, has no default allowed origins, and requires an explicit allowlist. `GET /health` is the liveness endpoint.
 
 ### Local MySQL schema and seed
 
-The running MVP still uses the explicitly labeled in-memory repository. The local MySQL connection values are included in `.env.example` so a database can be provisioned without putting credentials in source control. To create disposable local sample data with MySQL:
+The local database setup is now scriptable. Create the `paylink` database and user once with your MySQL administrator, put those local credentials in `.env`, then run:
 
 ```text
-mysql -h 127.0.0.1 -P 3306 -u paylink -p paylink < migrations/001_init.sql
-mysql -h 127.0.0.1 -P 3306 -u paylink -p paylink < migrations/002_seed_demo.sql
+npm run db:setup
 ```
 
-The seed contains masked payment metadata, checkout data, activity, tickets/messages, and notifications only. Its password hashes are disabled placeholders; do not treat seed records as production accounts. Wiring a durable MySQL repository remains a separate production step.
+The separate commands are `npm run db:migrate`, `npm run db:seed`, and `npm run db:verify`. The runner records applied schema files in `schema_migrations`, applies the profile-field migration, and seeds users, checkout data, masked payment methods, payment activity, support tickets/messages, and notifications idempotently. The current HTTP application still uses its in-memory repository for offline compatibility tests; `PAYLINK_PERSISTENCE=mysql` is reserved for the next runtime repository cutover. Seed password hashes are deliberately disabled placeholders, so create an interactive account through the API rather than logging in with the seeded rows.
 
 ## Test and typecheck
 

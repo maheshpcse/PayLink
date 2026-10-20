@@ -12,7 +12,11 @@
     "start": "npm run build && node dist/express-server.js",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "npm run build && node --test test/*.test.mjs",
-    "check": "npm run typecheck && npm test"
+    "check": "npm run typecheck && npm test",
+    "db:migrate": "npm run build && node dist/db-cli.js migrate",
+    "db:seed": "npm run build && node dist/db-cli.js seed",
+    "db:setup": "npm run build && node dist/db-cli.js setup",
+    "db:verify": "npm run build && node dist/db-cli.js verify"
   },
   "devDependencies": {
     "@types/express": "5.0.6",
@@ -20,6 +24,7 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
-    "express": "5.3.0"
+    "express": "5.3.0",
+    "mysql2": "3.24.6"
   }
 }

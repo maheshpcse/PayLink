@@ -4,11 +4,11 @@
 -- API for an interactive account. No OTPs, raw card data, tokens, or secrets are
 -- seeded here.
 
-INSERT INTO users (id, email, name, phone, two_factor_enabled, password_hash, role)
+INSERT INTO users (id, email, username, name, phone, avatar_url, two_factor_enabled, password_hash, role)
 VALUES
-  ('00000000-0000-4000-8000-000000000001', 'jamie.lee@example.com', 'Jamie Lee', '+1 (555) 014-2084', FALSE, 'seed-disabled', 'customer'),
-  ('00000000-0000-4000-8000-000000000002', 'support@example.test', 'PayLink Support', '', TRUE, 'seed-disabled', 'support'),
-  ('00000000-0000-4000-8000-000000000003', 'admin@example.test', 'PayLink Admin', '', TRUE, 'seed-disabled', 'admin')
+  ('00000000-0000-4000-8000-000000000001', 'jamie.lee@example.com', 'jamielee', 'Jamie Lee', '+1 (555) 014-2084', '', FALSE, 'seed-disabled', 'customer'),
+  ('00000000-0000-4000-8000-000000000002', 'support@example.test', 'paylinksupport', 'PayLink Support', '', '', TRUE, 'seed-disabled', 'support'),
+  ('00000000-0000-4000-8000-000000000003', 'admin@example.test', 'paylinkadmin', 'PayLink Admin', '', '', TRUE, 'seed-disabled', 'admin')
 ON DUPLICATE KEY UPDATE id = VALUES(id);
 
 INSERT INTO checkout_sessions (id, merchant_name, merchant_mark, description, amount_minor, currency, due_label, expires_at)

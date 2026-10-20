@@ -9,6 +9,13 @@ export interface AppConfig {
   bodyLimitBytes: number;
   sessionTtlMs: number;
   paymentProviderName: string;
+  persistence: 'memory' | 'mysql';
+  mysqlHost: string;
+  mysqlPort: number;
+  mysqlDatabase: string;
+  mysqlUser: string;
+  mysqlPassword: string;
+  mysqlSsl: boolean;
 }
 
 export const DEFAULT_WEBHOOK_SECRET = 'dev-only-change-this-webhook-secret';
@@ -27,7 +34,7 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
   const nodeEnv = env.NODE_ENV ?? 'development';
   const defaultOrigins = nodeEnv === 'production'
     ? ''
-    : 'http://localhost:4173,http://127.0.0.1:4173,http://localhost:3000,http://127.0.0.1:3000';
+    : 'http://localhost:8200,http://127.0.0.1:8200,http://localhost:3000,http://127.0.0.1:3000';
   const origins = (env.PAYLINK_CORS_ORIGINS ?? defaultOrigins)
     .split(',')
     .map((origin) => origin.trim())
@@ -39,6 +46,7 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
   }
 
   const defaultRateLimitMax = nodeEnv === 'production' ? 120 : 1_000;
+  const persistence = env.PAYLINK_PERSISTENCE === 'mysql' ? 'mysql' : 'memory';
 
   return {
     nodeEnv,
@@ -51,5 +59,12 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
     bodyLimitBytes: integer(env.PAYLINK_BODY_LIMIT_BYTES, 1_000_000, 1_024),
     sessionTtlMs: 24 * 60 * 60 * 1_000,
     paymentProviderName: 'dev-test-provider',
+    persistence,
+    mysqlHost: env.MYSQL_HOST ?? '127.0.0.1',
+    mysqlPort: integer(env.MYSQL_PORT, 3306, 1),
+    mysqlDatabase: env.MYSQL_DATABASE ?? 'paylink',
+    mysqlUser: env.MYSQL_USER ?? 'paylink',
+    mysqlPassword: env.MYSQL_PASSWORD ?? '',
+    mysqlSsl: boolean(env.MYSQL_SSL, false),
   };
 }
