@@ -395,7 +395,7 @@ dialog::backdrop { background: rgba(18, 59, 45, .45); }
 .help-layout .contact-panel { position: sticky; top: 24px; }
 .back-link { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; color: var(--green); font-weight: 750; }
 .back-link:hover { color: var(--green-bright); }
-.info-intro > p:last-child { max-width: 620px; margin-top: 18px; color: var(--muted-dark); font-size: 1rem; }
+.info-intro > p:last-child { max-width: none; margin-top: 18px; color: var(--muted-dark); font-size: 1rem; white-space: nowrap; }
 .info-sections { display: grid; gap: 13px; }
 .info-section { display: grid; grid-template-columns: 42px 1fr; gap: 18px; padding: 23px; }
 .info-section h2 { margin: 0 0 8px; }
@@ -469,6 +469,7 @@ dialog::backdrop { background: rgba(18, 59, 45, .45); }
   .help-layout { grid-template-columns: 1fr; }
   .help-layout .info-sections, .help-layout .contact-panel { grid-column: auto; grid-row: auto; }
   .help-layout .contact-panel { position: static; }
+  .info-intro > p:last-child { white-space: normal; }
   .app-shell:has(.landing-page) { height: auto; min-height: 100vh; overflow: visible; }
   .checkout-summary { position: static; }
   .checkout-topline { margin-bottom: 27px; }
