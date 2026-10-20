@@ -55,10 +55,18 @@ These commands run Angular/Vitest component and service tests, a development com
 6. Open the account area to review Activity, Saved methods, Notifications, Profile, Preferences, and Support.
 7. Stop the server and reload to verify the local demo warning and fallback remain honest.
 
+## Latest UI updates
+
+- Public navigation now has a full-width PayLink navbar, a public scroll region below the navbar, and a footer that stays in normal document flow.
+- The account sidebar collapse control sits at the far-right edge of the logo row. In the collapsed state, the logo remains visible and the expand icon appears when the logo area is hovered or focused.
+- Activity table rows and overview activity rows link their primary payment value to payment details and include a visible **View details** action.
+- The account area includes the overview, activity/detail, saved methods, notifications, profile/avatar, password, preferences, support, and sign-out flows.
+- The latest UI check completed with 21 passing tests, a passing development/typecheck build, and a passing production build.
+
 ## Main routes
 
-- `/` — fixed-amount checkout with test outcomes and safe retry state.
-- `/checkout` — compatibility redirect to `/`.
+- `/` — public PayLink landing page.
+- `/checkout` — fixed-amount checkout with test outcomes and safe retry state.
 - `/auth` — sign-in and local demo access.
 - `/account/overview` — compact account overview.
 - `/account/activity` and `/account/activity/:id` — filterable activity and payment detail.
@@ -67,7 +75,7 @@ These commands run Angular/Vitest component and service tests, a development com
 - `/account/profile` — profile and two-step security settings.
 - `/account/preferences` — communication preferences.
 - `/account/support` — support ticket form and ticket list.
-- `/help`, `/terms`, `/privacy` — honest editable information routes.
+- `/help`, `/faq`, `/legal` — public help, FAQ, and combined terms/privacy information routes.
 
 ## Deploy to GitHub Pages
 

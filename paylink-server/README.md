@@ -13,6 +13,13 @@ The implementation is a dependency-light Node.js + TypeScript + Express.js HTTP 
 - The server seeds the fixed checkout session `checkout_demo_7H2Q` for Northstar Learning Co. at USD 189.00. Its amount, currency, and description are stored and selected by the server, not accepted from browser payment requests.
 - Checkout accepts only masked payment metadata (`type`, `brand`, `last4`). It rejects raw card numbers, PANs, CVVs, and security codes.
 
+## Latest workspace updates
+
+- The Express entrypoint listens on Railway's injected `PORT` value and exposes `GET /health` for deployment checks.
+- `railway.toml` selects the existing production Dockerfile, health check, and restart policy for Railway deployment.
+- Reproducible local MySQL migration, seed, and verification commands are available, while the HTTP demo remains explicitly in-memory for deterministic offline tests.
+- The backend check currently passes typecheck plus all 8 offline API tests.
+
 ## Requirements and setup
 
 - Node.js **24.19.0** (`.nvmrc`)

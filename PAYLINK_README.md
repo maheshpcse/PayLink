@@ -41,6 +41,15 @@ Then open the Angular URL, normally `http://127.0.0.1:8200`.
 
 With the server running, the UI uses the seeded demo customer and server-owned checkout data. Without a server or API URL, it still runs in clearly labeled local demo mode.
 
+## Latest workspace updates
+
+- The Angular app now runs on port `8200` and has a public landing page, separate checkout route, Help/FAQ/legal pages, sign-up, password reset, OTP, and account flows.
+- The public shell keeps the navbar full width, starts scrolling below the navbar, and keeps the footer in normal page flow.
+- Account navigation has a sidebar toggle at the far-right edge of the logo row. When collapsed, the PayLink logo remains visible and the expand icon appears on hover or keyboard focus.
+- Payment activity and overview records expose linked primary values and visible **View details** actions that route to `/account/activity/:id`.
+- Profile avatar upload/remove, preferences information, payment-detail links, and route scroll restoration are covered by the current UI implementation.
+- GitHub Pages and Railway deployment files are included for the hosted test-mode frontend/backend setup.
+
 ## Test both projects
 
 Backend:
@@ -60,6 +69,8 @@ npm run build
 ```
 
 Browser automation is intentionally not part of this workspace. Playwright and its browser binaries were removed to keep the setup offline and lightweight; use the Angular unit/component tests and the manual smoke flow in `paylink-ui/README.md`.
+
+The latest local verification is 21 frontend tests passed, frontend development/typecheck and production builds passed, and 8 backend tests passed through `npm run check`. The localhost UI/API servers are not left running after checks.
 
 ## Hosted deployment
 
