@@ -1,0 +1,87 @@
+name: Deploy PayLink UI to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: paylink-ui/.nvmrc
+          cache: npm
+          cache-dependency-path: paylink-ui/package-lock.json
+
+      - name: Install frontend dependencies
+        working-directory: paylink-ui
+        run: npm ci
+
+      - name: Configure the public API URL
+        working-directory: paylink-ui
+        env:
+          PAYLINK_API_BASE_URL: ${{ vars.PAYLINK_API_BASE_URL }}
+        run: |
+          node --input-type=module <<'NODE'
+          import { writeFileSync } from 'node:fs';
+
+          const apiBaseUrl = (process.env.PAYLINK_API_BASE_URL ?? '').trim().replace(/\/$/, '');
+          writeFileSync(
+            'public/paylink-config.js',
+            `globalThis.__PAYLINK_CONFIG__ = ${JSON.stringify({ apiBaseUrl, enableApi: Boolean(apiBaseUrl) })};\n`,
+          );
+          NODE
+
+      - name: Test and build frontend
+        working-directory: paylink-ui
+        env:
+          PAGES_BASE_HREF: /${{ github.event.repository.name }}/
+        run: |
+          npm test
+          npm run build -- --base-href "$PAGES_BASE_HREF"
+
+      - name: Prepare GitHub Pages SPA artifact
+        id: artifact
+        working-directory: paylink-ui
+        run: |
+          if [ -d dist/paylink-ui/browser ]; then
+            site_dir=dist/paylink-ui/browser
+          else
+            site_dir=dist/paylink-ui
+          fi
+          cp "$site_dir/index.html" "$site_dir/404.html"
+          touch "$site_dir/.nojekyll"
+          echo "site_dir=$site_dir" >> "$GITHUB_OUTPUT"
+
+      - name: Upload GitHub Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: paylink-ui/${{ steps.artifact.outputs.site_dir }}
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -149,4 +149,22 @@ docker build -t paylink-server .
 docker run --rm -p 4000:4000 --env-file .env paylink-server
 ```
 
+## Deploy to Railway
+
+`railway.toml` and the existing production Dockerfile provide the Railway deployment configuration. Create a Railway service from the repository and deploy the `paylink-server` directory with the Dockerfile builder. Railway supplies `PORT`; do not hard-code a public port in the service settings.
+
+Set these Railway variables before exposing the service:
+
+```text
+NODE_ENV=production
+PAYLINK_WEBHOOK_SECRET=<strong random value>
+PAYLINK_CORS_ORIGINS=https://your-user.github.io
+PAYLINK_DEMO_USERS=false
+PAYLINK_PERSISTENCE=memory
+```
+
+The service health check is `GET /health`. Copy the resulting Railway HTTPS service URL into the frontend repository variable `PAYLINK_API_BASE_URL` for the GitHub Pages workflow. Multiple allowed browser origins can be comma-separated in `PAYLINK_CORS_ORIGINS`.
+
+The current HTTP repository is still the deterministic in-memory repository, so Railway deployment does not require a MySQL service. Set up managed persistence and a durable session/idempotency store before using this test-only API for production traffic.
+
 Production gaps are intentional: provide a managed database and durable session/idempotency storage, replace the dev provider, set a strong secret through the platform secret manager, terminate TLS, configure trusted proxy behavior, add durable logging/metrics/tracing, and complete payment-provider reconciliation and webhook retry handling. Do not enable the demo users or compatibility routes for customer traffic.

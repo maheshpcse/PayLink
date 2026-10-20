@@ -69,6 +69,20 @@ These commands run Angular/Vitest component and service tests, a development com
 - `/account/support` — support ticket form and ticket list.
 - `/help`, `/terms`, `/privacy` — honest editable information routes.
 
+## Deploy to GitHub Pages
+
+The repository workflow at `.github/workflows/deploy-pages.yml` builds this Angular app and publishes it with GitHub Pages. It also copies the built `index.html` to `404.html` so Angular routes continue to load on direct navigation.
+
+Before the first deployment:
+
+1. In repository settings, set **Pages → Build and deployment → Source** to **GitHub Actions**.
+2. Deploy the backend to Railway using `paylink-server/railway.toml` and note its public HTTPS URL.
+3. Add a repository **Actions variable** named `PAYLINK_API_BASE_URL` containing the Railway URL, without a trailing slash. The URL is public browser configuration, not a secret.
+4. Add the GitHub Pages origin, for example `https://your-user.github.io`, to Railway's `PAYLINK_CORS_ORIGINS` variable.
+5. Push to `main` or `master`, or run **Deploy PayLink UI to GitHub Pages** manually from the Actions tab.
+
+If `PAYLINK_API_BASE_URL` is omitted, the published UI intentionally runs in local demo mode instead of pretending that a same-origin API exists.
+
 ## Project layout
 
 ```text

@@ -61,4 +61,10 @@ npm run build
 
 Browser automation is intentionally not part of this workspace. Playwright and its browser binaries were removed to keep the setup offline and lightweight; use the Angular unit/component tests and the manual smoke flow in `paylink-ui/README.md`.
 
+## Hosted deployment
+
+The frontend has a GitHub Pages workflow at `.github/workflows/deploy-pages.yml`. It builds the Angular app with the repository-name base path, publishes an SPA-friendly `404.html`, and reads the public Railway API URL from the repository Actions variable `PAYLINK_API_BASE_URL`.
+
+The backend has Railway deployment configuration at `paylink-server/railway.toml`. Railway uses the existing `paylink-server/Dockerfile`, injects `PORT`, and checks `GET /health`. Set `PAYLINK_CORS_ORIGINS` on Railway to the GitHub Pages origin and keep `PAYLINK_WEBHOOK_SECRET` out of git.
+
 The HTTP backend still uses the explicitly labeled in-memory repository so the offline API suite remains deterministic. The local MySQL schema and seed are now reproducible through `npm run db:setup`; the runtime repository cutover remains a separate step before using MySQL-backed API traffic. Before production, configure a real payment provider in sandbox mode, add durable sessions/idempotency, and supply production secrets through a secret manager. See `paylink-server/README.md` and `paylink-server/migrations/` for details.
