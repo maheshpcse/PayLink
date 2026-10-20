@@ -1,4 +1,4 @@
-<div class="app-shell" [class.auth-shell]="authPage$ | async" [class.sidebar-collapsed]="sidebarCollapsed">
+<div class="app-shell" [class.auth-shell]="authPage$ | async" [class.public-shell]="focused$ | async" [class.sidebar-collapsed]="sidebarCollapsed">
   <a class="skip-link" href="#main-content" *ngIf="!(authPage$ | async)">Skip to content</a>
   <div class="public-brand" *ngIf="(focused$ | async) && !(authPage$ | async)"><a class="brand" routerLink="/" aria-label="PayLink home"><pl-logo /><span class="brand-word">PayLink</span></a><a class="public-signin" routerLink="/auth" *ngIf="!(authenticated$ | async)">Sign in</a></div>
 

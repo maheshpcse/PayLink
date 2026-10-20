@@ -81,6 +81,7 @@ pl-icon { display: inline-flex; flex: 0 0 auto; align-items: center; justify-con
 
 /* Shared shell */
 .app-shell { min-height: 100vh; display: flex; flex-direction: column; }
+.public-shell { height: 100vh; min-height: 0; overflow: hidden; }
 .topbar { position: sticky; z-index: 10; top: 0; border-bottom: 1px solid rgba(205, 224, 211, .94); background: rgba(245, 249, 245, .94); backdrop-filter: blur(16px); }
 .topbar-inner, .app-frame, .footer-inner { width: min(var(--shell-width), calc(100% - 64px)); margin: 0 auto; }
 .topbar-inner { min-height: 75px; display: flex; align-items: center; gap: 26px; }
@@ -99,6 +100,8 @@ pl-icon { display: inline-flex; flex: 0 0 auto; align-items: center; justify-con
 .skip-link:focus { top: 8px; }
 .app-frame { flex: 1; display: grid; grid-template-columns: 210px minmax(0, 1fr); gap: 64px; }
 .focused-frame { display: block; width: min(var(--shell-width), calc(100% - 64px)); }
+.public-shell .focused-frame { width: 100%; max-width: none; min-height: 0; overflow-y: auto; overflow-x: hidden; }
+.public-shell .focused-frame .main-content { width: min(var(--shell-width), calc(100% - 64px)); margin-inline: auto; }
 .focused-frame > .sidebar { display: none; }
 .focused-frame .main-content { padding-top: 56px; }
 .focused-frame .main-content { padding-top: 24px; padding-bottom: 48px; }
