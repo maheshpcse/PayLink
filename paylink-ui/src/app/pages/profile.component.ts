@@ -21,8 +21,11 @@ export class ProfileComponent {
   selectAvatar(event: Event): void {
     const file = (event.target as HTMLInputElement).files?.[0];
     if (!file) return;
+    this.editing = true;
     this.form.controls.avatarUrl.setValue(URL.createObjectURL(file));
   }
+  beginAvatarUpload(input: HTMLInputElement): void { this.editing = true; input.click(); }
+  removeAvatar(): void { this.editing = true; this.form.controls.avatarUrl.setValue(''); }
   toggleEditing(): void { this.notice = ''; this.editing = true; this.form.markAsPristine(); this.form.markAsUntouched(); }
   cancel(): void { this.editing = false; this.notice = ''; this.store.profile$.pipe(take(1)).subscribe((profile) => { if (profile) { this.form.patchValue(profile); this.form.markAsPristine(); this.form.markAsUntouched(); } }); }
   save(): void {

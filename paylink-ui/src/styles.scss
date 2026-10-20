@@ -359,12 +359,13 @@ dialog::backdrop { background: rgba(18, 59, 45, .45); }
 .unread-dot { width: 8px; height: 8px; margin-top: 9px; border-radius: 50%; background: var(--green-bright); }
 .profile-card, .security-card, .ticket-list-panel, .new-ticket-panel { padding: 24px; }
 .profile-card-heading { display: flex; align-items: center; gap: 16px; padding-bottom: 22px; border-bottom: 1px solid var(--line); }
+.avatar-block { display: flex; flex: 0 0 auto; flex-direction: column; align-items: flex-start; }
 .profile-card-heading .eyebrow { margin-bottom: 6px; }
 .profile-card-heading h2 { margin-bottom: 5px; }
 .profile-card-heading p:last-child { margin: 0; color: var(--muted); font-size: .875rem; }
 .profile-card form { padding-top: 22px; }
 .avatar { display: inline-grid; place-items: center; border-radius: 50%; background: var(--mint-deep); color: var(--green); font-weight: 800; }
-.avatar--large { width: 96px; height: 96px; font-size: 1.5rem; }
+.avatar--large { width: 128px; height: 128px; font-size: 1.8rem; margin-bottom: 0; }
 .security-card { border-color: #cfe5d4; background: var(--green-pale); }
 .section-icon { width: 35px; height: 35px; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 23px; border-radius: 9px; background: var(--green-soft); color: var(--green); }
 .security-card .eyebrow { color: var(--green); }
@@ -553,7 +554,8 @@ select { cursor: pointer; }
 html { scrollbar-color: var(--bmw-blue-bright) var(--bmw-blue-pale); }
 *::-webkit-scrollbar-track { background: var(--bmw-blue-pale); }
 *::-webkit-scrollbar-thumb { border-color: var(--bmw-blue-pale); background: linear-gradient(180deg, var(--bmw-blue-bright), var(--green-bright)); }
-html { overflow-y: scroll; }
+html { overflow-y: auto; scrollbar-gutter: stable; }
+*::-webkit-scrollbar-button { display: none; width: 0; height: 0; }
 select option:checked { background: var(--bmw-blue); color: var(--white); }
 input[type='search']::-webkit-search-cancel-button { cursor: pointer; }
 input[type='search']::-webkit-search-decoration { cursor: pointer; }
@@ -620,7 +622,7 @@ input[type="checkbox"], input[type="radio"] { accent-color: var(--bmw-blue); }
 .security-actions { display: flex; flex-wrap: wrap; gap: 10px; }
 .avatar--large { position: relative; margin-bottom: 36px; border-radius: 10px; }
 .avatar--large img { width: 100%; height: 100%; border-radius: 8px; object-fit: cover; }
-.avatar-actions { position: absolute; right: auto; left: 0; bottom: -32px; display: flex; gap: 5px; }
+.avatar-actions { display: flex; gap: 6px; margin-top: 8px; }
 .avatar-action { min-height: 28px; padding: 0 7px; border: 1px solid var(--bmw-blue-bright); border-radius: 6px; background: var(--white); color: var(--bmw-blue-900); font-size: .68rem; }
 .avatar-action--remove { border-color: var(--danger); color: var(--danger); }
 .security-card { align-self: start; min-height: 0; padding-bottom: 22px; }
