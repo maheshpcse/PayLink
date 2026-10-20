@@ -82,6 +82,9 @@ pl-icon { display: inline-flex; flex: 0 0 auto; align-items: center; justify-con
 /* Shared shell */
 .app-shell { min-height: 100vh; display: flex; flex-direction: column; }
 .public-shell { height: 100vh; min-height: 0; overflow: hidden; }
+.page-scroll { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.page-scroll--public { overflow-y: auto; overflow-x: hidden; }
+.page-scroll--public .focused-frame { flex: 0 0 auto; overflow: visible; }
 .topbar { position: sticky; z-index: 10; top: 0; border-bottom: 1px solid rgba(205, 224, 211, .94); background: rgba(245, 249, 245, .94); backdrop-filter: blur(16px); }
 .topbar-inner, .app-frame, .footer-inner { width: min(var(--shell-width), calc(100% - 64px)); margin: 0 auto; }
 .topbar-inner { min-height: 75px; display: flex; align-items: center; gap: 26px; }

@@ -2,8 +2,9 @@
   <a class="skip-link" href="#main-content" *ngIf="!(authPage$ | async)">Skip to content</a>
   <div class="public-brand" *ngIf="(focused$ | async) && !(authPage$ | async)"><a class="brand" routerLink="/" aria-label="PayLink home"><pl-logo /><span class="brand-word">PayLink</span></a><a class="public-signin" routerLink="/auth" *ngIf="!(authenticated$ | async)">Sign in</a></div>
 
-  <div class="app-frame" [class.focused-frame]="focused$ | async" [class.auth-frame]="authPage$ | async">
-    <aside class="sidebar" aria-label="Account navigation" *ngIf="!(authPage$ | async)">
+  <div class="page-scroll" [class.page-scroll--public]="focused$ | async">
+    <div class="app-frame" [class.focused-frame]="focused$ | async" [class.auth-frame]="authPage$ | async">
+      <aside class="sidebar" aria-label="Account navigation" *ngIf="!(authPage$ | async)">
       <div class="sidebar-section">
         <div class="sidebar-brand-row"><a class="sidebar-brand" [routerLink]="(authenticated$ | async) ? '/account/overview' : '/'" aria-label="PayLink home"><pl-logo /><span>PayLink</span></a><button class="sidebar-toggle" [class.is-collapsed]="sidebarCollapsed" type="button" (click)="toggleSidebar()" [attr.aria-expanded]="!sidebarCollapsed" [attr.aria-label]="sidebarCollapsed ? 'Expand navigation' : 'Collapse navigation'" [attr.data-tooltip]="sidebarCollapsed ? 'Expand navigation' : 'Collapse navigation'"><pl-icon name="chevron" [size]="15" /></button></div>
         <a class="checkout-link" routerLink="/checkout" routerLinkActive="is-active">
@@ -24,18 +25,19 @@
             <button class="side-nav-item signout-nav" data-tooltip="Sign out" type="button" (click)="signOut()" [disabled]="signingOut"><pl-icon name="logout" [size]="17" /><span class="nav-label">{{ signingOut ? 'Signing out…' : 'Sign out' }}</span></button>
          </nav>
        </div>
-     </aside>
+      </aside>
 
-    <main class="main-content" id="main-content" tabindex="-1">
-       <ng-container *ngIf="!(authPage$ | async)"><div class="connection-notice" role="status" *ngIf="store.warning$ | async as warning"><pl-icon name="x" [size]="15" /><span>{{ (store.configured$ | async) ? 'Connected server issue: ' : '' }}{{ warning }}</span></div></ng-container>
-      <router-outlet />
-    </main>
-  </div>
-
-  <footer class="site-footer" *ngIf="!(authPage$ | async)">
-    <div class="footer-inner">
-       <p class="footer-context"><span class="footer-paylink">PayLink</span> · payment companion · © 2026 PayLink. All rights reserved.</p>
-      <nav aria-label="Footer navigation"><a routerLink="/help">Help Center</a><a routerLink="/faq">FAQ</a><a routerLink="/legal">Terms &amp; Privacy</a></nav>
+      <main class="main-content" id="main-content" tabindex="-1">
+        <ng-container *ngIf="!(authPage$ | async)"><div class="connection-notice" role="status" *ngIf="store.warning$ | async as warning"><pl-icon name="x" [size]="15" /><span>{{ (store.configured$ | async) ? 'Connected server issue: ' : '' }}{{ warning }}</span></div></ng-container>
+        <router-outlet />
+      </main>
     </div>
-  </footer>
+
+    <footer class="site-footer" *ngIf="!(authPage$ | async)">
+      <div class="footer-inner">
+        <p class="footer-context"><span class="footer-paylink">PayLink</span> · payment companion · © 2026 PayLink. All rights reserved.</p>
+        <nav aria-label="Footer navigation"><a routerLink="/help">Help Center</a><a routerLink="/faq">FAQ</a><a routerLink="/legal">Terms &amp; Privacy</a></nav>
+      </div>
+    </footer>
+  </div>
 </div>
