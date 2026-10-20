@@ -27,12 +27,12 @@ Start Angular development mode:
 npm start
 ```
 
-Open <http://127.0.0.1:4173>. The development server proxies `/api` to `http://127.0.0.1:4000`; start `paylink-server` separately for the integrated server-owned flow. If the API is unavailable, the UI visibly switches to labeled local demo data.
+Open <http://127.0.0.1:8200>. The development server proxies `/api` to `http://127.0.0.1:4000`; start `paylink-server` separately for the integrated server-owned flow. If the API is unavailable, the UI visibly switches to labeled local demo data.
 
 To use local demo data without API calls:
 
 ```powershell
-npx ng serve --configuration demo --host 127.0.0.1 --port 4173
+npx ng serve --configuration demo --host 127.0.0.1 --port 8200
 ```
 
 ## Check the app
@@ -48,7 +48,7 @@ These commands run Angular/Vitest component and service tests, a development com
 ## Manual smoke flow
 
 1. Start `paylink-server` in another terminal.
-2. Open the UI at <http://127.0.0.1:4173/>.
+2. Open the UI at <http://127.0.0.1:8200/>.
 3. Confirm the checkout amount says **$189.00** and **Fixed by server**.
 4. Select Success, Pending, or Declined and submit the test payment.
 5. Confirm the result explicitly says test mode and no money moved.
