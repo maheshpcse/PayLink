@@ -149,8 +149,7 @@ pl-icon { display: inline-flex; flex: 0 0 auto; align-items: center; justify-con
 /* Shared controls and typography */
 .page-stack { display: grid; gap: 29px; }
 .page-heading { display: flex; align-items: end; justify-content: space-between; gap: 35px; margin-bottom: 6px; }
-.public-brand { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 24px; }
-.focused-frame .public-brand { position: sticky; top: 0; z-index: 8; width: 100vw; max-width: 100vw; margin-top: -24px; margin-left: calc(50% - 50vw); padding: 12px max(32px, calc((100vw - var(--shell-width)) / 2)) 13px; border-bottom: 1px solid var(--line-strong); background: color-mix(in srgb, var(--paper) 94%, transparent); box-shadow: 0 8px 20px rgba(7, 29, 52, .08); backdrop-filter: blur(12px); }
+.public-brand { position: sticky; top: 0; z-index: 8; display: flex; align-items: center; justify-content: space-between; gap: 20px; width: 100%; margin-bottom: 0; padding: 12px max(32px, calc((100vw - var(--shell-width)) / 2)) 13px; border-bottom: 1px solid var(--line-strong); background: color-mix(in srgb, var(--paper) 94%, transparent); box-shadow: 0 8px 20px rgba(7, 29, 52, .08); backdrop-filter: blur(12px); }
 .public-signin { color: var(--bmw-blue); font-weight: 600; }
 .public-signin:hover { color: var(--bmw-blue-900); }
 .eyebrow { margin-bottom: 11px; color: var(--green-bright); font-size: .74rem; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
@@ -424,7 +423,7 @@ dialog::backdrop { background: rgba(18, 59, 45, .45); }
 @media (min-width: 801px) {
   .app-shell:has(.landing-page) { height: 100vh; min-height: 100vh; overflow: hidden; }
   .focused-frame:has(.landing-page) .main-content { padding-block: 24px; overflow: hidden; }
-  .focused-frame:has(.landing-page) .public-brand { margin-bottom: 24px; }
+  .app-shell:has(.landing-page) .public-brand { margin-bottom: 0; }
   .landing-page { height: 100%; align-content: center; gap: 28px; }
 }
 .section-number { color: var(--green-bright); font-size: .8rem; font-weight: 850; }
@@ -470,7 +469,7 @@ dialog::backdrop { background: rgba(18, 59, 45, .45); }
   .help-layout { grid-template-columns: 1fr; }
   .help-layout .info-sections, .help-layout .contact-panel { grid-column: auto; grid-row: auto; }
   .help-layout .contact-panel { position: static; }
-  .focused-frame .public-brand { padding-inline: 16px; }
+  .public-brand { padding-inline: 16px; }
   .info-intro > p:last-child { white-space: normal; }
   .app-shell:has(.landing-page) { height: auto; min-height: 100vh; overflow: visible; }
   .checkout-summary { position: static; }
