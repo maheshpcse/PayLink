@@ -592,6 +592,9 @@ input[type="checkbox"], input[type="radio"] { accent-color: var(--bmw-blue); }
 .auth-links { margin-top: 18px; }
 .auth-links a, .auth-switch a { color: var(--bmw-blue); font-weight: 600; }
 .auth-links a:hover, .auth-switch a:hover { color: var(--bmw-blue-900); }
+.auth-otp-links { display: flex; justify-content: center; gap: 18px; margin-top: 14px; }
+.auth-otp-links a { color: var(--bmw-blue); font-size: .875rem; font-weight: 600; }
+.auth-otp-links a:hover { color: var(--bmw-blue-900); text-decoration: underline; text-underline-offset: 3px; }
 .auth-switch { justify-content: center; margin: 20px 0 0; }
 .auth-result { display: grid; justify-items: center; gap: 10px; padding: 18px 0; color: var(--muted-dark); text-align: center; }
 .auth-result pl-icon { color: var(--bmw-blue); }
