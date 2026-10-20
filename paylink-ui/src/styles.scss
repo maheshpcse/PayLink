@@ -150,7 +150,7 @@ pl-icon { display: inline-flex; flex: 0 0 auto; align-items: center; justify-con
 .page-stack { display: grid; gap: 29px; }
 .page-heading { display: flex; align-items: end; justify-content: space-between; gap: 35px; margin-bottom: 6px; }
 .public-brand { display: flex; align-items: center; justify-content: space-between; gap: 20px; margin-bottom: 24px; }
-.focused-frame .public-brand { position: sticky; top: 0; z-index: 8; margin-top: -24px; padding: 12px 0 13px; border-bottom: 1px solid var(--line-strong); background: color-mix(in srgb, var(--paper) 94%, transparent); box-shadow: 0 8px 20px rgba(7, 29, 52, .08); backdrop-filter: blur(12px); }
+.focused-frame .public-brand { position: sticky; top: 0; z-index: 8; width: 100vw; max-width: 100vw; margin-top: -24px; margin-left: calc(50% - 50vw); padding: 12px max(32px, calc((100vw - var(--shell-width)) / 2)) 13px; border-bottom: 1px solid var(--line-strong); background: color-mix(in srgb, var(--paper) 94%, transparent); box-shadow: 0 8px 20px rgba(7, 29, 52, .08); backdrop-filter: blur(12px); }
 .public-signin { color: var(--bmw-blue); font-weight: 600; }
 .public-signin:hover { color: var(--bmw-blue-900); }
 .eyebrow { margin-bottom: 11px; color: var(--green-bright); font-size: .74rem; font-weight: 850; letter-spacing: .1em; text-transform: uppercase; }
@@ -470,6 +470,7 @@ dialog::backdrop { background: rgba(18, 59, 45, .45); }
   .help-layout { grid-template-columns: 1fr; }
   .help-layout .info-sections, .help-layout .contact-panel { grid-column: auto; grid-row: auto; }
   .help-layout .contact-panel { position: static; }
+  .focused-frame .public-brand { padding-inline: 16px; }
   .info-intro > p:last-child { white-space: normal; }
   .app-shell:has(.landing-page) { height: auto; min-height: 100vh; overflow: visible; }
   .checkout-summary { position: static; }
