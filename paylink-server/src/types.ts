@@ -9,8 +9,10 @@ export type TicketPriority = 'low' | 'normal' | 'high';
 export interface UserRecord {
   id: string;
   email: string;
+  username: string;
   name: string;
   phone: string;
+  avatarUrl: string;
   twoFactorEnabled: boolean;
   passwordHash: string;
   role: Role;

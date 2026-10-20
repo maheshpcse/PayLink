@@ -33,6 +33,7 @@ export class CheckoutComponent implements OnInit {
   });
   readonly status$ = new BehaviorSubject<CheckoutViewStatus>('ready');
   readonly result$ = new BehaviorSubject<PaymentResult | null>(null);
+  readonly authSession$ = this.auth.session$;
   private session: CheckoutSession | null = null;
   attempt: CheckoutAttempt | null = null;
   actionError = '';

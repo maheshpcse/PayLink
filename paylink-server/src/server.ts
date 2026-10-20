@@ -107,8 +107,10 @@ function safeUser(user: UserRecord): JsonRecord {
   return {
     id: user.id,
     email: user.email,
+    username: user.username,
     name: user.name,
     phone: user.phone,
+    avatarUrl: user.avatarUrl,
     twoFactorEnabled: user.twoFactorEnabled,
     role: user.role,
     createdAt: user.createdAt,
@@ -169,8 +171,10 @@ function profileView(user: UserRecord): JsonRecord {
   );
   return {
     name: user.name,
+    username: user.username,
     email: user.email,
     phone: user.phone,
+    avatarUrl: user.avatarUrl,
     initials,
     memberSince,
     twoFactorEnabled: user.twoFactorEnabled,
@@ -293,6 +297,7 @@ export class PayLinkApplication {
     if (existing) return existing;
     return this.repository.createUser({
       email,
+      username: email.split('@')[0].replace(/[^a-zA-Z0-9._-]/g, '').slice(0, 40),
       name,
       phone,
       twoFactorEnabled,
@@ -472,6 +477,7 @@ export class PayLinkApplication {
       if (this.repository.findUserByEmail(input.email)) throw conflict('An account with this email already exists');
       const user = this.repository.createUser({
         email: input.email,
+        username: input.username,
         name: input.name,
         passwordHash: await hashPassword(input.password),
         role: 'customer',
@@ -482,7 +488,7 @@ export class PayLinkApplication {
     }
     if (method === 'POST' && segments[0] === 'login' && segments.length === 1) {
       const input = loginInput(await jsonBody(request, this.config.bodyLimitBytes));
-      const user = this.repository.findUserByEmail(input.email);
+       const user = this.repository.findUserByIdentifier(input.email);
       if (!user || !(await verifyPassword(input.password, user.passwordHash))) {
         throw unauthorized('Email or password is incorrect');
       }

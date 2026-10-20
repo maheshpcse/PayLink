@@ -7,8 +7,8 @@
 
     <form [formGroup]="form" (ngSubmit)="submit()" novalidate>
       <label>
-        Email address
-        <input formControlName="email" autocomplete="email" type="email" placeholder="you@example.com" [attr.aria-invalid]="form.controls.email.invalid && form.controls.email.touched" />
+        Email, username, or phone
+        <input formControlName="email" autocomplete="username" type="text" placeholder="you@example.com" [attr.aria-invalid]="form.controls.email.invalid && form.controls.email.touched" />
         @if (form.controls.email.invalid && form.controls.email.touched) {
           <span class="field-error">{{ form.controls.email.hasError('required') ? 'Enter your email address.' : 'Enter a valid email address.' }}</span>
         }
@@ -26,6 +26,7 @@
     </form>
 
     <div class="auth-links"><a routerLink="/auth/forgot-password">Forgot password?</a><a routerLink="/auth/sign-up">Create an account</a></div>
+    <div class="auth-otp-links"><a routerLink="/auth/email-otp">Email OTP</a><a routerLink="/auth/phone-otp">Phone OTP</a></div>
     <div class="auth-divider"><span>or</span></div>
     <button class="outline-button auth-demo-button" type="button" (click)="useDemo()" [disabled]="busy"><pl-icon name="spark" [size]="15" /> Continue with demo</button>
     <p class="inline-notice" [class.inline-notice--error]="messageIsError" role="status" *ngIf="message"><pl-icon [name]="messageIsError ? 'x' : 'check'" [size]="15" /> {{ message }}</p>

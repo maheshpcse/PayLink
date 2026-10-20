@@ -55,8 +55,10 @@ export interface NotificationItem {
 
 export interface Profile {
   name: string;
+  username?: string;
   email: string;
   phone: string;
+  avatarUrl?: string;
   initials: string;
   memberSince: string;
   twoFactorEnabled: boolean;
@@ -90,6 +92,9 @@ export interface AuthUser {
   id: string;
   email: string;
   name: string;
+  phone?: string;
+  username?: string;
+  avatarUrl?: string;
   role: 'customer' | 'support' | 'admin';
   createdAt: string;
 }
@@ -109,8 +114,10 @@ export interface SupportTicketRequest {
 
 export interface ProfileUpdate {
   name: string;
+  username?: string;
   email: string;
   phone: string;
+  avatarUrl?: string;
   twoFactorEnabled: boolean;
 }
 

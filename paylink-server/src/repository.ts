@@ -13,8 +13,10 @@ import type {
 
 export interface NewUser {
   email: string;
+  username?: string;
   name: string;
   phone?: string;
+  avatarUrl?: string;
   twoFactorEnabled?: boolean;
   passwordHash: string;
   role: UserRecord['role'];
@@ -39,7 +41,9 @@ export class MemoryRepository {
   createUser(input: NewUser): UserRecord {
     const user: UserRecord = {
       ...input,
+      username: input.username ?? (input.email.split('@')[0].replace(/[^a-zA-Z0-9._-]/g, '').slice(0, 40) || `user${Date.now()}`),
       phone: input.phone ?? '',
+      avatarUrl: input.avatarUrl ?? '',
       twoFactorEnabled: input.twoFactorEnabled ?? false,
       id: newId(),
       createdAt: new Date().toISOString(),
@@ -56,6 +60,11 @@ export class MemoryRepository {
   findUserByEmail(email: string): UserRecord | undefined {
     const id = this.usersByEmail.get(email.toLowerCase());
     return id ? this.users.get(id) : undefined;
+  }
+
+  findUserByIdentifier(identifier: string): UserRecord | undefined {
+    const normalized = identifier.trim().toLowerCase();
+    return this.findUserByEmail(normalized) ?? [...this.users.values()].find((user) => user.username.toLowerCase() === normalized || user.phone.toLowerCase() === normalized);
   }
 
   listUsers(): UserRecord[] {
@@ -88,7 +97,7 @@ export class MemoryRepository {
     return this.checkoutSessions.get(id);
   }
 
-  updateUser(id: string, update: Partial<Pick<UserRecord, 'email' | 'name' | 'phone' | 'twoFactorEnabled'>>): UserRecord {
+  updateUser(id: string, update: Partial<Pick<UserRecord, 'email' | 'username' | 'name' | 'phone' | 'avatarUrl' | 'twoFactorEnabled'>>): UserRecord {
     const user = this.users.get(id);
     if (!user) throw new Error(`User ${id} does not exist`);
     if (update.email && update.email !== user.email) {

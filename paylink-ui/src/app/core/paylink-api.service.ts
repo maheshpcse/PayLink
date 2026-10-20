@@ -103,7 +103,7 @@ const demoNotifications: NotificationItem[] = [
 ];
 
 const demoProfile: Profile = {
-  name: 'Jamie Lee', email: 'jamie.lee@example.com', phone: '+1 (555) 014-2084', initials: 'JL', memberSince: 'March 2024', twoFactorEnabled: true,
+  name: 'Jamie Lee', username: 'jamielee', email: 'jamie.lee@example.com', phone: '+1 (555) 014-2084', avatarUrl: '', initials: 'JL', memberSince: 'March 2024', twoFactorEnabled: true,
 };
 
 const demoTickets: SupportTicket[] = [
@@ -189,7 +189,7 @@ export class PayLinkApiService {
       const session = this.demoSessionResult();
       session.user = { ...session.user, id: `demo_customer_${email.toLowerCase()}`, email: email.toLowerCase(), name };
       this.localDemo = true;
-      this.profile = { ...this.profile, name, email: email.toLowerCase(), initials: initialsForName(name) };
+      this.profile = { ...this.profile, name, username: email.split('@')[0].toLowerCase(), email: email.toLowerCase(), initials: initialsForName(name) };
       this.auth.setSession(session);
       return of(this.result(session, 'demo', true));
     }
@@ -284,7 +284,7 @@ export class PayLinkApiService {
 
   getProfile(): Observable<ApiResult<Profile>> {
     return this.withDemo(() => this.authenticatedRequest<{ profile: Profile; user: AuthUser }>('/me').pipe(map(({ profile, user }) => profile ?? {
-      name: user.name, email: user.email, phone: '', initials: initialsForName(user.name), memberSince: formatServerDate(user.createdAt), twoFactorEnabled: false,
+      name: user.name, username: user.username ?? user.email.split('@')[0], email: user.email, phone: user.phone ?? '', avatarUrl: user.avatarUrl ?? '', initials: initialsForName(user.name), memberSince: formatServerDate(user.createdAt), twoFactorEnabled: false,
     })), () => clone(this.profile));
   }
 

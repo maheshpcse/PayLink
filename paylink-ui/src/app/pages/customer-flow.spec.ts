@@ -4,6 +4,7 @@ import { provideRouter } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { PAYLINK_CONFIG } from '../core/config';
 import { PayLinkStoreService } from '../core/paylink-store.service';
+import { PayLinkApiService } from '../core/paylink-api.service';
 import { CheckoutComponent } from './checkout.component';
 import { SupportComponent } from './support.component';
 import { ProfileComponent } from './profile.component';
@@ -11,10 +12,13 @@ import { NotificationsComponent } from './notifications.component';
 import { ActivityComponent } from './activity.component';
 
 describe('Angular customer components', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     sessionStorage.clear();
     TestBed.configureTestingModule({ providers: [provideHttpClient(), provideRouter([]), { provide: PAYLINK_CONFIG, useValue: { apiBaseUrl: '', enableApi: false } }] });
-    TestBed.inject(PayLinkStoreService).initialize();
+    const store = TestBed.inject(PayLinkStoreService);
+    store.initialize();
+    await firstValueFrom(TestBed.inject(PayLinkApiService).loginDemoCustomer());
+    await firstValueFrom(store.reload());
   });
 
   it.each(['success', 'pending', 'failed'] as const)('shows a fixed labeled demo amount and the %s result', async (outcome) => {

@@ -2,11 +2,14 @@
   @if (store.profile$ | async; as profile) {
     <div class="profile-grid">
       <section class="panel profile-card">
-        <div class="profile-card-heading"><div class="avatar avatar--large">{{ profile.initials }}</div><div><p class="eyebrow">Customer profile</p><h2>{{ profile.name }}</h2><p>Member since {{ profile.memberSince }}</p></div></div>
+        <div class="profile-card-heading"><div class="avatar avatar--large">@if (profile.avatarUrl) { <img [src]="profile.avatarUrl" alt="Profile avatar" /> } @else { {{ profile.initials }} }</div><div><p class="eyebrow">Customer profile</p><h2>{{ profile.name }}</h2><p>Member since {{ profile.memberSince }}</p></div></div>
         <form [formGroup]="form" (ngSubmit)="save()">
           <label>Full name<input formControlName="name" [readonly]="!editing" autocomplete="name" [attr.aria-invalid]="form.controls.name.invalid && form.controls.name.touched" />@if (form.controls.name.invalid && form.controls.name.touched) { <span class="field-error">Enter a name of 1–80 characters.</span> }</label>
+          <label>Username<input formControlName="username" [readonly]="!editing" autocomplete="username" [attr.aria-invalid]="form.controls.username.invalid && form.controls.username.touched" />@if (form.controls.username.invalid && form.controls.username.touched) { <span class="field-error">Use 3–40 letters, numbers, dots, dashes, or underscores.</span> }</label>
           <label>Email address<input formControlName="email" [readonly]="!editing" autocomplete="email" type="email" [attr.aria-invalid]="form.controls.email.invalid && form.controls.email.touched" />@if (form.controls.email.invalid && form.controls.email.touched) { <span class="field-error">Enter a valid email.</span> }</label>
           <label>Phone number<input formControlName="phone" [readonly]="!editing" autocomplete="tel" type="tel" /></label>
+          <label>Avatar image URL<input formControlName="avatarUrl" [readonly]="!editing" type="url" placeholder="https://…" /></label>
+          @if (editing && form.controls.avatarUrl.value) { <button class="text-button avatar-remove" type="button" (click)="form.controls.avatarUrl.setValue('')">Remove avatar</button> }
           <div class="form-actions">@if (editing) { <button class="primary-button" type="submit" [disabled]="busy">{{ busy ? 'Saving…' : 'Save changes' }}</button><button class="text-button" type="button" (click)="cancel()">Cancel</button> } @else { <button class="outline-button" type="button" (click)="toggleEditing()">Edit details <pl-icon name="arrow" /></button> }</div>
           @if (notice) { <p class="inline-notice" [class.inline-notice--error]="noticeIsError" role="status">{{ notice }}</p> }
         </form>

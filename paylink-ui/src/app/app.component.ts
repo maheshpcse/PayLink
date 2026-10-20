@@ -28,8 +28,11 @@ export class AppComponent implements OnInit {
   readonly authPage$ = this.url$.pipe(map((url) => url.startsWith('/auth')));
   readonly unreadCount$ = this.store.notifications$.pipe(map((items) => items.filter((item) => item.unread).length));
   signingOut = false;
+  sidebarCollapsed = false;
 
   ngOnInit(): void { this.store.initialize(); }
+
+  toggleSidebar(): void { this.sidebarCollapsed = !this.sidebarCollapsed; }
 
   signOut(): void {
     if (this.signingOut) return;

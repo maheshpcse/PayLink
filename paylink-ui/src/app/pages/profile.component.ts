@@ -11,7 +11,7 @@ import { IconComponent } from '../shared/ui.components';
 export class ProfileComponent {
   readonly store = inject(PayLinkStoreService);
   private readonly destroyRef = inject(DestroyRef);
-  readonly form = new FormGroup({ name: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.maxLength(80)] }), email: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.email] }), phone: new FormControl('', { nonNullable: true }), twoFactorEnabled: new FormControl(true, { nonNullable: true }) });
+  readonly form = new FormGroup({ name: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.maxLength(80)] }), username: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.pattern(/^[a-zA-Z0-9._-]{3,40}$/)] }), email: new FormControl('', { nonNullable: true, validators: [Validators.required, Validators.email] }), phone: new FormControl('', { nonNullable: true }), avatarUrl: new FormControl('', { nonNullable: true, validators: [Validators.maxLength(500)] }), twoFactorEnabled: new FormControl(true, { nonNullable: true }) });
   editing = false;
   notice = '';
   noticeIsError = false;

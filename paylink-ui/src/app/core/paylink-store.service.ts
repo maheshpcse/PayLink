@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
-import { BehaviorSubject, catchError, finalize, forkJoin, map, Observable, of, switchMap, take, tap, throwError } from 'rxjs';
-import { PayLinkApiError, PayLinkApiService } from './paylink-api.service';
+import { BehaviorSubject, catchError, finalize, forkJoin, map, Observable, of, switchMap, take, tap } from 'rxjs';
+import { PayLinkApiService } from './paylink-api.service';
 import { ApiResult, CheckoutSession, NotificationItem, PaymentActivity, PaymentResult, Profile, ProfileUpdate, SavedMethod, SupportTicket, SupportTicketRequest, TestOutcome } from './models';
 
 @Injectable({ providedIn: 'root' })
@@ -33,15 +33,10 @@ export class PayLinkStoreService {
   initialize(): void {
     if (this.initialized) return;
     this.initialized = true;
-    this.api.loginDemoCustomer().pipe(
-      switchMap(() => this.reload()),
-      catchError((error: PayLinkApiError) => {
-        if (error.status === 401 || error.status === 403) return throwError(() => error);
-        this.api.useLocalDemo(`API unavailable: ${error.message}. Local demo data only; no server actions.`);
-        return this.reload();
-      }),
-      take(1),
-    ).subscribe({ error: (error: Error) => { this.showWarning(error.message); this.loadingSubject.next(false); } });
+    this.api.getCheckoutSession().pipe(take(1)).subscribe({
+      next: (result) => { this.sessionSubject.next(result.data); this.record(result); this.loadingSubject.next(false); },
+      error: (error: Error) => { this.showWarning(error.message); this.loadingSubject.next(false); },
+    });
   }
 
   reload(): Observable<void> {

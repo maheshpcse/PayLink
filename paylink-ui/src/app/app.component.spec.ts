@@ -15,17 +15,17 @@ describe('PayLink application shell', () => {
     await fixture.whenStable();
     const element = fixture.nativeElement as HTMLElement;
     expect(element.querySelector('a[href="#main-content"]')?.textContent).toContain('Skip');
-    expect(element.querySelector('footer a[href="/terms"]')).not.toBeNull();
-    expect(element.querySelector('footer a[href="/privacy"]')).not.toBeNull();
+    expect(element.querySelector('footer a[href="/legal"]')).not.toBeNull();
+    expect(element.querySelector('footer a[href="/faq"]')).not.toBeNull();
     expect(element.querySelector('header.topbar')).toBeNull();
-    expect(element.querySelector('.sidebar-brand')?.textContent).toContain('PayLink');
+    expect(element.querySelector('.public-brand')?.textContent).toContain('PayLink');
     expect(element.textContent).toContain('PayLink');
     expect(element.querySelector('.sidebar-note')).toBeNull();
   });
 
-  it('uses the root route for checkout and keeps the old checkout URL as a redirect', () => {
+  it('uses a public landing route and a separate checkout route', () => {
     expect(routes.find((route) => route.path === '')?.loadComponent).toBeTypeOf('function');
-    expect(routes.find((route) => route.path === 'checkout')?.redirectTo).toBe('');
+    expect(routes.find((route) => route.path === 'checkout')?.loadComponent).toBeTypeOf('function');
     expect(routes.find((route) => route.path === 'auth/sign-up')?.loadComponent).toBeTypeOf('function');
     expect(routes.find((route) => route.path === 'auth/forgot-password')?.loadComponent).toBeTypeOf('function');
     const account = routes.find((route) => route.path === 'account');

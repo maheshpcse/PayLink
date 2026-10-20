@@ -365,8 +365,8 @@ test('session payment creation ignores browser amount fields and supports pendin
 
 test('development defaults include Angular CORS and production rejects the known webhook secret', () => {
   const development = loadConfig({ NODE_ENV: 'development' });
-  assert.ok(development.corsOrigins.includes('http://localhost:4173'));
-  assert.ok(development.corsOrigins.includes('http://127.0.0.1:4173'));
+  assert.ok(development.corsOrigins.includes('http://localhost:8200'));
+  assert.ok(development.corsOrigins.includes('http://127.0.0.1:8200'));
   assert.equal(development.rateLimitMax, 1000);
   assert.deepEqual(loadConfig({ NODE_ENV: 'production', PAYLINK_WEBHOOK_SECRET: 'strong-production-secret' }).corsOrigins, []);
   assert.throws(

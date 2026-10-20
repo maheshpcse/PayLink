@@ -1,6 +1,6 @@
 <div class="page-stack account-page">
   <section class="panel data-panel notifications-panel">
-    <div class="panel-heading"><h2>Notifications</h2><button class="text-button" type="button" (click)="markAll()">Mark all as read</button></div>
+    <div class="panel-heading"><h2>Notifications</h2><div class="panel-heading-actions"><a class="text-button" routerLink="/account/notifications">View data</a><button class="text-button" type="button" (click)="markAll()">Mark all as read</button></div></div>
     <div class="notification-list">
       @for (item of (store.notifications$ | async); track item.id) {
         <button class="notification-row" [class.is-unread]="item.unread" type="button" (click)="markRead(item.id)" [attr.aria-label]="item.title + (item.unread ? ', unread, mark as read' : ', read')">

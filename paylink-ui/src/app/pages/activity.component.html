@@ -1,6 +1,6 @@
 <div class="page-stack account-page">
   <section class="panel data-panel">
-    <div class="panel-heading"><h2>{{ (filtered$ | async)?.length ?? 0 }} payments</h2><span class="secure-note">10 per page</span></div>
+    <div class="panel-heading"><h2>{{ (filtered$ | async)?.length ?? 0 }} payments</h2><div class="panel-heading-actions"><a class="text-button" routerLink="/account/activity">View data</a><span class="secure-note">10 per page</span></div></div>
     <div class="activity-filters"><label>Search payments<input type="search" [formControl]="search" placeholder="Merchant, description or reference" /></label><label>Payment status<pl-select [control]="status" [options]="statusOptions" /></label></div>
     <div class="activity-table-wrap">
       <table class="activity-table">

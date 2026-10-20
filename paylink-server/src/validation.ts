@@ -21,6 +21,7 @@ function stringValue(value: unknown, field: string, min: number, max: number): s
 
 export interface RegistrationInput {
   email: string;
+  username?: string;
   password: string;
   name: string;
 }
@@ -31,7 +32,9 @@ export function registrationInput(input: unknown): RegistrationInput {
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw validationError('email must be a valid email address');
   const password = stringValue(body.password, 'password', 8, 128);
   const name = stringValue(body.name ?? email.split('@')[0], 'name', 1, 100);
-  return { email, password, name };
+  const username = body.username === undefined ? undefined : stringValue(body.username, 'username', 3, 40);
+  if (username && !/^[a-zA-Z0-9._-]+$/.test(username)) throw validationError('username may contain only letters, numbers, dots, dashes, and underscores');
+  return { email, password, name, username };
 }
 
 export interface LoginInput {
@@ -151,8 +154,10 @@ export function paymentActionInput(input: unknown): { testOutcome?: 'succeeded' 
 
 export interface ProfilePatchInput {
   name?: string;
+  username?: string;
   email?: string;
   phone?: string;
+  avatarUrl?: string;
   twoFactorEnabled?: boolean;
 }
 
@@ -160,12 +165,17 @@ export function profilePatchInput(input: unknown): ProfilePatchInput {
   const body = objectInput(input);
   const result: ProfilePatchInput = {};
   if (body.name !== undefined) result.name = stringValue(body.name, 'name', 1, 100);
+  if (body.username !== undefined) {
+    result.username = stringValue(body.username, 'username', 3, 40);
+    if (!/^[a-zA-Z0-9._-]+$/.test(result.username)) throw validationError('username may contain only letters, numbers, dots, dashes, and underscores');
+  }
   if (body.email !== undefined) {
     const email = stringValue(body.email, 'email', 3, 254).toLowerCase();
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) throw validationError('email must be a valid email address');
     result.email = email;
   }
   if (body.phone !== undefined) result.phone = stringValue(body.phone, 'phone', 0, 40);
+  if (body.avatarUrl !== undefined) result.avatarUrl = stringValue(body.avatarUrl, 'avatarUrl', 0, 500);
   if (body.twoFactorEnabled !== undefined) {
     if (typeof body.twoFactorEnabled !== 'boolean') throw validationError('twoFactorEnabled must be a boolean');
     result.twoFactorEnabled = body.twoFactorEnabled;

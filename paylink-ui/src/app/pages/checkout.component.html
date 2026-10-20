@@ -1,5 +1,7 @@
 @if (store.loading$ | async) {
   <div class="loading-screen" role="status"><div class="skeleton-stack" aria-hidden="true"><span class="skeleton skeleton--heading"></span><span class="skeleton skeleton--line"></span><span class="skeleton skeleton--panel"></span></div><p>Preparing your PayLink space…</p></div>
+} @else if (!(authSession$ | async)) {
+  <section class="panel data-panel checkout-auth-gate"><h1>Sign in to continue</h1><p>Your payment methods and payment history are private account data.</p><a class="primary-button" routerLink="/auth">Sign in</a><a class="text-button" routerLink="/auth/sign-up">Create an account</a></section>
 } @else if (store.session$ | async; as session) {
   <div class="page-stack checkout-page">
     <div class="checkout-topline">
