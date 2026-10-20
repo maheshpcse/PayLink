@@ -397,14 +397,25 @@ dialog::backdrop { background: rgba(18, 59, 45, .45); }
 .faq-item summary { cursor: pointer; color: var(--ink); font-weight: 600; }
 .faq-item p { margin: 14px 0 0; color: var(--muted-dark); }
 .landing-page { display: grid; gap: 48px; }
-.landing-hero { max-width: 760px; padding: 24px 0 0; }
-.landing-copy { max-width: 600px; margin: 22px 0 28px; color: var(--muted-dark); font-size: 1.08rem; }
+.landing-hero { max-width: none; padding: 24px 0 0; }
+.landing-hero h1 { font-size: clamp(2.6rem, 6vw, 4.2rem); }
+.landing-hero h1, .landing-copy { white-space: nowrap; }
+.landing-copy { max-width: none; margin: 22px 0 28px; color: var(--muted-dark); font-size: 1.08rem; }
 .landing-actions { display: flex; flex-wrap: wrap; gap: 12px; }
 .landing-features { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-.landing-feature { min-height: 190px; padding: 22px; border: 1px solid var(--line); border-radius: 14px; background: var(--white); }
+.landing-feature { min-height: 150px; padding: 20px; border: 1px solid var(--line); border-radius: 14px; background: var(--white); }
 .landing-feature-icon { width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 18px; border-radius: 9px; background: var(--bmw-blue-soft); color: var(--bmw-blue); }
 .landing-feature h2 { margin-bottom: 8px; font-size: 1.05rem; }
 .landing-feature p { margin: 0; color: var(--muted-dark); font-size: .9rem; }
+
+/* The public landing page is a compact first screen: desktop users should see
+   the complete hero, feature row, and footer without a document scrollbar. */
+@media (min-width: 801px) {
+  .app-shell:has(.landing-page) { height: 100vh; min-height: 100vh; overflow: hidden; }
+  .focused-frame:has(.landing-page) .main-content { padding-block: 24px; overflow: hidden; }
+  .focused-frame:has(.landing-page) .public-brand { margin-bottom: 18px; }
+  .landing-page { height: 100%; align-content: center; gap: 28px; }
+}
 .section-number { color: var(--green-bright); font-size: .8rem; font-weight: 850; }
 .data-panel h1 { margin-bottom: 13px; }
 
@@ -443,6 +454,8 @@ dialog::backdrop { background: rgba(18, 59, 45, .45); }
   .main-content { padding: 43px 0 65px; }
   .checkout-grid, .overview-columns, .profile-grid, .support-grid { grid-template-columns: 1fr; }
   .landing-features { grid-template-columns: 1fr; }
+  .landing-hero h1, .landing-copy { white-space: normal; }
+  .app-shell:has(.landing-page) { height: auto; min-height: 100vh; overflow: visible; }
   .checkout-summary { position: static; }
   .checkout-topline { margin-bottom: 27px; }
   .page-heading { align-items: flex-start; flex-direction: column; gap: 16px; }
