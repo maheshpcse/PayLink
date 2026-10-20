@@ -90,6 +90,16 @@ describe('Angular customer components', () => {
     const fixture = TestBed.createComponent(ActivityComponent);
     await fixture.whenStable();
     expect(fixture.componentInstance.pageSize).toBe(10);
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+    await firstValueFrom(fixture.componentInstance.paged$);
+    fixture.detectChanges();
+    const table = fixture.nativeElement.querySelector('.activity-table') as HTMLTableElement;
+    expect(table.querySelector('thead th:last-child')?.textContent).toContain('Actions');
+    expect(table.querySelector('tbody .table-value-link')?.tagName).toBe('A');
+    expect(table.querySelector('tbody .table-value-link')?.getAttribute('href')).toContain('/account/activity/');
+    expect(table.querySelector('tbody .table-action-link')?.textContent).toContain('View details');
     fixture.componentInstance.page$.next(2);
     fixture.componentInstance.status.setValue('success');
     await new Promise((resolve) => setTimeout(resolve, 250));

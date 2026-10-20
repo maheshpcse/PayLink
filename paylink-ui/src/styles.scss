@@ -323,7 +323,7 @@ dialog::backdrop { background: rgba(18, 59, 45, .45); }
 .data-panel { padding: 24px; }
 .activity-filters { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; margin-top: 24px; }
 .activity-table-wrap { overflow-x: auto; margin-top: 25px; }
-.activity-table { width: 100%; min-width: 620px; border-collapse: collapse; font-size: .875rem; }
+.activity-table { width: 100%; min-width: 760px; border-collapse: collapse; font-size: .875rem; }
 .activity-table th { color: var(--muted-dark); font-size: .8rem; text-align: left; }
 .activity-table th, .activity-table td { padding: 13px 10px; border-top: 1px solid var(--line); vertical-align: middle; }
 .activity-table th:first-child, .activity-table td:first-child { padding-left: 0; }
@@ -332,8 +332,9 @@ dialog::backdrop { background: rgba(18, 59, 45, .45); }
 .table-merchant span:last-child { min-width: 0; display: grid; gap: 3px; }
 .table-merchant strong, .table-merchant small { display: block; }
 .table-merchant strong { overflow-wrap: anywhere; }
-.table-value-link { display: block; padding: 0; border: 0; background: transparent; color: var(--ink); font: inherit; font-weight: 600; text-align: left; }
+.table-value-link { display: block; padding: 0; color: var(--ink); font: inherit; font-weight: 600; text-align: left; }
 .table-value-link:hover, .table-value-link:focus-visible { color: var(--bmw-blue); }
+.table-action-link { white-space: nowrap; }
 .table-merchant small { color: var(--muted); }
 .amount-cell { font-variant-numeric: tabular-nums; white-space: nowrap; }
 .status-badge { padding: 5px 9px; background: var(--green-soft); color: var(--green); }
