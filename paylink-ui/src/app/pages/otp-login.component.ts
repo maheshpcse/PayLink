@@ -1,17 +1,18 @@
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink, RouterLinkActive } from '@angular/router';
 import { IconComponent, LogoComponent } from '../shared/ui.components';
 
 @Component({
   selector: 'pl-otp-login',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink, IconComponent, LogoComponent],
+  imports: [ReactiveFormsModule, RouterLink, RouterLinkActive, IconComponent, LogoComponent],
   template: `
     <div class="auth-page"><div class="auth-card panel">
       <a class="brand auth-brand" routerLink="/auth" aria-label="PayLink home"><pl-logo /><span class="brand-word">PayLink</span></a>
       <h1 class="sr-only">{{ channelLabel }} OTP sign in</h1>
       @if (!requested) {
+        <div class="auth-tabs" role="tablist" aria-label="Sign-in method"><a class="auth-tab" routerLink="/auth" role="tab">Password</a><a class="auth-tab is-active" routerLink="/auth/email-otp" routerLinkActive="is-active" role="tab">OTP</a></div>
         <form [formGroup]="form" (ngSubmit)="requestCode()" novalidate><label>{{ channelLabel }} address<input [type]="channel === 'email' ? 'email' : 'tel'" [formControl]="identifier" [placeholder]="channel === 'email' ? 'you@example.com' : '+1 555 014 2084'" /></label><button class="primary-button primary-button--wide" type="submit">Send code <pl-icon name="arrow" /></button></form>
       } @else {
         <form [formGroup]="codeForm" (ngSubmit)="verify()" novalidate><label>One-time code<input formControlName="code" inputmode="numeric" maxlength="6" placeholder="000000" /></label><button class="primary-button primary-button--wide" type="submit">Verify code <pl-icon name="check" /></button></form>
