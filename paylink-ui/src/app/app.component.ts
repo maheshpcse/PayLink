@@ -44,7 +44,7 @@ export class AppComponent implements OnInit {
       this.store.clearAccount();
       this.store.record(result);
       this.signingOut = false;
-      void this.router.navigateByUrl('/auth');
+       void this.router.navigateByUrl('/');
     });
   }
 }

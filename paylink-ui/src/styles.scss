@@ -106,8 +106,8 @@ pl-icon { display: inline-flex; flex: 0 0 auto; align-items: center; justify-con
 .auth-frame .main-content, .auth-shell .main-content { min-height: 100vh; padding: 0; }
 .sidebar { position: static; align-self: start; height: auto; min-height: 0; display: flex; flex-direction: column; overflow: visible; padding: 28px 0 24px; }
 .sidebar-section + .sidebar-section { margin-top: 36px; }
-.sidebar-brand { gap: 9px; margin: 0 12px 24px; font-size: 1rem; }
-.sidebar-brand-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.sidebar-brand { gap: 9px; margin: 0; font-size: 1rem; }
+.sidebar-brand-row { position: relative; display: flex; align-items: center; justify-content: flex-start; gap: 5px; margin: 0 12px 24px; min-height: 32px; }
 .sidebar-brand-row { position: relative; }
 .sidebar-toggle { width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; padding: 0; border: 1px solid transparent; border-radius: 8px; background: transparent; color: var(--muted-dark); }
 .sidebar-toggle:hover { border-color: var(--bmw-blue-bright); background: var(--bmw-blue-soft); color: var(--bmw-blue-900); }
@@ -438,10 +438,11 @@ dialog::backdrop { background: rgba(18, 59, 45, .45); }
 }
 
 .sidebar-collapsed .app-frame { grid-template-columns: 64px minmax(0, 1fr); gap: 32px; }
-.sidebar-collapsed .sidebar-brand-row { justify-content: center; }
+.sidebar-collapsed .sidebar-brand-row { justify-content: center; margin-inline: 0; }
 .sidebar-collapsed .sidebar-brand > span, .sidebar-collapsed .checkout-copy, .sidebar-collapsed .nav-label { display: none; }
 .sidebar-collapsed .sidebar-brand { margin-inline: 0; }
-.sidebar-collapsed .sidebar-toggle { position: absolute; top: 0; right: -4px; z-index: 3; border-color: var(--bmw-blue-bright); background: var(--white); color: var(--bmw-blue-900); box-shadow: 0 4px 12px rgba(7, 29, 52, .12); }
+.sidebar-collapsed .sidebar-toggle { position: absolute; inset: 0; z-index: 3; width: 32px; height: 32px; margin: auto; border-color: var(--bmw-blue-bright); background: var(--white); color: var(--bmw-blue-900); box-shadow: 0 4px 12px rgba(7, 29, 52, .12); opacity: 0; pointer-events: none; }
+.sidebar-collapsed .sidebar-brand-row:hover .sidebar-toggle, .sidebar-collapsed .sidebar-brand-row:focus-within .sidebar-toggle { opacity: 1; pointer-events: auto; }
 .sidebar-collapsed .checkout-link { justify-content: center; padding-inline: 0; }
 .sidebar-collapsed .side-nav-item { justify-content: center; padding-inline: 0; }
 .sidebar-collapsed .unread-count { position: absolute; top: 3px; right: 3px; min-width: 16px; height: 16px; font-size: .58rem; }
